@@ -3,18 +3,20 @@ import { NavButtonBar } from "../NavButtonBar.tsx";
 import { Button } from "../Button.tsx";
 import { Link } from "@tanstack/react-router";
 import { RatingStars } from "../RatingStars.tsx";
-import { Fragment, Suspense } from "react";
+import { Fragment, Suspense, useState } from "react";
 import { formatMinuteDuration } from "../FormatMinuteDuration.tsx";
 import { FeedbackForm } from "./FeedbackForm.tsx";
 import FeedbackListLoader from "./FeedbackListLoader.tsx";
 import LoadingIndicator from "../LoadingIndicator.tsx";
 import "./RecipePage.css";
+import {shoppingListRoute} from "../../router-config.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
 };
 
 export function RecipePageContent({ recipe }: RecipePageContentProps) {
+  const [servings, setServings] = useState(4);
   return (
     <div
       className={"mb-20"}
@@ -125,9 +127,28 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
 
           <div className={"mb-8 mt-8 flex items-center justify-between"}>
             <h2 className={"font-space text-3xl font-bold"}>Ingredients</h2>
+            <div
+              className={
+                "rounded-lg border border-dotted border-gray-500 p-4 text-lg"
+              }
+            >
+              <i
+                className={
+                  "fa-solid fa-circle-plus text-orange_2 hover:cursor-pointer hover:text-orange_2-500"
+                }
+                onClick={() => setServings(servings + 1)}
+              />
+              <span className={"text-gray-500 "}> {servings} servings </span>
+              <i
+                className={
+                  "fa-solid fa-circle-minus text-orange_2 hover:cursor-pointer hover:text-orange_2-500"
+                }
+                onClick={() => setServings(servings - 1)}
+              />{" "}
+            </div>
             <div className={"font-inter text-gray-500 hover:text-orange_2 "}>
               <Link
-                to={"/recipes/$recipeId/shoppinglist"}
+                to={shoppingListRoute.to}
                 params={{ recipeId: String(recipe.id) }}
               >
                 <i className="fa-solid  fa-basket-shopping text-orange_2"></i>{" "}
@@ -145,7 +166,7 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
               >
                 <i className="fa-regular fa-circle-check me-2 text-orange_2 "></i>
                 <span className={"font-inter text-gray-500 "}>
-                  {i.amount} {i.unit} {i.name}
+                  {(i.amount / 4) * servings} {i.unit} {i.name}
                 </span>
               </div>
             );

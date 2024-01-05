@@ -64,10 +64,10 @@ export const Instruction = z.object({
 
 export type Ingredient = z.infer<typeof Ingredient>;
 export const Ingredient = z.object({
-  name: z.string().optional(),
-  amount: z.number().optional(),
-  unit: z.string().optional(),
-  orderNo: z.number().optional(),
+  name: z.string(),
+  amount: z.number(),
+  unit: z.string(),
+  orderNo: z.number(),
 });
 
 export type DetailedRecipeDto = z.infer<typeof DetailedRecipeDto>;

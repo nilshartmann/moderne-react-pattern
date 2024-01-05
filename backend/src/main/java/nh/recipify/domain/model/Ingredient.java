@@ -2,6 +2,7 @@ package nh.recipify.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -14,19 +15,23 @@ public class Ingredient {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="recipe_id", nullable = false)
+    @JoinColumn(name = "recipe_id", nullable = false)
     @JsonIgnore
     private Recipe recipe;
 
+    @NotNull
     @Column(nullable = false)
     private String name;
-
+    
+    @NotNull
     @Column(nullable = false)
     private Double amount;
 
+    @NotNull
     @Column(nullable = false)
     private String unit;
 
+    @NotNull
     @Column(nullable = false)
     private Integer orderNo;
 
@@ -65,12 +70,6 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return "Ingredient{" +
-               "id=" + id +
-               ", name='" + name + '\'' +
-               ", amount=" + amount +
-               ", unit='" + unit + '\'' +
-               ", orderNo=" + orderNo +
-               '}';
+        return "Ingredient{" + "id=" + id + ", name='" + name + '\'' + ", amount=" + amount + ", unit='" + unit + '\'' + ", orderNo=" + orderNo + '}';
     }
 }

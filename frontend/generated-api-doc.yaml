@@ -283,6 +283,11 @@ components:
         recipe:
           $ref: '#/components/schemas/DetailedRecipeDto'
     Ingredient:
+      required:
+      - amount
+      - name
+      - orderNo
+      - unit
       type: object
       properties:
         name:
