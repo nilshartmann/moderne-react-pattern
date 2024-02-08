@@ -22,7 +22,7 @@ export default function LandingPage() {
               "mx-auto mt-10 inline-block max-w-4xl bg-white p-2 pb-3 text-4xl font-bold text-gray-800"
             }
           >
-            Receips for{" "}
+            Recipes for{" "}
             <span className="text-primary relative whitespace-nowrap">
               <span className="relative text-red">hungry devs</span>
             </span>
