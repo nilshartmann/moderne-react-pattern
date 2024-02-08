@@ -65,7 +65,7 @@ public class RecipeController {
                 return Sort.by("averageRating").descending().and(Sort.by("title"));
             }).orElse(Sort.by("createdAt").descending()));
 
-        Page<Recipe> result = recipeRepository.findAllByIdLessThan(pageable, 40);
+        Page<Recipe> result = recipeRepository.findAllBy(pageable);
         var newPage = result.map(RecipeDto::forRecipe);
         return PageResponse.of(newPage);
     }
@@ -115,7 +115,6 @@ public class RecipeController {
         return new PostFeedbackResponse(newFeedback);
     }
 
-
     void sleepFor(long duration) {
         if (duration > 0) {
             log.info("Sleep for {} ms.", duration);
@@ -126,6 +125,4 @@ public class RecipeController {
             }
         }
     }
-
-
 }
