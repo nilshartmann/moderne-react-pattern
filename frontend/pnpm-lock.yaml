@@ -12,8 +12,8 @@ dependencies:
     specifier: ^5.14.7
     version: 5.14.7(@tanstack/react-query@5.14.6)(react@18.2.0)
   '@tanstack/react-router':
-    specifier: ^1.1.4
-    version: 1.1.4(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^1.15.23
+    version: 1.15.23(react-dom@18.2.0)(react@18.2.0)
   bootstrap-icons:
     specifier: ^1.11.2
     version: 1.11.2
@@ -38,8 +38,8 @@ devDependencies:
     specifier: ^5.12.1
     version: 5.12.1(eslint@8.55.0)(typescript@5.3.3)
   '@tanstack/router-devtools':
-    specifier: ^1.1.4
-    version: 1.1.4(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^1.15.23
+    version: 1.15.23(react-dom@18.2.0)(react@18.2.0)
   '@types/react':
     specifier: ^18.2.43
     version: 18.2.45
@@ -1024,8 +1024,8 @@ packages:
       - typescript
     dev: true
 
-  /@tanstack/history@1.1.4:
-    resolution: {integrity: sha512-H80reryZP3Ib5HzAo9zp1B8nbGzd+zOxe0Xt6bLYY2qtgCb+iIrVadDDt5ZnaFsrMBGbFTkEsS2ITVrAUao54A==}
+  /@tanstack/history@1.15.13:
+    resolution: {integrity: sha512-ToaeMtK5S4YaxCywAlYexc7KPFN0esjyTZ4vXzJhXEWAkro9iHgh7m/4ozPJb7oTo65WkHWX0W9GjcZbInSD8w==}
     engines: {node: '>=12'}
 
   /@tanstack/query-core@5.14.2:
@@ -1056,17 +1056,15 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@tanstack/react-router@1.1.4(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-X+Nak7IxZfCHpH2GIZU9vDSpzpfDUmC30QzuYgwNRhWxGmmkDRF49d07CSc/CW5FQ9RvjECO/3dqw6X519E7HQ==}
+  /@tanstack/react-router@1.15.23(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-C9d1Wj8n28z+qclMiiDFxR9Ydxu7/7Gv9hm9I0H1yiKyxXzoGTbcT2x8znsM8Fouqw2DtAW5NsFw9FVtvz9zfQ==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
-      '@babel/runtime': 7.23.6
-      '@tanstack/history': 1.1.4
+      '@tanstack/history': 1.15.13
       '@tanstack/react-store': 0.2.1(react-dom@18.2.0)(react@18.2.0)
-      '@tanstack/store': 0.1.3
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       tiny-invariant: 1.3.1
@@ -1083,15 +1081,14 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
 
-  /@tanstack/router-devtools@1.1.4(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-/chCH/ty386podf2vwON55pAJ9MQ+94vSv35tsF6LgUlTXCw8fYOL4WR1Fp6PgBsUXrPfDt3TMAueVqSitVpeA==}
+  /@tanstack/router-devtools@1.15.23(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-E+CDv7nIBoOCDVegpH2k8dLL/zz7PQxkv4gyXBoSZkHrfpqXz8XRsjuX7dDlcC+fCcvfltdfC6CkL41Kstbmgg==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
-      '@babel/runtime': 7.23.6
-      '@tanstack/react-router': 1.1.4(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-router': 1.15.23(react-dom@18.2.0)(react@18.2.0)
       date-fns: 2.30.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
