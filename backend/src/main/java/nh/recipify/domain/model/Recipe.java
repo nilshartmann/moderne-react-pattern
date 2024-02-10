@@ -43,6 +43,9 @@ public class Recipe {
     @Column(nullable = false)
     private int cookTime;
 
+    @Column(name = "total_time", nullable = false, insertable = false, updatable = false)
+    private int totalTime;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "meal_type_id", nullable = false)
     private MealType mealType;
@@ -97,6 +100,10 @@ public class Recipe {
 
     public Integer getCookTime() {
         return cookTime;
+    }
+
+    public int getTotalTime() {
+        return totalTime;
     }
 
     public MealType getMealType() {

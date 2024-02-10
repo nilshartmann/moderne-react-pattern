@@ -36,10 +36,24 @@ CREATE TABLE recipes (
     headline         TEXT           NOT NULL,
     preparation_time INTEGER        NOT NULL,
     cook_time        INTEGER        NOT NULL,
+    total_time       INTEGER        NOT NULL,
     average_rating   NUMERIC(10, 2) NOT NULL DEFAULT 0.0,
     meal_type_id     BIGINT         NOT NULL REFERENCES meal_types (id),
     steps            TEXT
 );
+
+CREATE OR REPLACE FUNCTION calculate_total_time()
+    RETURNS trigger AS $$
+BEGIN
+    NEW.total_time := NEW.cook_time + NEW.preparation_time;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER total_time_calculate
+    BEFORE INSERT OR UPDATE ON recipes
+    FOR EACH ROW
+EXECUTE FUNCTION calculate_total_time();
 
 CREATE TABLE recipe_categories (
     recipe_id   BIGINT NOT NULL REFERENCES recipes (id) ON DELETE CASCADE,
@@ -76,7 +90,8 @@ CREATE TABLE feedbacks (
     recipe_id  BIGINT                                  NOT NULL REFERENCES recipes (id) ON DELETE CASCADE
 );
 
-CREATE OR REPLACE FUNCTION update_average_rating() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION update_average_rating() RETURNS TRIGGER AS
+$$
 BEGIN
     UPDATE recipes r
     SET average_rating = (SELECT AVG(f.rating) FROM feedbacks f WHERE f.recipe_id = NEW.recipe_id)
@@ -88,4 +103,5 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER feedbacks_update
     AFTER INSERT OR UPDATE
     ON feedbacks
-    FOR EACH ROW EXECUTE PROCEDURE update_average_rating();
+    FOR EACH ROW
+EXECUTE PROCEDURE update_average_rating();

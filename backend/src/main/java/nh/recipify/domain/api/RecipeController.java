@@ -60,7 +60,7 @@ public class RecipeController {
             size.orElse(6),
             sort.map(s -> {
                 if (s == ReceipeSort.time) {
-                    return Sort.by("cookTime").and(Sort.by("preparationTime"));
+                    return Sort.by("totalTime");
                 }
                 return Sort.by("averageRating").descending().and(Sort.by("title"));
             }).orElse(Sort.by("createdAt").descending()));
