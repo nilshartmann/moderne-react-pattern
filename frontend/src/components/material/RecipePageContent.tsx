@@ -9,7 +9,7 @@ import { FeedbackForm } from "./FeedbackForm.tsx";
 import FeedbackListLoader from "./FeedbackListLoader.tsx";
 import LoadingIndicator from "../LoadingIndicator.tsx";
 import "./RecipePage.css";
-import {shoppingListRoute} from "../../router-config.tsx";
+import { shoppingListRoute } from "../../router-config.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
@@ -33,9 +33,11 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
       </div>
       <div className={`recipify-header-wrap mt-4 pb-12 pe-8 ps-8 pt-12`}>
         <div
-          className={"flex-cols m:flex-row container mx-auto flex sm:space-x-8"}
+          className={
+            "container mx-auto flex flex-col-reverse md:flex-row md:space-x-8"
+          }
         >
-          <div className={"sm:w-1/2"}>
+          <div className={"mt-8 md:mt-0 md:w-1/2"}>
             <div className={"flex h-full flex-col justify-between"}>
               <div>
                 <div className={"flex justify-between"}>
@@ -77,10 +79,10 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
               </div>
             </div>
           </div>
-          <div className={"sm:w-1/2"}>
+          <div className={"md:w-1/2"}>
             <div className={"overflow-hidden"}>
               <img
-                className="mt-2 w-full transform rounded object-cover transition-all duration-1000 ease-in-out hover:scale-125 sm:mt-4 sm:max-h-80 "
+                className="w-full transform rounded object-cover transition-all duration-1000 ease-in-out hover:scale-125 sm:mt-4 sm:max-h-80 md:mt-0 "
                 src={`/images/recipes/food_${recipe.id}.png`}
                 alt={recipe.title}
               />
@@ -88,8 +90,8 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
           </div>
         </div>
       </div>
-      <div className={"container mx-auto mt-8 flex space-x-12"}>
-        <div className={"w-2/3"}>
+      <div className={"container mx-auto mb-8 mt-8 md:flex md:space-x-12"}>
+        <div className={"md:w-2/3"}>
           <div
             className={
               "mt-3 w-full border-b border-dotted border-gray-300 pb-4 pt-4"
@@ -198,8 +200,12 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
             ))}
           </div>
         </div>
-        <div className={"w-1/3"}>
-          <div className={"border-1 w-full rounded-2xl bg-goldgray p-8"}>
+        <div className={"md:w-1/3"}>
+          <div
+            className={
+              "border-1 mt-8 w-full rounded-2xl bg-goldgray p-8 md:mt-0 "
+            }
+          >
             <h2 className={"mb-4 font-space text-3xl font-bold"}>Ratings</h2>
             <Suspense
               fallback={
