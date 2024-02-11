@@ -7,12 +7,40 @@ import { LoadingRecipeCard } from "../../components/material/LoadingRecipeCard.t
 import { Button, CheckLabel, PageButton } from "../../components/Button.tsx";
 import PaginationBar from "../../components/PaginationBar.tsx";
 import { NavButtonBar } from "../../components/NavButtonBar.tsx";
+import { ReactNode } from "react";
 
 type CheckButtonProps = {
   checked: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   orderBy?: "time" | "rating" | undefined;
 };
+
+function FilterButton() {
+  const showOnlyBookmarked = recipeListRoute.useSearch({
+    select: (s) => s.showOnlyBookmarked || false,
+  });
+
+  return (
+    <Button checked={showOnlyBookmarked}>
+      <Link
+        to={recipeListRoute.to}
+        search={(s) => ({
+          ...s,
+          page: 0,
+          showOnlyBookmarked: !showOnlyBookmarked,
+        })}
+      >
+        <CheckLabel
+          checked={showOnlyBookmarked}
+          enabled={true}
+          style={"square"}
+        >
+          Show only bookmarked
+        </CheckLabel>
+      </Link>
+    </Button>
+  );
+}
 
 export function CheckButton({ checked, children, orderBy }: CheckButtonProps) {
   return (
@@ -28,29 +56,42 @@ export function CheckButton({ checked, children, orderBy }: CheckButtonProps) {
   );
 }
 
+const empty: string[] = [];
+
 export default function RecipeListPage() {
-  const { page, orderBy } = recipeListRoute.useSearch({
+  const { page, orderBy, showOnlyIds } = recipeListRoute.useSearch({
     select: (s) => ({
       page: s.page || 0,
       orderBy: s.orderBy,
+      showOnlyIds: s.showOnlyBookmarked
+        ? s.bookmarkedRecipeIds || empty
+        : undefined,
     }),
   });
-  console.log("Rendering RecipeListPage with search Params", page, orderBy);
-  const result = useGetAllRecipesQuery(page, orderBy);
+  console.log(
+    "Rendering RecipeListPage with search Params",
+    page,
+    orderBy,
+    showOnlyIds,
+  );
+  const result = useGetAllRecipesQuery(page, orderBy, showOnlyIds);
 
   return (
     <div className={"bg-goldgray"}>
       <div className={"container mx-auto pb-16 pt-16"}>
-        <NavButtonBar>
+        <NavButtonBar align={"left_right"}>
+          <ButtonBar align={"start"}>
+            <FilterButton />
+          </ButtonBar>
           <ButtonBar>
             <CheckButton orderBy={undefined} checked={orderBy === undefined}>
-              Show newest first
+              Newest first
             </CheckButton>
             <CheckButton orderBy={"rating"} checked={orderBy === "rating"}>
-              Order by rating
+              Best rated
             </CheckButton>
             <CheckButton orderBy={"time"} checked={orderBy === "time"}>
-              Order by time
+              Shortest time
             </CheckButton>
           </ButtonBar>
         </NavButtonBar>

@@ -17,8 +17,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.function.Predicate.not;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/api")
@@ -52,7 +55,14 @@ public class RecipeController {
     @GetMapping("/recipes")
     PageResponse<RecipeDto> recipes(Optional<Integer> page,
                                     Optional<Integer> size,
-                                    Optional<ReceipeSort> sort) {
+                                    Optional<ReceipeSort> sort,
+                                    @RequestParam("ids") Optional<String> idStrings) {
+        var ids = idStrings.map(s -> Arrays.stream(s.split(","))
+                .filter(not(String::isBlank))
+                .map(Long::valueOf)
+                .toList())
+            .orElse(null);
+
 
         sleepFor(slowDown_GetRecipeList);
 
@@ -65,7 +75,7 @@ public class RecipeController {
                 return Sort.by("averageRating").descending().and(Sort.by("title"));
             }).orElse(Sort.by("createdAt").descending()));
 
-        Page<Recipe> result = recipeRepository.findAllBy(pageable);
+        Page<Recipe> result = ids == null ? recipeRepository.findAllBy(pageable) : recipeRepository.findAllByIdIsIn(pageable, ids);
         var newPage = result.map(RecipeDto::forRecipe);
         return PageResponse.of(newPage);
     }

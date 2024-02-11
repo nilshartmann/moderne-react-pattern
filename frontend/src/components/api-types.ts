@@ -132,6 +132,7 @@ export const get_Recipes = {
       page: z.number().optional(),
       size: z.number().optional(),
       sort: z.union([z.literal("time"), z.literal("rating")]).optional(),
+      ids: z.string().optional(),
     }),
   }),
   response: PageResponseRecipeDto,

@@ -21,7 +21,8 @@ const updateBookmarks = (
   }
 
   if (bAlreadyBookmarked) {
-    return currentBookmarks!.filter((b) => b !== recipeId);
+    const newBookmarks = currentBookmarks!.filter((b) => b !== recipeId);
+    return newBookmarks.length ? newBookmarks : undefined;
   }
 
   return currentBookmarks;

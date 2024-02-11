@@ -29,7 +29,7 @@ function resolveUrl(path: string, params: EndpointParameters | undefined) {
   const searchParams = new URLSearchParams();
   Object.entries(query).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
-      searchParams.append(key, encodeURIComponent(value.toString()));
+      searchParams.append(key, value.toString());
     }
   });
 

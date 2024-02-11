@@ -73,6 +73,11 @@ paths:
           enum:
           - time
           - rating
+      - name: ids
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         "200":
           description: OK

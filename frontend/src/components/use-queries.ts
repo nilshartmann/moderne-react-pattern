@@ -14,15 +14,18 @@ import { fetchFromApi, getEndpointConfig } from "./fetch-from-api.ts";
 export function useGetAllRecipesQuery(
   page: number,
   orderBy?: "time" | "rating",
+  ids?: string[],
 ): UseSuspenseQueryResult<PageResponseRecipeDto> {
+  const idsString = ids?.join(",");
   return useSuspenseQuery<PageResponseRecipeDto>({
-    queryKey: ["recipe-list", page, orderBy],
+    queryKey: ["recipe-list", page, orderBy, idsString],
     queryFn: () => {
       return fetchFromApi(getEndpointConfig("get", "/api/recipes"), {
         query: {
           page,
           size: 6,
           sort: orderBy,
+          ids: idsString,
         },
       });
     },

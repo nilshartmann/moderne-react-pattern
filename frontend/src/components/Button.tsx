@@ -36,14 +36,28 @@ export function Button({
 type CheckLabelProps = {
   children: React.ReactNode;
   checked: boolean;
+  enabled?: boolean;
+  style?: "circle" | "square";
 };
 
-export function CheckLabel({ children, checked }: CheckLabelProps) {
+export function CheckLabel({
+  children,
+  checked,
+  enabled,
+  style = "circle",
+}: CheckLabelProps) {
   const iconClassName = twMerge(
     "fa-regular",
     checked
-      ? "fa-circle-check underline-none cursor-default text-white no-underline hover:no-underline"
-      : "fa-circle text-gray-200",
+      ? style === "circle"
+        ? "fa-circle-check"
+        : "fa-square-check"
+      : style === "circle"
+        ? "fa-circle"
+        : "fa-square",
+    checked && !enabled
+      ? "underline-none cursor-default text-white no-underline hover:no-underline"
+      : "text-gray-200",
   );
 
   const labelClassName = twMerge(
