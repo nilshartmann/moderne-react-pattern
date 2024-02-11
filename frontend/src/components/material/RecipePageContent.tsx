@@ -1,6 +1,4 @@
 import { DetailedRecipeDto } from "../api-types.ts";
-import { NavButtonBar } from "../NavButtonBar.tsx";
-import { Button } from "../Button.tsx";
 import { Link } from "@tanstack/react-router";
 import { RatingStars } from "../RatingStars.tsx";
 import { Fragment, Suspense, useState } from "react";
@@ -24,14 +22,7 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
         "--recipe-bg-image": `url('/images/recipes/food_${recipe.id}.png')`,
       }}
     >
-      <div className={"container mx-auto mt-4"}>
-        <NavButtonBar align={"left"}>
-          <Button>
-            <Link to={"/recipes"}>Back to recipes</Link>
-          </Button>
-        </NavButtonBar>
-      </div>
-      <div className={`recipify-header-wrap mt-4 pb-12 pe-8 ps-8 pt-12`}>
+      <div className={`recipify-header-wrap mt-16 pb-12 pe-8 ps-8 pt-12`}>
         <div
           className={
             "container mx-auto flex flex-col-reverse md:flex-row md:space-x-8"

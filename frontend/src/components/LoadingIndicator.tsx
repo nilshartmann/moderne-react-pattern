@@ -4,7 +4,7 @@ import styles from "./LoadingIndicator.module.css";
 type LoadingIndicatorProps = {
   children?: ReactNode;
   secondary?: boolean;
-  placeholder?: string;
+  placeholder?: ReactNode;
 };
 
 export default function LoadingIndicator({

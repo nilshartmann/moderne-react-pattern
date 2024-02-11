@@ -1,8 +1,6 @@
 import { useGetRecipeQuery } from "../../../../components/use-queries.ts";
 import { Link } from "@tanstack/react-router";
 import { recipeRoute, shoppingListRoute } from "../../../../router-config.tsx";
-import { NavButtonBar } from "../../../../components/NavButtonBar.tsx";
-import { Button } from "../../../../components/Button.tsx";
 
 export default function ShoppingListPage() {
   const { recipeId } = shoppingListRoute.useParams();
@@ -13,20 +11,7 @@ export default function ShoppingListPage() {
 
   return (
     <>
-      <div className={"container mx-auto mt-4"}>
-        <NavButtonBar align={"left"}>
-          <Button>
-            <Link
-              from={shoppingListRoute.fullPath}
-              to={recipeRoute.to}
-              params={{ recipeId }}
-            >
-              Back to {recipe.title}
-            </Link>
-          </Button>
-        </NavButtonBar>
-      </div>
-      <div className={"container mx-auto mt-8 md:w-1/2"}>
+      <div className={"container mx-auto mt-16 md:w-1/2"}>
         <h2 className={"mb-4 mt-4 font-space text-2xl font-bold"}>
           Shopping list
         </h2>
