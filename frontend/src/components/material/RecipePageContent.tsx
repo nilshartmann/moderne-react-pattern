@@ -8,6 +8,7 @@ import FeedbackListLoader from "./FeedbackListLoader.tsx";
 import LoadingIndicator from "../LoadingIndicator.tsx";
 import "./RecipePage.css";
 import { shoppingListRoute } from "../../router-config.tsx";
+import IngredientList from "./IngredientsList.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
@@ -149,21 +150,11 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
               </Link>
             </div>
           </div>
-          {recipe.ingredients.map((i) => {
-            return (
-              <div
-                className={
-                  "mb-4 me-4 ms-4 border-b border-dotted border-gray-300 pb-4"
-                }
-                key={i.name}
-              >
-                <i className="fa-regular fa-circle-check me-2 text-orange_2 "></i>
-                <span className={"font-inter text-gray-500 "}>
-                  {(i.amount / 4) * servings} {i.unit} {i.name}
-                </span>
-              </div>
-            );
-          })}
+          <IngredientList
+            ingredients={recipe.ingredients}
+            servings={servings}
+          />
+
           <h2 className={"mb-8 mt-8 font-space text-3xl font-bold"}>
             Instructions
           </h2>

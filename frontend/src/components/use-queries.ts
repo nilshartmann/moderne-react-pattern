@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import {
   GetRecipeFeedbacksResponse,
+  GetRecipeIngredientsResponse,
   GetRecipeResponse,
   PageResponseRecipeDto,
 } from "./api-types.ts";
@@ -43,6 +44,24 @@ export function useGetRecipeQuery(
           recipeId,
         },
       });
+    },
+  });
+}
+
+export function useGetRecipeIngredientsQuery(
+  recipeId: string,
+): UseSuspenseQueryResult<GetRecipeIngredientsResponse> {
+  return useSuspenseQuery<GetRecipeIngredientsResponse>({
+    queryKey: ["recipes", recipeId, "ingredients"],
+    queryFn: () => {
+      return fetchFromApi(
+        getEndpointConfig("get", "/api/recipes/{recipeId}/ingredients"),
+        {
+          path: {
+            recipeId,
+          },
+        },
+      );
     },
   });
 }

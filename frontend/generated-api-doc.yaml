@@ -103,6 +103,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetRecipeResponse'
+  /api/recipes/{recipeId}/ingredients:
+    get:
+      tags:
+      - recipe-controller
+      operationId: getIngredients
+      parameters:
+      - name: recipeId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRecipeIngredientsResponse'
 components:
   schemas:
     NewFeedback:
@@ -313,6 +331,18 @@ components:
           format: int32
         description:
           type: string
+    GetRecipeIngredientsResponse:
+      required:
+      - id
+      - ingredients
+      type: object
+      properties:
+        id:
+          type: string
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
     GetRecipeFeedbacksResponse:
       required:
       - feedbacks

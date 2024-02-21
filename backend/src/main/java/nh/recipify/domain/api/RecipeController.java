@@ -5,10 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import nh.recipify.domain.FeedbackService;
 import nh.recipify.domain.NewFeedback;
-import nh.recipify.domain.model.Feedback;
-import nh.recipify.domain.model.FeedbackRepository;
-import nh.recipify.domain.model.Recipe;
-import nh.recipify.domain.model.RecipeRepository;
+import nh.recipify.domain.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -39,6 +36,7 @@ public class RecipeController {
     // ------------------------------------------------------------------------
     public static long slowDown_GetRecipeList = 0;
     public static long slowDown_GetRecipe = 0;
+    public static long slowDown_GetIngredients = 1200;
     public static long slowDown_GetFeedbacks = 0;
 
     public RecipeController(RecipeRepository recipeRepository, FeedbackRepository feedbackRepository, FeedbackService feedbackService) {
@@ -95,6 +93,25 @@ public class RecipeController {
 
         return new GetRecipeResponse(
             DetailedRecipeDto.of(recipe)
+        );
+    }
+
+    record GetRecipeIngredientsResponse(
+        @NotNull String id,
+        @NotNull List<Ingredient> ingredients) {
+    }
+
+    @GetMapping("/recipes/{recipeId}/ingredients")
+    GetRecipeIngredientsResponse getIngredients(@StringParameter @PathVariable long recipeId) {
+        sleepFor(slowDown_GetIngredients);
+
+        var recipe = recipeRepository.findById(recipeId)
+            .orElseThrow(() -> new EntityNotFoundException("Receipe not found."));
+
+
+        return new GetRecipeIngredientsResponse(
+            recipe.getId().toString(),
+            recipe.getIngredients()
         );
     }
 

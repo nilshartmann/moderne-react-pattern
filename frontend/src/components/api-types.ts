@@ -91,6 +91,14 @@ export const GetRecipeResponse = z.object({
   recipe: DetailedRecipeDto,
 });
 
+export type GetRecipeIngredientsResponse = z.infer<
+  typeof GetRecipeIngredientsResponse
+>;
+export const GetRecipeIngredientsResponse = z.object({
+  id: z.string(),
+  ingredients: z.array(Ingredient),
+});
+
 export type GetRecipeFeedbacksResponse = z.infer<
   typeof GetRecipeFeedbacksResponse
 >;
@@ -150,12 +158,25 @@ export const get_GetRecipe = {
   response: GetRecipeResponse,
 };
 
+export type get_GetIngredients = typeof get_GetIngredients;
+export const get_GetIngredients = {
+  method: z.literal("GET"),
+  path: z.literal("/api/recipes/{recipeId}/ingredients"),
+  parameters: z.object({
+    path: z.object({
+      recipeId: z.string(),
+    }),
+  }),
+  response: GetRecipeIngredientsResponse,
+};
+
 // <EndpointByMethod>
 export const EndpointByMethod = {
   get: {
     "/api/recipes/{recipeId}/feedbacks": get_GetFeedbacks,
     "/api/recipes": get_Recipes,
     "/api/recipes/{recipeId}": get_GetRecipe,
+    "/api/recipes/{recipeId}/ingredients": get_GetIngredients,
   },
   post: {
     "/api/recipes/{recipeId}/feedbacks": post_AddFeedback,
