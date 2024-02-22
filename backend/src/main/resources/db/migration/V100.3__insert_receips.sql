@@ -352,7 +352,7 @@ VALUES (17, 'Chicken', 500.0, 'Grams', 1),
 
 INSERT INTO recipes (id, user_id, created_at, updated_at, title, headline,
                      preparation_time, cook_time, meal_type_id)
-VALUES (18, 1, '2023-08-01 00:00:00', '2023-08-01 00:00:00', 'Stuffed Bell Peppers',
+VALUES (18, 1, '2024-06-20 00:00:00', '2024-06-20 00:00:00', 'Stuffed Bell Peppers',
         'Bell peppers filled with flavorful ground meat.', 15, 45, 2);
 
 INSERT INTO recipe_categories (recipe_id, category_id)
@@ -753,7 +753,7 @@ VALUES (38, 'Romaine Lettuce', 1.0, 'Head', 1),
 
 INSERT INTO recipes (id, user_id, created_at, updated_at, title, headline,
                      preparation_time, cook_time, meal_type_id)
-VALUES (39, 1, '2024-06-20 00:00:00', '2024-06-20 00:00:00', 'Classic Greek Salad',
+VALUES (39, 1, '2023-08-01 00:00:00', '2023-08-01 00:00:00', 'Classic Greek Salad',
         'Refreshing salad with fresh vegetables and feta cheese.', 15, 0, 1);
 
 INSERT INTO recipe_categories (recipe_id, category_id)
