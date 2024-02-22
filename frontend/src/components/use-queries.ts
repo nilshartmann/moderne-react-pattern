@@ -19,6 +19,7 @@ import {
   slowDown_GetIngredients,
   slowDown_GetRecipe,
   slowDown_GetRecipeList,
+  slowDown_SubscribeNewsletter,
 } from "../demo-config.tsx";
 
 const getAllRecipesQueryOptions = (
@@ -174,6 +175,22 @@ export function useAddFeedbackMutation(recipeId: string) {
 
           console.log("NEW DATA", newData);
           return newData;
+        },
+      );
+    },
+  });
+}
+
+export function useSubscribeToNewsletterMutation() {
+  return useMutation({
+    mutationFn: (email: string) => {
+      return fetchFromApi(
+        getEndpointConfig("post", "/api/newsletter/subscribe"),
+        {
+          body: { email },
+          query: {
+            slowdown: slowDown_SubscribeNewsletter,
+          },
         },
       );
     },

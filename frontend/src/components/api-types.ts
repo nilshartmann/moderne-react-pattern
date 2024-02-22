@@ -26,6 +26,20 @@ export const PostFeedbackResponse = z.object({
   newFeedback: Feedback,
 });
 
+export type PostNewsletterRegistrationRequest = z.infer<
+  typeof PostNewsletterRegistrationRequest
+>;
+export const PostNewsletterRegistrationRequest = z.object({
+  email: z.string(),
+});
+
+export type PostNewsletterRegistrationResponse = z.infer<
+  typeof PostNewsletterRegistrationResponse
+>;
+export const PostNewsletterRegistrationResponse = z.object({
+  email: z.string(),
+});
+
 export type CategoryDto = z.infer<typeof CategoryDto>;
 export const CategoryDto = z.object({
   type: z.string(),
@@ -137,6 +151,19 @@ export const post_AddFeedback = {
   response: PostFeedbackResponse,
 };
 
+export type post_SubscribeToNewsletter = typeof post_SubscribeToNewsletter;
+export const post_SubscribeToNewsletter = {
+  method: z.literal("POST"),
+  path: z.literal("/api/newsletter/subscribe"),
+  parameters: z.object({
+    query: z.object({
+      slowdown: z.number().optional(),
+    }),
+    body: PostNewsletterRegistrationRequest,
+  }),
+  response: PostNewsletterRegistrationResponse,
+};
+
 export type get_Recipes = typeof get_Recipes;
 export const get_Recipes = {
   method: z.literal("GET"),
@@ -193,6 +220,7 @@ export const EndpointByMethod = {
   },
   post: {
     "/api/recipes/{recipeId}/feedbacks": post_AddFeedback,
+    "/api/newsletter/subscribe": post_SubscribeToNewsletter,
   },
 };
 export type EndpointByMethod = typeof EndpointByMethod;

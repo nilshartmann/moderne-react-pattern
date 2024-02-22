@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.function.Predicate.not;
+import static nh.recipify.domain.api.Utils.sleepFor;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/api")
@@ -26,6 +27,7 @@ import static java.util.function.Predicate.not;
 public class RecipeController {
 
     private static final Logger log = LoggerFactory.getLogger(RecipeController.class);
+
 
     private final RecipeRepository recipeRepository;
     private final FeedbackRepository feedbackRepository;
@@ -141,18 +143,4 @@ public class RecipeController {
         return new PostFeedbackResponse(newFeedback);
     }
 
-    void sleepFor(Optional<Long> duration) {
-        duration.ifPresent(this::sleepFor);
-    }
-
-    void sleepFor(long duration) {
-        if (duration > 0) {
-            log.info("Sleep for {} ms.", duration);
-            try {
-                Thread.sleep(duration);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }

@@ -59,6 +59,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PostFeedbackResponse'
+  /api/newsletter/subscribe:
+    post:
+      tags:
+      - newsletter-controller
+      operationId: subscribeToNewsletter
+      parameters:
+      - name: slowdown
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostNewsletterRegistrationRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostNewsletterRegistrationResponse'
   /api/recipes:
     get:
       tags:
@@ -203,6 +228,20 @@ components:
       properties:
         newFeedback:
           $ref: '#/components/schemas/Feedback'
+    PostNewsletterRegistrationRequest:
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+    PostNewsletterRegistrationResponse:
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
     CategoryDto:
       required:
       - description
