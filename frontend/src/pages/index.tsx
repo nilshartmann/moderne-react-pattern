@@ -1,6 +1,10 @@
 import { H1 } from "../components/Heading.tsx";
 import { Button } from "../components/Button.tsx";
-import { Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/")({
+  component: LandingPage,
+});
 
 export default function LandingPage() {
   return (

@@ -7,7 +7,6 @@ import { FeedbackForm } from "./FeedbackForm.tsx";
 import FeedbackListLoader from "./FeedbackListLoader.tsx";
 import LoadingIndicator from "../LoadingIndicator.tsx";
 import "./RecipePage.css";
-import { shoppingListRoute } from "../../router-config.tsx";
 import IngredientList from "./IngredientsList.tsx";
 
 type RecipePageContentProps = {
@@ -142,7 +141,7 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
             </div>
             <div className={"font-inter text-gray-500 hover:text-orange_2 "}>
               <Link
-                to={shoppingListRoute.to}
+                to={"/recipes/$recipeId/shoppinglist"}
                 params={{ recipeId: String(recipe.id) }}
               >
                 <i className="fa-solid  fa-basket-shopping text-orange_2"></i>{" "}

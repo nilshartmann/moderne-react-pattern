@@ -1,7 +1,11 @@
-import { Link, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { DefaultLayout } from "../components/layout/DefaultLayout.tsx";
 
-export default function DefaultPageLayout() {
+export const Route = createRootRoute({
+  component: GlobalPageLayout,
+});
+
+export default function GlobalPageLayout() {
   const nav = (
     <>
       <Link

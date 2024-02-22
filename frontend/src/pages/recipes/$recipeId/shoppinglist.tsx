@@ -1,9 +1,14 @@
-import { useGetRecipeQuery } from "../../../../components/use-queries.ts";
-import { Link } from "@tanstack/react-router";
-import { recipeRoute, shoppingListRoute } from "../../../../router-config.tsx";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useGetRecipeQuery } from "../../../components/use-queries.ts";
 
-export default function ShoppingListPage() {
-  const { recipeId } = shoppingListRoute.useParams();
+export const Route = createFileRoute("/recipes/$recipeId/shoppinglist")({
+  component: ShoppingListPage,
+});
+
+// const shoppingListRoute = getRouteApi();
+
+function ShoppingListPage() {
+  const { recipeId } = Route.useParams();
 
   const {
     data: { recipe },
@@ -19,7 +24,7 @@ export default function ShoppingListPage() {
         <h1
           className={"mb-8 mt-4 font-space text-5xl font-bold hover:underline"}
         >
-          <Link to={recipeRoute.to} params={{ recipeId }}>
+          <Link to={"/recipes/$recipeId"} params={{ recipeId }}>
             {recipe.title}
           </Link>
         </h1>

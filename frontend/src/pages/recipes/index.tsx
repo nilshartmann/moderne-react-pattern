@@ -1,13 +1,34 @@
 import { useGetAllRecipesQuery } from "../../components/use-queries.ts";
 import ButtonBar from "../../components/ButtonBar.tsx";
-import { Link, MatchRoute } from "@tanstack/react-router";
-import { recipeListRoute, recipeRoute } from "../../router-config.tsx";
-import { RecipeCard } from "../../components/material/RecipeCard.tsx";
-import { LoadingRecipeCard } from "../../components/material/LoadingRecipeCard.tsx";
-import { Button, CheckLabel, PageButton } from "../../components/Button.tsx";
-import PaginationBar from "../../components/PaginationBar.tsx";
-import { NavButtonBar } from "../../components/NavButtonBar.tsx";
+import {
+  createFileRoute,
+  getRouteApi,
+  Link,
+  MatchRoute,
+} from "@tanstack/react-router";
 import { ReactNode } from "react";
+import z from "zod";
+import { Button, CheckLabel, PageButton } from "../../components/Button.tsx";
+import { NavButtonBar } from "../../components/NavButtonBar.tsx";
+import { LoadingRecipeCard } from "../../components/material/LoadingRecipeCard.tsx";
+import { RecipeCard } from "../../components/material/RecipeCard.tsx";
+import PaginationBar from "../../components/PaginationBar.tsx";
+
+const RecipePageListParams = z.object({
+  page: z.number().min(0).optional(),
+  orderBy: z.enum(["time", "rating"]).optional(),
+  bookmarkedRecipeIds: z.string().array().optional(),
+  showOnlyBookmarked: z.boolean().optional(),
+});
+type TRecipePageListParams = z.infer<typeof RecipePageListParams>;
+
+export const Route = createFileRoute("/recipes/")({
+  component: RecipeListPage,
+  validateSearch: (search): TRecipePageListParams =>
+    RecipePageListParams.parse(search),
+});
+
+const recipeListRoute = getRouteApi("/recipes/");
 
 type CheckButtonProps = {
   checked: boolean;
@@ -23,7 +44,7 @@ function FilterButton() {
   return (
     <Button checked={showOnlyBookmarked}>
       <Link
-        to={recipeListRoute.to}
+        to={"/recipes/"}
         search={(s) => ({
           ...s,
           page: 0,
@@ -46,7 +67,7 @@ export function CheckButton({ checked, children, orderBy }: CheckButtonProps) {
   return (
     <Button checked={checked}>
       <Link
-        to={recipeListRoute.to}
+        to={"/recipes/"}
         search={(s) => ({ ...s, orderBy: orderBy })}
         disabled={checked}
       >
@@ -105,11 +126,7 @@ export default function RecipeListPage() {
                   "h-full transform rounded border border-gray-200 bg-white p-4 shadow-lg transition-all duration-500 ease-in-out hover:drop-shadow-2xl "
                 }
               >
-                <MatchRoute
-                  to={recipeRoute.to}
-                  params={{ recipeId: recipe.id }}
-                  pending
-                >
+                <MatchRoute to={"/"} params={{ recipeId: recipe.id }} pending>
                   {(match) => {
                     console.log("Match Route", recipe.id, match);
                     return match ? (
@@ -127,7 +144,7 @@ export default function RecipeListPage() {
           <PaginationBar totalPages={result.data.totalPages} currentPage={page}>
             {(btn) => (
               <Link
-                from={recipeListRoute.fullPath}
+                to={"/recipes/"}
                 disabled={btn.disabled}
                 search={(s) => ({
                   ...s,

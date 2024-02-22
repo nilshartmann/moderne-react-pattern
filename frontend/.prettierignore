@@ -16,3 +16,6 @@ public/fonts/google-fonts.css
 
 public/favicons/
 public/images/
+
+
+routeTree.gen.ts

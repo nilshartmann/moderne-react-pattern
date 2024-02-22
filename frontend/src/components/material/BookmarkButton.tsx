@@ -1,6 +1,7 @@
-import { useNavigate } from "@tanstack/react-router";
-import { recipeListRoute } from "../../router-config.tsx";
+import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import { twMerge } from "tailwind-merge";
+
+const recipeListRoute = getRouteApi("/recipes/");
 
 type BookmarkButtonProps = {
   recipeId: string;
@@ -46,7 +47,7 @@ export function BookmarkButton({ recipeId }: BookmarkButtonProps) {
         onClick={(e) => {
           e.preventDefault();
           navigate({
-            from: recipeListRoute.fullPath,
+            from: "/recipes/",
             search: (s) => ({
               ...s,
               bookmarkedRecipeIds: updateBookmarks(

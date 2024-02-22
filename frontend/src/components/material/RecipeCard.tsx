@@ -3,7 +3,6 @@ import { H1 } from "../Heading.tsx";
 import { Link } from "@tanstack/react-router";
 import { RatingStars } from "../RatingStars.tsx";
 import { formatMinuteDuration } from "../FormatMinuteDuration.tsx";
-import { recipeRoute } from "../../router-config.tsx";
 import { memo, Suspense, useState } from "react";
 import { BookmarkButton } from "./BookmarkButton.tsx";
 import IngredientList from "./IngredientsList.tsx";
@@ -28,7 +27,7 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
   return (
     <div className={"flex flex-col justify-between"}>
       <div>
-        <Link to={recipeRoute.to} params={{ recipeId: recipe.id }}>
+        <Link to={"/recipes/$recipeId"} params={{ recipeId: recipe.id }}>
           <div className={"overflow-hidden"}>
             <img
               className="mb-2 h-48 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"
@@ -74,7 +73,7 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
         <H1 className={"mb-4 mt-4 font-space font-bold"}>
           <Link
             preload={"intent"}
-            to={recipeRoute.to}
+            to={"/recipes/$recipeId"}
             params={{ recipeId: recipe.id }}
             className={"hover:text-orange_2 hover:underline"}
           >
