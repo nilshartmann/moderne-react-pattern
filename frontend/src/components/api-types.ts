@@ -111,6 +111,9 @@ export const get_GetFeedbacks = {
   method: z.literal("GET"),
   path: z.literal("/api/recipes/{recipeId}/feedbacks"),
   parameters: z.object({
+    query: z.object({
+      slowdown: z.number().optional(),
+    }),
     path: z.object({
       recipeId: z.string(),
     }),
@@ -123,6 +126,9 @@ export const post_AddFeedback = {
   method: z.literal("POST"),
   path: z.literal("/api/recipes/{recipeId}/feedbacks"),
   parameters: z.object({
+    query: z.object({
+      slowdown: z.number().optional(),
+    }),
     path: z.object({
       recipeId: z.string(),
     }),
@@ -141,6 +147,7 @@ export const get_Recipes = {
       size: z.number().optional(),
       sort: z.union([z.literal("time"), z.literal("rating")]).optional(),
       ids: z.string().optional(),
+      slowdown: z.number().optional(),
     }),
   }),
   response: PageResponseRecipeDto,
@@ -151,6 +158,9 @@ export const get_GetRecipe = {
   method: z.literal("GET"),
   path: z.literal("/api/recipes/{recipeId}"),
   parameters: z.object({
+    query: z.object({
+      slowdown: z.number().optional(),
+    }),
     path: z.object({
       recipeId: z.string(),
     }),
@@ -163,6 +173,9 @@ export const get_GetIngredients = {
   method: z.literal("GET"),
   path: z.literal("/api/recipes/{recipeId}/ingredients"),
   parameters: z.object({
+    query: z.object({
+      slowdown: z.number().optional(),
+    }),
     path: z.object({
       recipeId: z.string(),
     }),

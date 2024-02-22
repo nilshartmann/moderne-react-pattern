@@ -1,5 +1,6 @@
 import {
   useMutation,
+  useQuery,
   useQueryClient,
   useSuspenseQuery,
   UseSuspenseQueryResult,
@@ -11,26 +12,59 @@ import {
   PageResponseRecipeDto,
 } from "./api-types.ts";
 import { fetchFromApi, getEndpointConfig } from "./fetch-from-api.ts";
+import {
+  recipesPerPage,
+  slowDown_AddFeedback,
+  slowDown_GetFeedbacks,
+  slowDown_GetIngredients,
+  slowDown_GetRecipe,
+  slowDown_GetRecipeList,
+} from "../demo-config.tsx";
+
+const getAllRecipesQueryOptions = (
+  page: number,
+  orderBy?: "time" | "rating",
+  ids?: string[],
+) => {
+  const idsString = ids?.join(",");
+
+  return {
+    queryKey: ["recipe-list", page, orderBy, idsString],
+    queryFn: () => {
+      return fetchFromApi(getEndpointConfig("get", "/api/recipes"), {
+        query: {
+          page,
+          size: recipesPerPage,
+          sort: orderBy,
+          ids: idsString,
+          slowdown: slowDown_GetRecipeList,
+        },
+      });
+    },
+  };
+};
 
 export function useGetAllRecipesQuery(
   page: number,
   orderBy?: "time" | "rating",
   ids?: string[],
 ): UseSuspenseQueryResult<PageResponseRecipeDto> {
-  const idsString = ids?.join(",");
-  return useSuspenseQuery<PageResponseRecipeDto>({
-    queryKey: ["recipe-list", page, orderBy, idsString],
-    queryFn: () => {
-      return fetchFromApi(getEndpointConfig("get", "/api/recipes"), {
-        query: {
-          page,
-          size: 6,
-          sort: orderBy,
-          ids: idsString,
-        },
-      });
-    },
-  });
+  return useSuspenseQuery<PageResponseRecipeDto>(
+    getAllRecipesQueryOptions(page, orderBy, ids),
+  );
+}
+
+export function useGetTotalPageCountQuery(
+  page: number,
+  orderBy?: "time" | "rating",
+  ids?: string[],
+) {
+  const result = useQuery(getAllRecipesQueryOptions(page, orderBy, ids));
+  if (result.isSuccess) {
+    return result.data.totalPages;
+  }
+
+  return -1;
 }
 
 export function useGetRecipeQuery(
@@ -42,6 +76,9 @@ export function useGetRecipeQuery(
       return fetchFromApi(getEndpointConfig("get", "/api/recipes/{recipeId}"), {
         path: {
           recipeId,
+        },
+        query: {
+          slowdown: slowDown_GetRecipe,
         },
       });
     },
@@ -60,6 +97,9 @@ export function useGetRecipeIngredientsQuery(
           path: {
             recipeId,
           },
+          query: {
+            slowdown: slowDown_GetIngredients,
+          },
         },
       );
     },
@@ -77,6 +117,9 @@ export function useGetRecipeFeedbacksQuery(
         {
           path: {
             recipeId,
+          },
+          query: {
+            slowdown: slowDown_GetFeedbacks,
           },
         },
       );
@@ -102,6 +145,9 @@ export function useAddFeedbackMutation(recipeId: string) {
         {
           path: { recipeId },
           body: { feedbackData: payload },
+          query: {
+            slowdown: slowDown_AddFeedback,
+          },
         },
       );
     },

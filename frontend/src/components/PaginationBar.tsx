@@ -12,10 +12,12 @@ type PaginationBarProps = {
   totalPages: number;
   currentPage: number;
   children: (label: PageLabel) => ReactNode;
+  disabled?: boolean;
 };
 export default function PaginationBar({
   totalPages,
   currentPage,
+  disabled,
   children,
 }: PaginationBarProps) {
   const currentPageNumber = currentPage + 1;
@@ -35,13 +37,15 @@ export default function PaginationBar({
     endPage = startPage + maxButtons - 1;
   }
 
+  console.log("PAGINATION BAR", disabled);
+
   buttons.push(
     <Fragment key={"first_page"}>
       {children({
         label: "<<",
-        state: currentPageNumber <= 1 ? "disabled" : "selectable",
+        state: disabled || currentPageNumber <= 1 ? "disabled" : "selectable",
         page: 0,
-        disabled: currentPageNumber <= 1,
+        disabled: disabled || currentPageNumber <= 1,
       })}
     </Fragment>,
   );
@@ -49,9 +53,9 @@ export default function PaginationBar({
     <Fragment key={"prev_page"}>
       {children({
         label: "<",
-        state: currentPageNumber <= 1 ? "disabled" : "selectable",
+        state: disabled || currentPageNumber <= 1 ? "disabled" : "selectable",
         page: currentPage - 1,
-        disabled: currentPageNumber <= 1,
+        disabled: disabled || currentPageNumber <= 1,
       })}
     </Fragment>,
   );
@@ -60,9 +64,13 @@ export default function PaginationBar({
       <Fragment key={page}>
         {children({
           label: page.toString(),
-          state: page !== currentPageNumber ? "selectable" : "active",
+          state: disabled
+            ? "disabled"
+            : page !== currentPageNumber
+              ? "selectable"
+              : "active",
           page: page - 1,
-          disabled: page === currentPageNumber,
+          disabled: disabled || page === currentPageNumber,
         })}
       </Fragment>,
     );
@@ -71,9 +79,12 @@ export default function PaginationBar({
     <Fragment key={"next_page"}>
       {children({
         label: ">",
-        state: currentPageNumber >= totalPages ? "disabled" : "selectable",
+        state:
+          disabled || currentPageNumber >= totalPages
+            ? "disabled"
+            : "selectable",
         page: currentPage + 1,
-        disabled: currentPageNumber >= totalPages,
+        disabled: disabled || currentPageNumber >= totalPages,
       })}
     </Fragment>,
   );
@@ -81,9 +92,12 @@ export default function PaginationBar({
     <Fragment key={"last_page"}>
       {children({
         label: ">>",
-        state: currentPageNumber >= totalPages ? "disabled" : "selectable",
+        state:
+          disabled || currentPageNumber >= totalPages
+            ? "disabled"
+            : "selectable",
         page: totalPages - 1,
-        disabled: currentPageNumber >= totalPages,
+        disabled: disabled || currentPageNumber >= totalPages,
       })}
     </Fragment>,
   );

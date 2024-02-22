@@ -31,14 +31,6 @@ public class RecipeController {
     private final FeedbackRepository feedbackRepository;
     private final FeedbackService feedbackService;
 
-    // ------------------------------------------------------------------------
-    // -- Use for demo to simulate slowness of our backend
-    // ------------------------------------------------------------------------
-    public static long slowDown_GetRecipeList = 0;
-    public static long slowDown_GetRecipe = 0;
-    public static long slowDown_GetIngredients = 1200;
-    public static long slowDown_GetFeedbacks = 0;
-
     public RecipeController(RecipeRepository recipeRepository, FeedbackRepository feedbackRepository, FeedbackService feedbackService) {
         this.recipeRepository = recipeRepository;
         this.feedbackRepository = feedbackRepository;
@@ -54,7 +46,8 @@ public class RecipeController {
     PageResponse<RecipeDto> recipes(Optional<Integer> page,
                                     Optional<Integer> size,
                                     Optional<ReceipeSort> sort,
-                                    @RequestParam("ids") Optional<String> idStrings) {
+                                    @RequestParam("ids") Optional<String> idStrings,
+                                    @RequestParam("slowdown") Optional<Long> slowDown_recipeList) {
         var ids = idStrings.map(s -> Arrays.stream(s.split(","))
                 .filter(not(String::isBlank))
                 .map(Long::valueOf)
@@ -62,7 +55,7 @@ public class RecipeController {
             .orElse(null);
 
 
-        sleepFor(slowDown_GetRecipeList);
+        sleepFor(slowDown_recipeList);
 
         var pageable = PageRequest.of(page.orElse(0),
             size.orElse(6),
@@ -84,9 +77,10 @@ public class RecipeController {
     @GetMapping("/recipes/{recipeId}")
     GetRecipeResponse getRecipe(
         @StringParameter
-        @PathVariable long recipeId) {
+        @PathVariable long recipeId,
+        @RequestParam("slowdown") Optional<Long> slowDown_getRecipe) {
 
-        sleepFor(slowDown_GetRecipe);
+        sleepFor(slowDown_getRecipe);
 
         var recipe = recipeRepository.findById(recipeId)
             .orElseThrow(() -> new EntityNotFoundException("Receipe not found."));
@@ -102,7 +96,8 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{recipeId}/ingredients")
-    GetRecipeIngredientsResponse getIngredients(@StringParameter @PathVariable long recipeId) {
+    GetRecipeIngredientsResponse getIngredients(@StringParameter @PathVariable long recipeId,
+                                                @RequestParam("slowdown") Optional<Long> slowDown_GetIngredients) {
         sleepFor(slowDown_GetIngredients);
 
         var recipe = recipeRepository.findById(recipeId)
@@ -119,7 +114,8 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{recipeId}/feedbacks")
-    GetRecipeFeedbacksResponse getFeedbacks(@StringParameter @PathVariable long recipeId) {
+    GetRecipeFeedbacksResponse getFeedbacks(@StringParameter @PathVariable long recipeId,
+                                            @RequestParam("slowdown") Optional<Long> slowDown_GetFeedbacks) {
         sleepFor(slowDown_GetFeedbacks);
 
         var feedbacks = feedbackRepository.getFeedbacksByRecipeIdOrderByCreatedAtDesc(recipeId);
@@ -135,11 +131,18 @@ public class RecipeController {
 
     @PostMapping("/recipes/{recipeId}/feedbacks")
     PostFeedbackResponse addFeedback(@StringParameter @PathVariable long recipeId,
-                                     @Valid @RequestBody PostFeedbackRequest addFeedbackRequest) {
+                                     @Valid @RequestBody PostFeedbackRequest addFeedbackRequest,
+                                     @RequestParam("slowdown") Optional<Long> slowDown_AddFeedback) {
+
+        sleepFor(slowDown_AddFeedback);
 
         var newFeedback = feedbackService.addFeedback(recipeId, addFeedbackRequest.feedbackData());
 
         return new PostFeedbackResponse(newFeedback);
+    }
+
+    void sleepFor(Optional<Long> duration) {
+        duration.ifPresent(this::sleepFor);
     }
 
     void sleepFor(long duration) {

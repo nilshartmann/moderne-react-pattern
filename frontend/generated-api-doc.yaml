@@ -17,6 +17,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: slowdown
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: OK
@@ -34,6 +40,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: slowdown
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       requestBody:
         content:
           application/json:
@@ -78,6 +90,12 @@ paths:
         required: false
         schema:
           type: string
+      - name: slowdown
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: OK
@@ -96,6 +114,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: slowdown
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: OK
@@ -114,6 +138,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: slowdown
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: OK
