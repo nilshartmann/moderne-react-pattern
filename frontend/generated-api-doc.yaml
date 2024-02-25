@@ -9,7 +9,7 @@ paths:
   /api/recipes/{recipeId}/feedbacks:
     get:
       tags:
-      - recipe-controller
+      - recipe-api-controller
       operationId: getFeedbacks
       parameters:
       - name: recipeId
@@ -32,7 +32,7 @@ paths:
                 $ref: '#/components/schemas/GetRecipeFeedbacksResponse'
     post:
       tags:
-      - recipe-controller
+      - recipe-api-controller
       operationId: addFeedback
       parameters:
       - name: recipeId
@@ -62,7 +62,7 @@ paths:
   /api/newsletter/subscribe:
     post:
       tags:
-      - newsletter-controller
+      - newsletter-api-controller
       operationId: subscribeToNewsletter
       parameters:
       - name: slowdown
@@ -87,7 +87,7 @@ paths:
   /api/recipes:
     get:
       tags:
-      - recipe-controller
+      - recipe-api-controller
       operationId: recipes
       parameters:
       - name: page
@@ -131,7 +131,7 @@ paths:
   /api/recipes/{recipeId}:
     get:
       tags:
-      - recipe-controller
+      - recipe-api-controller
       operationId: getRecipe
       parameters:
       - name: recipeId
@@ -155,7 +155,7 @@ paths:
   /api/recipes/{recipeId}/ingredients:
     get:
       tags:
-      - recipe-controller
+      - recipe-api-controller
       operationId: getIngredients
       parameters:
       - name: recipeId

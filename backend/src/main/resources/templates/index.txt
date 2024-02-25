@@ -1,0 +1,57 @@
+<!doctype html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: DefaultLayout(~{::title}, ~{::main})}"
+>
+  <head>
+    <title>Recipify Router Demo</title>
+  </head>
+  <body>
+    <main
+      class="min-w-screen min-h-svh bg-cover"
+      th:style="'background-image: radial-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)), url(/images/landing-page.png)'"
+    >
+      <div class="font-space px-4 pt-32 text-center font-bold">
+        <div
+          class="text-red mx-auto inline-block max-w-4xl bg-white p-2 pb-4 text-8xl"
+        >
+          Recipify
+        </div>
+
+        <h1>
+          <span
+            class="mx-auto mt-10 inline-block max-w-4xl bg-white p-2 pb-3 text-4xl font-bold text-gray-800"
+          >
+            Recipes for
+            <span class="text-primary relative whitespace-nowrap">
+              <span class="text-red relative">hungry devs</span></span
+            >.
+          </span>
+        </h1>
+        <div
+          class="font-barlow mx-auto mt-10 max-w-2xl bg-white p-2 pb-3 text-lg font-normal tracking-wide"
+        >
+          <p>There are a lot of cooking and recipe apps.</p>
+          <p>
+            But only this one is boiled with modern
+            <span class="text-red relative">frontend and backend</span>
+            ingredients.
+          </p>
+        </div>
+        <div class="mt-10 flex justify-center">
+          <!--      <Button size={"lg">-->
+          <!--        <Link to={"/recipes">Let me in - I'm hungry! 😋</Link>-->
+          <!--      </Button>-->
+          <!--    </div>-->
+          <!--    <div class="mt-10 flex justify-center space-x-8">-->
+          <!--    <Button>-->
+          <!--      <Link to={"/about">About us</Link>-->
+          <!--    </Button>-->
+          <!--    <Button>-->
+          <!--      <Link to={"/privacy">Privacy</Link>-->
+          <!--    </Button>-->
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

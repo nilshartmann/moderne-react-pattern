@@ -1,0 +1,20 @@
+pnpm-lock.yaml
+
+public/assets
+
+# Assets
+app/assets
+
+tsconfig.json
+.eslintrc.cjs
+
+# Generated:
+public/fontawesome/
+generated-api-doc.yaml
+public/fonts/google-fonts.css
+
+public/favicons/
+public/images/
+
+
+routeTree.gen.ts

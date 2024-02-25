@@ -1,0 +1,89 @@
+<!doctype html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: DefaultLayout(~{::title}, ~{::main})}"
+>
+  <head>
+    <title>Recipify HTMX Demo</title>
+  </head>
+  <body>
+    <main class="bg-goldgray">
+      <div th:fragment="recipe-detail">
+        <div
+          th:style="'--recipe-bg-image: url(' + @{${'/images/recipes/food_' + recipe.recipe.id + '.png'}} + ')'"
+        >
+          <div class="recipify-header-wrap mt-8 pb-12 pe-8 ps-8 pt-4">
+            <div
+              class="container mx-auto flex flex-col-reverse md:flex-row md:space-x-8"
+            >
+              <div class="mt-8 md:mt-0 md:w-1/2">
+                <div class="flex h-full flex-col justify-between">
+                  <div>
+                    <div class="flex justify-between">
+                      <p
+                        class="font-space text-red text-sm font-medium uppercase tracking-[2px]"
+                        th:text="${recipe.recipe.mealType}"
+                      >
+                        Title
+                      </p>
+                    </div>
+                    <h1
+                      class="font-space mb-4 mt-4 text-5xl font-bold"
+                      th:text="${recipe.recipe.title}"
+                    ></h1>
+                    <p
+                      class="text font-inter mt-2 text-gray-500"
+                      th:text="${recipe.recipe.headline}"
+                    ></p>
+                  </div>
+                </div>
+              </div>
+              <div class="md:w-1/2">
+                <div class="overflow-hidden">
+                  <img
+                    class="w-full transform rounded object-cover transition-all duration-1000 ease-in-out hover:scale-125 sm:mt-4 sm:max-h-80 md:mt-0"
+                    th:src="@{${'/images/recipes/food_' + recipe.recipe.id + '.png'}}"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container mx-auto mb-8 mt-8 md:flex md:space-x-12">
+            <div class="w-full">
+              <div class="mb-8 mt-8 flex items-center justify-between">
+                <h2 class="font-space text-3xl font-bold">Ingredients</h2>
+              </div>
+              <div
+                th:each="i: ${recipe.ingredients}"
+                class="mb-4 me-4 ms-4 border-b border-dotted border-gray-300 pb-4"
+              >
+                <i class="fa-regular fa-circle-check text-orange_2 me-2"></i>
+                <span class="font-inter text-gray-500" th:inline="text">
+                  [[${i.amount}]] [[${i.unit}]] [[${i.name}]]
+                </span>
+              </div>
+              <h2 class="font-space mb-8 mt-8 text-3xl font-bold">
+                Instructions
+              </h2>
+              <div class="me-4 ms-4">
+                <div
+                  th:each="i: ${recipe.instructions}"
+                  class="mt-8 items-start border-b border-dotted border-gray-300 pb-8 sm:flex"
+                >
+                  <div
+                    class="font-space text-red font-medium sm:w-1/4"
+                    th:text="${'Step ' + i.orderNo}"
+                  ></div>
+                  <div
+                    class="font-inter mt-4 text-gray-500 sm:mt-0 sm:w-3/4 sm:pe-1.5"
+                    th:text="${i.description}"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

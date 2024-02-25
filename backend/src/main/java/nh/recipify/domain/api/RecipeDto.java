@@ -21,7 +21,7 @@ public record RecipeDto(
     @NotNull double averageRating
 ) {
 
-    static RecipeDto forRecipe(Recipe r) {
+    public static RecipeDto forRecipe(Recipe r) {
         return new RecipeDto(
             r.getId().toString(),
             r.getCreatedAt(),

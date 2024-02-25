@@ -19,4 +19,7 @@ public interface RecipeRepository extends Repository<Recipe, Long> {
 
     Optional<Recipe> findById(Long id);
 
+    Page<Recipe> findAllByTitleContainsIgnoreCaseOrderByTitle(
+        Pageable p,
+        String title);
 }
