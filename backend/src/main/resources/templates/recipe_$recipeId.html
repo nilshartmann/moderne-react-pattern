@@ -7,10 +7,10 @@
     <title>Recipify HTMX Demo</title>
   </head>
   <body>
-    <main class="bg-goldgray">
+    <main>
       <div th:fragment="recipe-detail">
         <div
-          th:style="'--recipe-bg-image: url(' + @{${'/images/recipes/food_' + recipe.recipe.id + '.png'}} + ')'"
+          th:style="'--recipe-bg-image: url(' + @{${'/images/recipes/food_' + recipeId + '.png'}} + ')'"
         >
           <div class="recipify-header-wrap mt-8 pb-12 pe-8 ps-8 pt-4">
             <div
@@ -36,22 +36,58 @@
                       th:text="${recipe.recipe.headline}"
                     ></p>
                   </div>
+                  <div>
+                    <div class="mt-4 flex">
+                      <div class="mt-4 space-y-2">
+                        <p
+                          class="border-green text-green me-2 inline-block rounded border bg-white p-2 text-[15px]"
+                        >
+                          <i class="fa-regular fa-clock mr-2"></i>
+                          [[${@durationFormatter.formatMinutes(recipe.recipe.cookTime
+                          + recipe.recipe.preparationTime)}]]
+                        </p>
+                        <p
+                          th:each="c : ${recipe.recipe.categories}"
+                          class="border-green text-green me-2 inline-block rounded border bg-white p-2 text-[15px]"
+                        >
+                          <i th:class="${c.icon}"></i>
+                          <span class="ms-2">[[${c.title}]]</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="md:w-1/2">
                 <div class="overflow-hidden">
                   <img
                     class="w-full transform rounded object-cover transition-all duration-1000 ease-in-out hover:scale-125 sm:mt-4 sm:max-h-80 md:mt-0"
-                    th:src="@{${'/images/recipes/food_' + recipe.recipe.id + '.png'}}"
+                    th:src="@{${'/images/recipes/food_' + recipeId + '.png'}}"
                   />
                 </div>
               </div>
             </div>
           </div>
           <div class="container mx-auto mb-8 mt-8 md:flex md:space-x-12">
-            <div class="w-full">
+            <div class="md:w-2/3" x-data="{servings: 4}">
               <div class="mb-8 mt-8 flex items-center justify-between">
                 <h2 class="font-space text-3xl font-bold">Ingredients</h2>
+                <div
+                  class="rounded-lg border border-dotted border-gray-500 p-4 text-lg"
+                >
+                  <i
+                    @click="servings++"
+                    class="fa-solid fa-circle-plus text-orange_2 hover:text-orange_2-500 hover:cursor-pointer"
+                  ></i>
+                  <span class="text-gray-500">
+                    <span x-text="servings"></span> servings
+                  </span>
+                  <i
+                    @click="if (servings > 1) servings--"
+                    class="fa-solid fa-circle-minus"
+                    :class="servings===1 ? 'cursor-default text-gray-300 ' : 'text-orange_2 cursor-pointer hover:text-orange_2-500'"
+                  ></i>
+                </div>
               </div>
               <div
                 th:each="i: ${recipe.ingredients}"
@@ -59,7 +95,10 @@
               >
                 <i class="fa-regular fa-circle-check text-orange_2 me-2"></i>
                 <span class="font-inter text-gray-500" th:inline="text">
-                  [[${i.amount}]] [[${i.unit}]] [[${i.name}]]
+                  <span
+                    th:x-text="'(' + ${i.amount} + ' / 4) * servings'"
+                  ></span>
+                  [[${i.unit}]] [[${i.name}]]
                 </span>
               </div>
               <h2 class="font-space mb-8 mt-8 text-3xl font-bold">
@@ -78,6 +117,74 @@
                     class="font-inter mt-4 text-gray-500 sm:mt-0 sm:w-3/4 sm:pe-1.5"
                     th:text="${i.description}"
                   ></div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-1/3">
+              <div
+                class="border-1 bg-goldgray mt-8 w-full rounded-2xl p-8 md:mt-0"
+              >
+                <h2 class="font-space mb-4 text-3xl font-bold">Feedback</h2>
+                <div
+                  id="feedbackList"
+                  th:fragment="feedback"
+                  th:attr="hx-trigger=${feedback} == null ? 'load': null, hx-get=${feedback} == null ? @{'/recipes/' + ${recipeId} + '/feedback'(slowdown=1200)}: null"
+                  hx-indicator="#feedbackListIndicator"
+                  hx-swap="outerHTML"
+                >
+                  <div
+                    th:each="f : ${feedback}"
+                    class="font-inter mb-8 rounded-2xl border border-dotted border-gray-300 bg-white pb-8 pe-4 ps-4 pt-4 text-gray-500"
+                  >
+                    <div class="flex items-end justify-between">
+                      <div class="font-medium">[[${f.commenter} ]]</div>
+                      <div class="text-sm">
+                        [[${@durationFormatter.formatDate(f.createdAt)}]]
+                      </div>
+                    </div>
+                    <div class="mt-4">[[${f.comment}]]</div>
+                  </div>
+                  <div
+                    class="flex w-full justify-center space-x-12"
+                    th:if="${feedback}"
+                  >
+                    <a
+                      th:if="${feedback.hasPrev}"
+                      th:href="@{'/recipes/' + ${recipeId}(feedback_page=${feedback.prevPage})}"
+                      th:hx-get="@{'/recipes/' + ${recipeId} + '/feedback'(page=${feedback.prevPage})}"
+                      hx-target="#feedbackList"
+                      hx-indicator="#feedbackListIndicator"
+                      hx-swap="outerHTML"
+                      class="font-barlow bg-orange_2 hover:bg-orange_2-500 mb-2 mt-2 transform items-center justify-center rounded p-2 px-4 py-2 font-normal text-white transition-all duration-500 ease-in-out hover:cursor-pointer hover:underline hover:shadow-lg"
+                    >
+                      &lt;
+                    </a>
+                    <a
+                      th:if="${feedback.hasNext}"
+                      th:href="@{'/recipes/' + ${recipeId} + ''(feedback_page=${feedback.nextPage})}"
+                      th:hx-get="@{'/recipes/' + ${recipeId} + '/feedback'(page=${feedback.nextPage},slowdown=2400)}"
+                      hx-target="#feedbackList"
+                      hx-indicator="#feedbackListIndicator"
+                      hx-swap="outerHTML"
+                      class="font-barlow bg-orange_2 hover:bg-orange_2-500 mb-2 mt-2 transform items-center justify-center rounded p-2 px-4 py-2 font-normal text-white transition-all duration-500 ease-in-out hover:cursor-pointer hover:underline hover:shadow-lg"
+                    >
+                      &gt;
+                    </a>
+                  </div>
+                  <div
+                    id="feedbackListIndicator"
+                    class="Spinner font-space xhtmx-indicator"
+                  >
+                    <div class="bounce bounce1">
+                      <img th:src="@{/logo.png}" />
+                    </div>
+                    <div class="bounce bounce2">
+                      <img th:src="@{/logo.png}" />
+                    </div>
+                    <div class="bounce bounce3">
+                      <img th:src="@{/logo.png}" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

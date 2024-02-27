@@ -24,13 +24,6 @@
 
   <body>
     <div class="flex min-h-screen flex-col">
-      <!--      <div class="container mx-auto h-16">-->
-      <!--        <div class="flex h-full items-center justify-between">-->
-      <!--          <nav th:replace="~{fragments/nav :: nav}">nav</nav>-->
-      <!--          NewsletterRegistration-->
-      <!--        </div>-->
-      <!--      </div>-->
-
       <header
         class="flex h-24 items-center bg-cover bg-center"
         th:style="'background-image: url(/images/landing-page.png)'"
@@ -40,15 +33,12 @@
             <h1
               class="font-space text-red inline-block bg-white p-2 pb-3 text-4xl font-bold"
             >
-              Recipify
+              <a th:href="@{/}">Recipify</a>
             </h1>
           </div>
         </div>
       </header>
 
-      <!--      <div class="flex-grow">{children}</div>-->
-
-      <!-- children -->
       <div class="flex-grow">
         <div th:replace="${children}">
           <p>Layout content</p>
@@ -62,10 +52,16 @@
         </div>
       </footer>
     </div>
+    <!--    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>-->
+    <script th:src="@{/alpinejs/alpine-3.13.5.min.js}"></script>
+
     <script
       type="text/javascript"
       th:src="@{/htmx/htmx-1.9.10.min.js}"
     ></script>
-    <script src="https://unpkg.com/htmx.org/dist/ext/multi-swap.js"></script>
+
+    <script>
+      htmx.logAll();
+    </script>
   </body>
 </html>

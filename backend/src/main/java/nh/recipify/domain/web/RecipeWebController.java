@@ -4,9 +4,12 @@ import jakarta.persistence.EntityNotFoundException;
 import nh.recipify.domain.MultiViews;
 import nh.recipify.domain.api.DetailedRecipeDto;
 import nh.recipify.domain.api.RecipeDto;
+import nh.recipify.domain.model.Feedback;
+import nh.recipify.domain.model.FeedbackRepository;
 import nh.recipify.domain.model.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import static nh.recipify.domain.api.Utils.sleepFor;
@@ -25,9 +30,11 @@ public class RecipeWebController {
     private static final Logger log = LoggerFactory.getLogger(RecipeWebController.class);
 
     private final RecipeRepository recipeRepository;
+    private final FeedbackRepository feedbackRepository;
 
-    public RecipeWebController(RecipeRepository recipeRepository) {
+    public RecipeWebController(RecipeRepository recipeRepository, FeedbackRepository feedbackRepository) {
         this.recipeRepository = recipeRepository;
+        this.feedbackRepository = feedbackRepository;
     }
 
     @GetMapping(value = "/search")
@@ -57,7 +64,9 @@ public class RecipeWebController {
                                     @RequestParam("slowdown") Optional<Long> slowDown_search,
                                     Model model) {
 
-        sleepFor(slowDown_search);
+        long s = 3000 - (search.length() * 100L);
+
+        sleepFor(s);
 
         var recipes = recipeRepository.findAllByTitleContainsIgnoreCaseOrderByTitle(
             PageRequest.of(page.orElse(0), 2),
@@ -118,6 +127,7 @@ public class RecipeWebController {
         var recipe = recipeRepository.findById(recipeId)
             .orElseThrow(() -> new EntityNotFoundException("Receipe " + recipeId + " not found."));
 
+        model.addAttribute("recipeId", String.valueOf(recipeId));
         model.addAttribute("recipe", DetailedRecipeDto.of(recipe));
 
         return "recipe_$recipeId :: recipe-detail";
@@ -125,16 +135,73 @@ public class RecipeWebController {
     }
 
     @GetMapping(value = "/recipes/{recipeId}")
-    public String recipePage(@PathVariable Long recipeId, Model model) {
+    public String recipePage(@PathVariable Long recipeId,
+                             @RequestParam("feedback_page") Optional<Integer> feedbackPage,
+                             Model model) {
         log.info("Recipe Page for Recipe-Id '{}'", recipeId);
 
         var recipe = recipeRepository.findById(recipeId)
             .orElseThrow(() -> new EntityNotFoundException("Receipe " + recipeId + " not found."));
 
+        model.addAttribute("recipeId", String.valueOf(recipeId));
         model.addAttribute("recipe", DetailedRecipeDto.of(recipe));
+
+        feedbackPage.ifPresent(f -> {
+            var feedback = getFeedbackForRecipe(recipeId, f);
+            model.addAttribute("feedback", feedback);
+        });
+
 
         return "recipe_$recipeId";
 
+    }
+
+    record FeedbackResponseDto(
+        List<Feedback> feedback,
+        boolean hasPrev,
+        boolean hasNext,
+        int prevPage,
+        int nextPage
+    ) implements Iterable<Feedback> {
+
+        @Override
+        public Iterator<Feedback> iterator() {
+            return feedback.iterator();
+        }
+
+        static FeedbackResponseDto of(Page<Feedback> page) {
+            return new FeedbackResponseDto(
+                page.getContent(),
+                page.hasPrevious(),
+                page.hasNext(),
+                page.getNumber() - 1,
+                page.getNumber() + 1
+            );
+        }
+    }
+
+    @GetMapping(value = "/recipes/{recipeId}/feedback", headers = "HX-Request")
+    public String feedback(
+        @PathVariable Long recipeId,
+        @RequestParam Optional<Integer> page,
+        Model model,
+        @RequestParam("slowdown") Optional<Long> slowdown) {
+
+        sleepFor(slowdown);
+
+        var feedback = getFeedbackForRecipe(recipeId, page.orElse(0));
+
+        model.addAttribute("recipeId", String.valueOf(recipeId));
+        model.addAttribute("feedback", feedback);
+
+        return "recipe_$recipeId :: feedback";
+    }
+
+    private FeedbackResponseDto getFeedbackForRecipe(Long recipeId, int feedbackPage) {
+        var pageRequest = PageRequest.of(feedbackPage, 2);
+
+        Page<Feedback> feedback = this.feedbackRepository.getFeedbackByRecipeIdOrderByCreatedAtDesc(recipeId, pageRequest);
+        return FeedbackResponseDto.of(feedback);
     }
 
 }

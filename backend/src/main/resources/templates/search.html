@@ -8,9 +8,25 @@
   </head>
   <body>
     <!--    bg-goldgray  -->
-    <main th:fragment="main" class="bg-goldgray h-full flex-grow">
-      <div class="bg-goldgray container mx-auto mt-8 flex max-w-96 pt-8">
-        <form th:action="@{/search}" class="w-full flex-grow">
+    <main th:fragment="main">
+      <div class="container mx-auto mt-8 flex max-w-96 pt-8">
+        <form
+          x-data
+          th:action="@{/search}"
+          class="w-full flex-grow"
+          @submit.prevent=""
+        >
+          <!--          hx-trigger="keyup[key=='enter'], input[target.value.length > 2] delay:200ms from:#searchField"-->
+          <!--          th:hx-get="@{/search(slowdown=1200)}"-->
+          <!--          th:hx-push-url="@{/search/(search=${search})}"-->
+          <!--          hx-include="closest form"-->
+          <!--          hx-target="#searchResult"-->
+          <!--          hx-swap="outerHTML"-->
+          <!--          hx-indicator="#searchIndicator"-->
+
+          <!-- das push der URL funktioniert nicht korrekt, weil das Formular nicht neu gerendert
+           wird nach einer suche und damit '$search' immer der initiale Wert ist 🥳
+           -->
           <input
             type="search"
             name="search"
@@ -18,8 +34,8 @@
             th:value="${search}"
             class="h-8 w-full max-w-full rounded border border-gray-400 bg-white p-6 text-gray-500 hover:shadow-lg"
             th:hx-get="@{/search(slowdown=1200)}"
+            th:hx-push-url="@{/search(search=${search})}"
             hx-trigger="input[target.value.length > 2] changed delay:200ms"
-            hx-include="closest form"
             hx-target="#searchResult"
             hx-swap="outerHTML"
             hx-indicator="#searchIndicator"
@@ -75,7 +91,7 @@
                   th:href="@{${'/recipes/' + recipe.id}}"
                   th:hx-get="@{${'/recipes/' + recipe.id}}"
                   th:hx-push-url="@{${'/recipes/' + recipe.id}}"
-                  hx-target="#recipeDetails"
+                  hx-target="main"
                   class="hover:text-orange_2 cursor-pointer hover:underline"
                   th:text="${recipe.title}"
                 >

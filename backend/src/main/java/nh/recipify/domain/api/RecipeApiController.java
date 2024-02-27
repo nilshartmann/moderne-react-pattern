@@ -117,7 +117,7 @@ public class RecipeApiController {
                                             @RequestParam("slowdown") Optional<Long> slowDown_GetFeedbacks) {
         sleepFor(slowDown_GetFeedbacks);
 
-        var feedbacks = feedbackRepository.getFeedbacksByRecipeIdOrderByCreatedAtDesc(recipeId);
+        var feedbacks = feedbackRepository.getFeedbackByRecipeIdOrderByCreatedAtDesc(recipeId);
 
         return new GetRecipeFeedbacksResponse(feedbacks);
     }
