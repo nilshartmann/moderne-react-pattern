@@ -6,7 +6,6 @@
   "scripts": {
     "build:tailwind": "tailwindcss -i src/main/frontend-htmx/main.css -o build/resources/main/static/main.css",
     "build:static": "mkdir -p build/resources/main/static/ && rsync -a src/main/resources/static/ build/resources/main/static/",
-    "xwatch:tailwind": "tailwindcss -i src/main/frontend-htmx/main.css --watch  -o build/resources/main/static/main.css",
     "watch": "pnpm run --parallel /^watch:.*/",
     "watch:tailwind": "onchange \"src/main/resources/templates/**\" -- pnpm build:tailwind",
     "watch:static": "onchange \"src/main/resources/static/**\" -- pnpm build:static",
