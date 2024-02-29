@@ -22,7 +22,7 @@ public class OpenApiDocGenerator implements CommandLineRunner {
 
     public OpenApiDocGenerator(
         @Value("${generate-open-api-doc-on-startup.source:http://localhost:8080/v3/api-docs.yaml}") String source,
-        @Value("${generate-open-api-doc-on-startup.target:#{systemProperties['user.dir'] + '/frontend/generated-api-doc.yaml'}}") Path target) {
+        @Value("${generate-open-api-doc-on-startup.target:#{systemProperties['user.dir'] + '/backend/generated-api-doc.yaml'}}") Path target) {
         this.source = source;
         this.target = target;
     }

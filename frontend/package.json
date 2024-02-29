@@ -12,8 +12,8 @@
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
     "openapi": "curl http://localhost:8080/v3/api-docs>api-doc.json",
-    "openapi:generate": "typed-openapi -r zod generated-api-doc.yaml -o src/components/api-types.ts && prettier --write src/components/api-types.ts",
-    "openapi:watch": "onchange -i generated-api-doc.yaml -- pnpm openapi:generate"
+    "openapi:generate": "typed-openapi -r zod ../backend/generated-api-doc.yaml -o src/components/api-types.ts && prettier --write src/components/api-types.ts",
+    "openapi:watch": "onchange -i ../backend/generated-api-doc.yaml -- pnpm openapi:generate"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.14.6",
