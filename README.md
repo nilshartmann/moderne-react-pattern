@@ -1,13 +1,8 @@
-# Recipify: TanStack Router Demo
+# Recipify: Frontend Demo
 
-
-This is my sample application for the [TanStack Router](https://tanstack.com/router/v1) for React.
-
-I recorded a video on TanStack Router that uses this demo application. You can find the [video on YouTube](https://youtu.be/KkrS_wfFq2I).
+This is a sample application for various frontend technologies.
 
 ![Screenshot of example application](screenshot.png)
-
-I recorded a video on TanStack Router, that uses this demo example. You can find the [video on YouTube](https://youtu.be/KkrS_wfFq2I).
 
 ### Techstack
 
@@ -16,7 +11,7 @@ I recorded a video on TanStack Router, that uses this demo example. You can find
 - Java (JDK21), Spring Boot 3.2
 - Postgres 16
 
-**Frontend**
+**Frontend 1 (Single-Page-App)**
 
 - React 18
 - TypeScript
@@ -25,9 +20,17 @@ I recorded a video on TanStack Router, that uses this demo example. You can find
 - TypeScript and zod-Code for typesafe API access is automatically generated from OpenAPI definitions.
   - You can find [more on that here](https://github.com/nilshartmann/end-to-end-typesafety-spring-boot-typescript).
 
+I recorded a **video on TanStack Router**, that uses this demo example. You can find the [video on YouTube](https://youtu.be/KkrS_wfFq2I).
+
+**Frontend 2 (HTMX)**
+
+- HTMX
+- Alpine.js
+- Thymeleaf
+
 ## Running the backend
 
-The backend that provides the API is implemented with Spring Boot and Java.
+The backend that provides the API for the JS frontends and the HTMX endpoints is implemented with Spring Boot and Java.
 
 In order to run it, you either have to use Java or use the prebuild Docker Image.
 
@@ -37,11 +40,11 @@ The easiest is to use the `docker-compose-backend.yaml` file in the root of this
 docker-compose -f docker-compose-backend.yaml up -d
 ```
 
-If you're a Java ("fullstack") developer, you can launch the backend from your IDE by running the Spring Boot class `nh.recipify.TestBackendApplication`. This also automatically starts the postgres database using docker-compose. (Note that you need JDK21 and docker-compose installed)
+If you're a Java ("fullstack") developer, you can launch the backend from your IDE by running the Spring Boot class `nh.recipify.TestBackendApplication`. This also automatically starts the postgres database using Testcontainers. (Note that you need JDK21 installed)
 
 In either way, the backend runs on http://localhost:8080.
 
-## Running the frontend
+## Running the SPA frontend
 
 The frontend is a Single-Page-Application built with Vite and uses [pnpm](https://pnpm.io/) as package manager.
 
@@ -62,6 +65,10 @@ pnpm dev
 ```
 
 The frontend runs on http://localhost:8090
+
+## Running the HTMX frontend
+
+The HTMX "frontend" is included in the backend. Please see README in `backend` folder for more information.
 
 ## A note on the content
 

@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:tailwind": "tailwindcss -i src/main/frontend-htmx/main.css -o build/resources/main/static/main.css",
-    "build:static": "mkdir -p build/resources/main/static/ && rsync -a src/main/resources/static/ build/resources/main/static/",
+    "__do_not_use_build": "tailwindcss -i src/main/frontend-htmx/main.css --watch  -o build/resources/main/static/main.css",
     "watch": "pnpm run --parallel /^watch:.*/",
-    "watch:tailwind": "onchange \"src/main/resources/templates/**\" -- pnpm build:tailwind",
-    "watch:static": "onchange \"src/main/resources/static/**\" -- pnpm build:static",
+    "watch:tailwind": "onchange -i \"src/main/resources/templates/**\" -- pnpm build:tailwind",
+    "watch:static": "onchange -i \"src/main/resources/static/**\" -- pnpm build:static",
+    "watch:templates": "onchange -i \"src/main/resources/templates/**\" -- pnpm build:templates",
+    "build:tailwind": "tailwindcss -i src/main/frontend-htmx/main.css -o src/main/resources/static/main.css",
+    "build:static": "mkdir -p build/resources/main/static/ && rsync -a src/main/resources/static/ build/resources/main/static/",
+    "build:templates": "mkdir -p build/resources/main/templates/ && rsync -a src/main/resources/templates/ build/resources/main/templates/",
     "prettier:check": "prettier --check src/main/frontend-htmx",
     "prettier:write": "prettier --write src/main/frontend-htmx"
   },

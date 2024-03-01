@@ -10,11 +10,12 @@ public class TestBackendApplication {
 
     private static final Logger log = LoggerFactory.getLogger(TestBackendApplication.class);
 
-
     public static void main(String[] args) {
         log.info("""
             ### LOCAL DEVELOPMENT. SETTING 'dev' PROFILE! ###
             			""");
+
+
         System.setProperty("spring.profiles.active", "dev");
         SpringApplication.from(BackendApplication::main).with(PostgresDbTestContainer.class).run(args);
     }

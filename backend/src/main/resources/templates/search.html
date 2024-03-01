@@ -54,7 +54,7 @@
         </button>
       </div>
 
-      <div id="searchIndicator" class="Spinner font-space xhtmx-indicator">
+      <div id="searchIndicator" class="Spinner xhtmx-indicator font-space">
         <div class="bounce bounce1"><img th:src="@{/logo.png}" /></div>
         <div class="bounce bounce2"><img th:src="@{/logo.png}" /></div>
         <div class="bounce bounce3"><img th:src="@{/logo.png}" /></div>
@@ -79,7 +79,7 @@
                   th:src="@{${'/images/recipes/food_' + recipe.id + '.png'}}"
                 />
               </div>
-              <div class="text-red flex justify-between">
+              <div class="flex justify-between text-red">
                 <p
                   class="font-space text-sm font-medium uppercase tracking-[2px]"
                   th:text="${recipe.mealType}"
@@ -92,19 +92,19 @@
                   th:hx-get="@{${'/recipes/' + recipe.id}}"
                   th:hx-push-url="@{${'/recipes/' + recipe.id}}"
                   hx-target="main"
-                  class="hover:text-orange_2 cursor-pointer hover:underline"
+                  class="cursor-pointer hover:text-orange_2 hover:underline"
                   th:text="${recipe.title}"
                 >
                   Recipse
                 </a>
               </h1>
-              <div class="text font-inter mt-2 text-gray-500">
+              <div class="text mt-2 font-inter text-gray-500">
                 <span th:text="${recipe.headline}"> Headline </span>
                 <a
                   th:href="@{${'/recipes/' + recipe.id}}"
                   th:hx-get="@{${'/search/' + recipe.id + '/expand'}}"
                   th:hx-target="${'#expanded_' + recipe.id}"
-                  class="text-orange_2 inline-block cursor-pointer hover:underline"
+                  class="inline-block cursor-pointer text-orange_2 hover:underline"
                 >
                   More...
                 </a>
@@ -117,7 +117,7 @@
                   <div class="mt-4 flex">
                     <div class="mt-4 space-y-2">
                       <p
-                        class="border-green text-green me-2 inline-block rounded border bg-white p-2 text-[15px]"
+                        class="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
                       >
                         <i class="fa-regular fa-clock mr-2"></i>
                         [[${@durationFormatter.formatMinutes(recipe.cookTime +
@@ -126,7 +126,7 @@
 
                       <p
                         th:each="c : ${recipe.categories}"
-                        class="border-green text-green me-2 inline-block rounded border bg-white p-2 text-[15px]"
+                        class="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
                       >
                         <i th:class="${c.icon}"></i>
                         <span class="ms-2" th:text="${c.title}"></span>
@@ -154,7 +154,7 @@
           hx-select="#searchResult > *"
           hx-swap="beforeend"
           hx-indicator="#searchIndicator"
-          class="font-barlow bg-orange_2 hover:bg-orange_2-500 mb-2 mt-2 inline-flex transform items-center justify-center rounded p-2 px-4 py-2 font-normal text-white transition-all duration-500 ease-in-out hover:cursor-pointer hover:underline hover:shadow-lg"
+          class="mb-2 mt-2 inline-flex transform items-center justify-center rounded bg-orange_2 p-2 px-4 py-2 font-barlow font-normal text-white transition-all duration-500 ease-in-out hover:cursor-pointer hover:bg-orange_2-500 hover:underline hover:shadow-lg"
         >
           More...
         </a>
