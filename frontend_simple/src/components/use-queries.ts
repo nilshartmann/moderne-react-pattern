@@ -2,6 +2,7 @@ import {
   useMutation,
   useQuery,
   useQueryClient,
+  useSuspenseInfiniteQuery,
   useSuspenseQuery,
   UseSuspenseQueryResult,
 } from "@tanstack/react-query";
@@ -19,6 +20,7 @@ import {
   slowDown_GetIngredients,
   slowDown_GetRecipe,
   slowDown_GetRecipeList,
+  slowDown_search,
   slowDown_SubscribeNewsletter,
 } from "../demo-config.tsx";
 
@@ -194,5 +196,32 @@ export function useSubscribeToNewsletterMutation() {
         },
       );
     },
+  });
+}
+
+export function useSearchQuery(search: string) {
+  return useSuspenseInfiniteQuery({
+    queryKey: ["search", search],
+    queryFn: async (page) => {
+      console.log("Loading Page ", page.pageParam);
+      const result = await fetchFromApi(
+        getEndpointConfig("get", "/api/search"),
+        {
+          query: {
+            search,
+            slowdown: slowDown_search,
+            page: page.pageParam,
+          },
+        },
+      );
+      console.log("result", result);
+      return result;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      // console.log("LAST PAGE", lastPage);
+      return lastPage.hasNext ? lastPage.pageNumber + 1 : null;
+    },
+    getPreviousPageParam: () => null,
   });
 }

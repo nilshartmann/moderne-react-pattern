@@ -1,3 +1,5 @@
+export const slowDown_search = 1200;
+
 /** number of recipes on /recipes */
 export const recipesPerPage = 6;
 

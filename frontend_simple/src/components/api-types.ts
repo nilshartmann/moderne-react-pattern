@@ -65,6 +65,7 @@ export const RecipeDto = z.object({
 export type PageResponseRecipeDto = z.infer<typeof PageResponseRecipeDto>;
 export const PageResponseRecipeDto = z.object({
   content: z.array(RecipeDto),
+  pageNumber: z.number(),
   totalPages: z.number(),
   hasNext: z.boolean(),
   hasPrevious: z.boolean(),
@@ -164,6 +165,20 @@ export const post_SubscribeToNewsletter = {
   response: PostNewsletterRegistrationResponse,
 };
 
+export type get_Search = typeof get_Search;
+export const get_Search = {
+  method: z.literal("GET"),
+  path: z.literal("/api/search"),
+  parameters: z.object({
+    query: z.object({
+      search: z.string(),
+      page: z.number(),
+      slowdown: z.number(),
+    }),
+  }),
+  response: PageResponseRecipeDto,
+};
+
 export type get_Recipes = typeof get_Recipes;
 export const get_Recipes = {
   method: z.literal("GET"),
@@ -214,6 +229,7 @@ export const get_GetIngredients = {
 export const EndpointByMethod = {
   get: {
     "/api/recipes/{recipeId}/feedbacks": get_GetFeedbacks,
+    "/api/search": get_Search,
     "/api/recipes": get_Recipes,
     "/api/recipes/{recipeId}": get_GetRecipe,
     "/api/recipes/{recipeId}/ingredients": get_GetIngredients,

@@ -140,4 +140,43 @@ public class RecipeApiController {
         return new PostFeedbackResponse(newFeedback);
     }
 
+    record GetSearchResponse(
+        @NotNull List<RecipeDto> recipes,
+        @NotNull String search,
+        boolean hasMore,
+        Optional<Integer> nextPage
+    ) {
+
+        static GetSearchResponse forPage(String search, Page<Recipe> recipePage) {
+
+            var recipes = recipePage.getContent().stream()
+                .map(RecipeDto::forRecipe)
+                .toList();
+
+            return new GetSearchResponse(
+                recipes,
+                search,
+                recipePage.hasNext(),
+                recipePage.hasNext() ? Optional.of(recipePage.getNumber() + 1) : Optional.empty()
+            );
+        }
+
+    }
+
+    @GetMapping(value = "/search")
+    PageResponse<RecipeDto> search(@RequestParam String search,
+                                   @RequestParam Optional<Integer> page,
+                                   @RequestParam("slowdown") Optional<Long> slowDown_search) {
+
+        sleepFor(slowDown_search);
+
+        var recipes = recipeRepository.findAllByTitleContainsIgnoreCaseOrderByTitle(
+            PageRequest.of(page.orElse(0), 2),
+            search
+        );
+
+        return PageResponse.of(
+            recipes.map(RecipeDto::forRecipe));
+    }
+
 }
