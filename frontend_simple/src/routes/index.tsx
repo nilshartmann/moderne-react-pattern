@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Fragment, Suspense, useEffect, useState } from "react";
 import {
   useGetRecipeQuery,
@@ -14,9 +14,15 @@ import Label from "./recipes/-components/Label.tsx";
 import { RecipeCategories } from "../components/RecipeCategories.tsx";
 import { twMerge } from "tailwind-merge";
 import { H2 } from "../components/Heading.tsx";
+import z from "zod";
+
+const SearchPageParams = z.object({
+  search: z.string().optional(),
+});
 
 export const Route = createFileRoute("/")({
   component: SearchPage,
+  validateSearch: (s) => SearchPageParams.parse(s),
 });
 
 function updateWindowTitle(searchTerm: string) {
@@ -33,8 +39,21 @@ function updateWindowTitle(searchTerm: string) {
   };
 }
 
+function useRecipeSearchParam() {
+  const search = Route.useSearch({
+    select: (s) => s.search || "",
+  });
+  const nav = useNavigate({ from: Route.fullPath });
+
+  const setSearch = (newSearch: string) => {
+    nav({ search: { search: newSearch } });
+  };
+
+  return [search, setSearch] as const;
+}
+
 export default function SearchPage() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useRecipeSearchParam();
   const [searchTerm] = useDebounce(search, 200);
 
   useEffect(() => {
@@ -108,6 +127,7 @@ function SearchResultCard({ recipe }: SearchResultCard) {
             <H2 className="font-space font-bold">
               <Link
                 to={"/recipes/$recipeId"}
+                search={true}
                 params={{
                   recipeId: recipe.id,
                 }}
@@ -182,7 +202,7 @@ function SearchQuery({ search }: SearchQueryProps) {
         </Fragment>
       ))}
       {hasNextPage && (
-        <div className="flex justify-center" id="moreField">
+        <div className="flex justify-center">
           <Button>
             {isFetchingNextPage ? (
               <LoadingIndicator secondary placeholder={<img src={logo} />} />

@@ -2,6 +2,7 @@ import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { H1 } from "../components/Heading.tsx";
 import { Suspense } from "react";
 import { GlobalLoadingIndicator } from "../components/GlobalLoadingIndicator.tsx";
+import { Timer } from "../components/Timer.tsx";
 
 export const Route = createRootRoute({
   component: GlobalPageLayout,
@@ -23,10 +24,11 @@ export default function GlobalPageLayout() {
                 "inline-block bg-white p-2 pb-3 font-space text-4xl font-bold text-red"
               }
             >
-              <Link to={"/"} className={"hover:underline"}>
+              <Link to={"/"} search={(s) => s} className={"hover:underline"}>
                 Recipify
               </Link>
             </H1>
+            <Timer />
           </div>
         </div>
       </header>
