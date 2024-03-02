@@ -1,7 +1,7 @@
-import { Input } from "../Input.tsx";
-import { Button } from "../Button.tsx";
+import { Input } from "./Input.tsx";
+import { Button } from "./Button.tsx";
 import React, { useState } from "react";
-import { useSubscribeToNewsletterMutation } from "../use-queries.ts";
+import { useSubscribeToNewsletterMutation } from "./use-queries.ts";
 
 export function NewsletterRegistration() {
   const [email, setEmail] = useState("");

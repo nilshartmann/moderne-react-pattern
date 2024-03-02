@@ -21,6 +21,7 @@ import {
   slowDown_GetRecipe,
   slowDown_GetRecipeList,
   slowDown_search,
+  slowDown_searchDetails,
   slowDown_SubscribeNewsletter,
 } from "../demo-config.tsx";
 
@@ -175,7 +176,6 @@ export function useAddFeedbackMutation(recipeId: string) {
             feedbacks: [...oldFeedbacks.feedbacks, newFeedback.newFeedback],
           } satisfies GetRecipeFeedbacksResponse;
 
-          console.log("NEW DATA", newData);
           return newData;
         },
       );
@@ -203,7 +203,7 @@ export function useSearchQuery(search: string) {
   return useSuspenseInfiniteQuery({
     queryKey: ["search", search],
     queryFn: async (page) => {
-      console.log("Loading Page ", page.pageParam);
+      console.log("searching for", search);
       const result = await fetchFromApi(
         getEndpointConfig("get", "/api/search"),
         {
@@ -214,14 +214,28 @@ export function useSearchQuery(search: string) {
           },
         },
       );
-      console.log("result", result);
+      console.log("search returned for", search);
       return result;
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      // console.log("LAST PAGE", lastPage);
       return lastPage.hasNext ? lastPage.pageNumber + 1 : null;
     },
     getPreviousPageParam: () => null,
+  });
+}
+
+export function useSearchDetailsQuery(recipeId: string) {
+  return useSuspenseQuery({
+    queryKey: ["search", recipeId, "details"],
+    queryFn: () =>
+      fetchFromApi(getEndpointConfig("get", "/api/search/{recipeId}/details"), {
+        query: {
+          slowdown: slowDown_searchDetails,
+        },
+        path: {
+          recipeId,
+        },
+      }),
   });
 }

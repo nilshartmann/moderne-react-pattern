@@ -1,7 +1,7 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { H1 } from "../components/Heading.tsx";
 import { Suspense } from "react";
-import { GlobalLoadingIndicator } from "../components/material/GlobalLoadingIndicator.tsx";
+import { GlobalLoadingIndicator } from "../components/GlobalLoadingIndicator.tsx";
 
 export const Route = createRootRoute({
   component: GlobalPageLayout,

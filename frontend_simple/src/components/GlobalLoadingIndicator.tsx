@@ -1,4 +1,4 @@
-import LoadingIndicator from "../LoadingIndicator.tsx";
+import LoadingIndicator from "./LoadingIndicator.tsx";
 import logo from "./logo.png";
 
 export function GlobalLoadingIndicator() {

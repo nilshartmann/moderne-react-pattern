@@ -1,5 +1,6 @@
 package nh.recipify.domain.model;
 
+import nh.recipify.domain.api.RecipeSummaryDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
@@ -20,6 +21,10 @@ public interface RecipeRepository extends Repository<Recipe, Long> {
     Optional<Recipe> findById(Long id);
 
     Page<Recipe> findAllByTitleContainsIgnoreCaseOrderByTitle(
+        Pageable p,
+        String title);
+
+    Page<RecipeSummaryDto> findSummaryAllByTitleContainsIgnoreCaseOrderByTitle(
         Pageable p,
         String title);
 }

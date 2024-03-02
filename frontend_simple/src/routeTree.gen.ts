@@ -10,11 +10,9 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./pages/__root"
-import { Route as IndexImport } from "./pages/index"
-import { Route as RecipesIndexImport } from "./pages/recipes/index"
-import { Route as RecipesRecipeIdIndexImport } from "./pages/recipes/$recipeId/index"
-import { Route as RecipesRecipeIdShoppinglistImport } from "./pages/recipes/$recipeId/shoppinglist"
+import { Route as rootRoute } from "./routes/__root"
+import { Route as IndexImport } from "./routes/index"
+import { Route as RecipesRecipeIdIndexImport } from "./routes/recipes/$recipeId/index"
 
 // Create/Update Routes
 
@@ -23,21 +21,10 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const RecipesIndexRoute = RecipesIndexImport.update({
-  path: "/recipes/",
-  getParentRoute: () => rootRoute,
-} as any)
-
 const RecipesRecipeIdIndexRoute = RecipesRecipeIdIndexImport.update({
   path: "/recipes/$recipeId/",
   getParentRoute: () => rootRoute,
 } as any)
-
-const RecipesRecipeIdShoppinglistRoute =
-  RecipesRecipeIdShoppinglistImport.update({
-    path: "/recipes/$recipeId/shoppinglist",
-    getParentRoute: () => rootRoute,
-  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -45,14 +32,6 @@ declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
     "/": {
       preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    "/recipes/": {
-      preLoaderRoute: typeof RecipesIndexImport
-      parentRoute: typeof rootRoute
-    }
-    "/recipes/$recipeId/shoppinglist": {
-      preLoaderRoute: typeof RecipesRecipeIdShoppinglistImport
       parentRoute: typeof rootRoute
     }
     "/recipes/$recipeId/": {
@@ -66,8 +45,6 @@ declare module "@tanstack/react-router" {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  RecipesIndexRoute,
-  RecipesRecipeIdShoppinglistRoute,
   RecipesRecipeIdIndexRoute,
 ])
 

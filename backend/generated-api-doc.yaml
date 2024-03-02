@@ -113,7 +113,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PageResponseRecipeDto'
+                $ref: '#/components/schemas/PageResponseRecipeSummaryDto'
+  /api/search/{recipeId}/details:
+    get:
+      tags:
+      - recipe-api-controller
+      operationId: getSearchDetails
+      parameters:
+      - name: recipeId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: slowdown
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSearchDetailResponse'
   /api/recipes:
     get:
       tags:
@@ -272,6 +296,44 @@ components:
       properties:
         email:
           type: string
+    PageResponseRecipeSummaryDto:
+      required:
+      - content
+      - hasNext
+      - hasPrevious
+      - pageNumber
+      - totalPages
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeSummaryDto'
+        pageNumber:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+        meta:
+          type: string
+    RecipeSummaryDto:
+      required:
+      - id
+      - mealType
+      - title
+      type: object
+      properties:
+        id:
+          type: string
+        mealType:
+          type: string
+        title:
+          type: string
     CategoryDto:
       required:
       - description
@@ -288,29 +350,13 @@ components:
           type: string
         icon:
           type: string
-    PageResponseRecipeDto:
+    GetSearchDetailResponse:
       required:
-      - content
-      - hasNext
-      - hasPrevious
-      - pageNumber
-      - totalPages
+      - recipe
       type: object
       properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecipeDto'
-        pageNumber:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-        hasNext:
-          type: boolean
-        hasPrevious:
-          type: boolean
+        recipe:
+          $ref: '#/components/schemas/RecipeDto'
     RecipeDto:
       required:
       - averageRating
@@ -351,6 +397,31 @@ components:
         averageRating:
           type: number
           format: double
+    PageResponseRecipeDto:
+      required:
+      - content
+      - hasNext
+      - hasPrevious
+      - pageNumber
+      - totalPages
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeDto'
+        pageNumber:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+        meta:
+          type: string
     DetailedRecipeDto:
       required:
       - averageRating

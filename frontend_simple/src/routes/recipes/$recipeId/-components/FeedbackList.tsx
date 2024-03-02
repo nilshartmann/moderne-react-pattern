@@ -1,6 +1,5 @@
-import { formatDate } from "../format-date.ts";
-import { RatingStars } from "../RatingStars.tsx";
-import { Feedback } from "../api-types.ts";
+import { Feedback } from "../../../../components/api-types.ts";
+import { formatDate } from "../../../../components/formatters.ts";
 
 type FeedbackListProps = {
   feedbacks: Feedback[];
@@ -20,9 +19,6 @@ export default function FeedbackList({ feedbacks }: FeedbackListProps) {
               <div className={"flex items-end justify-between"}>
                 <div className={"font-medium"}>{f.commenter} </div>
                 <div className={"text-sm"}>{formatDate(f.createdAt)}</div>
-              </div>
-              <div className={"mt-1 text-orange_2"}>
-                <RatingStars rating={f.rating} />
               </div>
               <div className={"mt-4"}>{f.comment}</div>
             </span>

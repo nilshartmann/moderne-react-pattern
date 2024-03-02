@@ -1,4 +1,4 @@
-import { Ingredient } from "../api-types.ts";
+import { Ingredient } from "../../../../components/api-types.ts";
 
 type IngredientListProps = { ingredients: Ingredient[]; servings?: number };
 export default function IngredientList({

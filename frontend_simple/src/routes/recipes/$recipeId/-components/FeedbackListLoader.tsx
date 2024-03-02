@@ -1,4 +1,4 @@
-import { useGetRecipeFeedbacksQuery } from "../use-queries.ts";
+import { useGetRecipeFeedbacksQuery } from "../../../../components/use-queries.ts";
 import FeedbackList from "./FeedbackList.tsx";
 
 type FeedbackListProps = {

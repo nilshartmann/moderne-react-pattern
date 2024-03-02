@@ -40,6 +40,25 @@ export const PostNewsletterRegistrationResponse = z.object({
   email: z.string(),
 });
 
+export type RecipeSummaryDto = z.infer<typeof RecipeSummaryDto>;
+export const RecipeSummaryDto = z.object({
+  id: z.string(),
+  mealType: z.string(),
+  title: z.string(),
+});
+
+export type PageResponseRecipeSummaryDto = z.infer<
+  typeof PageResponseRecipeSummaryDto
+>;
+export const PageResponseRecipeSummaryDto = z.object({
+  content: z.array(RecipeSummaryDto),
+  pageNumber: z.number(),
+  totalPages: z.number(),
+  hasNext: z.boolean(),
+  hasPrevious: z.boolean(),
+  meta: z.union([z.string(), z.undefined()]).optional(),
+});
+
 export type CategoryDto = z.infer<typeof CategoryDto>;
 export const CategoryDto = z.object({
   type: z.string(),
@@ -62,6 +81,11 @@ export const RecipeDto = z.object({
   averageRating: z.number(),
 });
 
+export type GetSearchDetailResponse = z.infer<typeof GetSearchDetailResponse>;
+export const GetSearchDetailResponse = z.object({
+  recipe: RecipeDto,
+});
+
 export type PageResponseRecipeDto = z.infer<typeof PageResponseRecipeDto>;
 export const PageResponseRecipeDto = z.object({
   content: z.array(RecipeDto),
@@ -69,6 +93,7 @@ export const PageResponseRecipeDto = z.object({
   totalPages: z.number(),
   hasNext: z.boolean(),
   hasPrevious: z.boolean(),
+  meta: z.union([z.string(), z.undefined()]).optional(),
 });
 
 export type Instruction = z.infer<typeof Instruction>;
@@ -176,7 +201,22 @@ export const get_Search = {
       slowdown: z.number(),
     }),
   }),
-  response: PageResponseRecipeDto,
+  response: PageResponseRecipeSummaryDto,
+};
+
+export type get_GetSearchDetails = typeof get_GetSearchDetails;
+export const get_GetSearchDetails = {
+  method: z.literal("GET"),
+  path: z.literal("/api/search/{recipeId}/details"),
+  parameters: z.object({
+    query: z.object({
+      slowdown: z.number().optional(),
+    }),
+    path: z.object({
+      recipeId: z.string(),
+    }),
+  }),
+  response: GetSearchDetailResponse,
 };
 
 export type get_Recipes = typeof get_Recipes;
@@ -230,6 +270,7 @@ export const EndpointByMethod = {
   get: {
     "/api/recipes/{recipeId}/feedbacks": get_GetFeedbacks,
     "/api/search": get_Search,
+    "/api/search/{recipeId}/details": get_GetSearchDetails,
     "/api/recipes": get_Recipes,
     "/api/recipes/{recipeId}": get_GetRecipe,
     "/api/recipes/{recipeId}/ingredients": get_GetIngredients,

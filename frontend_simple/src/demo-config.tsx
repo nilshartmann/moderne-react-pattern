@@ -1,4 +1,13 @@
-export const slowDown_search = 1200;
+/**
+ * Set to -1 to make searching for longer terms FASTER
+ * than searching for shorter terms
+ * to show discarding of older requests
+ */
+export const slowDown_search = 0;
+
+/**
+ */
+export const slowDown_searchDetails = 0;
 
 /** number of recipes on /recipes */
 export const recipesPerPage = 6;
@@ -9,7 +18,8 @@ export const slowDown_GetRecipeList = 0;
 /** Only for Ingredients in RecipeCard */
 export const slowDown_GetIngredients = 1200;
 
-/** Single recipe on the /$recipeId route */
+/** Single recipe on the /$recipeId route
+ *  and details on search page */
 export const slowDown_GetRecipe = 0;
 
 /** list of feedbacks on /$recipeId */

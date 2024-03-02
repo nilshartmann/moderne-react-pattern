@@ -160,23 +160,53 @@ public class RecipeApiController {
                 recipePage.hasNext() ? Optional.of(recipePage.getNumber() + 1) : Optional.empty()
             );
         }
-
     }
 
     @GetMapping(value = "/search")
-    PageResponse<RecipeDto> search(@RequestParam String search,
-                                   @RequestParam Optional<Integer> page,
-                                   @RequestParam("slowdown") Optional<Long> slowDown_search) {
+    PageResponse<RecipeSummaryDto> search(@RequestParam String search,
+                                          @RequestParam Optional<Integer> page,
+                                          @RequestParam("slowdown") Optional<Long> slowDown_search) {
 
-        sleepFor(slowDown_search);
+        long s = slowDown_search.orElse(0L);
 
-        var recipes = recipeRepository.findAllByTitleContainsIgnoreCaseOrderByTitle(
+        if (s == -1) {
+            // the longer the search term, the FASTER is the result
+            // this way we can demonstrate, that requests that
+            // a submitted EARLIER are discarded when they arrive LATER
+            // in the client
+            sleepFor(2400 - ((search.length() - 3) * 200L));
+        } else {
+            sleepFor(s);
+        }
+
+
+        var recipes = recipeRepository.findSummaryAllByTitleContainsIgnoreCaseOrderByTitle(
             PageRequest.of(page.orElse(0), 2),
             search
         );
 
-        return PageResponse.of(
-            recipes.map(RecipeDto::forRecipe));
+        return PageResponse.of(recipes, search);
+    }
+
+    record GetSearchDetailResponse(@NotNull RecipeDto recipe) {
+        public static GetSearchDetailResponse of(Recipe recipe) {
+            return new GetSearchDetailResponse(
+                RecipeDto.forRecipe(recipe)
+            );
+        }
+    }
+
+    @GetMapping(value = "/search/{recipeId}/details")
+    GetSearchDetailResponse getSearchDetails(@PathVariable @StringParameter long recipeId,
+                                             @RequestParam("slowdown") Optional<Long> slowDown_search) {
+
+        sleepFor(slowDown_search);
+
+        var recipe = recipeRepository.findById(recipeId)
+            .orElseThrow(() -> new EntityNotFoundException("Receipe not found."));
+
+
+        return GetSearchDetailResponse.of(recipe);
     }
 
 }

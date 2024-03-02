@@ -1,12 +1,9 @@
-import { DetailedRecipeDto } from "../api-types.ts";
-import { Link } from "@tanstack/react-router";
-import { RatingStars } from "../RatingStars.tsx";
+import { DetailedRecipeDto } from "../../../../components/api-types.ts";
 import { Fragment, Suspense, useState } from "react";
-import { formatMinuteDuration } from "../FormatMinuteDuration.tsx";
-import { FeedbackForm } from "./FeedbackForm.tsx";
 import FeedbackListLoader from "./FeedbackListLoader.tsx";
-import LoadingIndicator from "../LoadingIndicator.tsx";
+import LoadingIndicator from "../../../../components/LoadingIndicator.tsx";
 import "./RecipePage.css";
+import { formatMinuteDuration } from "../../../../components/formatters.ts";
 import IngredientList from "./IngredientsList.tsx";
 
 type RecipePageContentProps = {
@@ -46,10 +43,6 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
                 <p className={"text mt-2 font-inter text-gray-500"}>
                   {recipe.headline}
                 </p>
-                <div className={"mt-4 space-x-1 text-orange_2"}>
-                  <RatingStars rating={recipe.averageRating} /> (
-                  {recipe.averageRating.toFixed(2)})
-                </div>
               </div>
               <div>
                 <div className={"mt-4 flex"}>
@@ -139,15 +132,6 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
                 onClick={() => setServings(servings - 1)}
               />{" "}
             </div>
-            <div className={"font-inter text-gray-500 hover:text-orange_2 "}>
-              <Link
-                to={"/recipes/$recipeId/shoppinglist"}
-                params={{ recipeId: String(recipe.id) }}
-              >
-                <i className="fa-solid  fa-basket-shopping text-orange_2"></i>{" "}
-                <span className={"underline"}> Shopping list</span>
-              </Link>
-            </div>
           </div>
           <IngredientList
             ingredients={recipe.ingredients}
@@ -195,7 +179,6 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
             >
               <FeedbackListLoader recipeId={recipe.id} />
             </Suspense>
-            <FeedbackForm recipeId={recipe.id} />
           </div>
         </div>
       </div>
