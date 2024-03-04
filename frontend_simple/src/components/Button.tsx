@@ -1,4 +1,5 @@
 import { twMerge } from "tailwind-merge";
+import { ReactNode } from "react";
 
 type ButtonProps = {
   size?: "regular" | "lg";
@@ -73,21 +74,20 @@ export function CheckLabel({
   );
 }
 
-type PageButtonState = {
-  state: "active" | "disabled" | "selectable";
-  label: string;
-};
-
 type PageButtonProps = {
-  state: PageButtonState;
+  state?: "active" | "disabled" | "selectable";
+  children: ReactNode;
 };
-export function PageButton({ state: { state, label } }: PageButtonProps) {
+export function PageButton({
+  state = "selectable",
+  children,
+}: PageButtonProps) {
   const buttonClassName = twMerge(
     "inline-flex h-12 w-12 items-center justify-center rounded px-4 py-2 font-barlow text-white",
     state === "selectable" &&
-      "bg-orange_2 hover:bg-orange_2-500 hover:underline",
+      "cursor-pointer bg-orange_2 hover:bg-orange_2-500 hover:underline",
     state === "active" && "bg-green underline hover:bg-green",
     state === "disabled" && "bg-gray-300",
   );
-  return <span className={buttonClassName}>{label}</span>;
+  return <span className={buttonClassName}>{children}</span>;
 }

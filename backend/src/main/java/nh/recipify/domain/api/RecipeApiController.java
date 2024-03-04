@@ -112,6 +112,15 @@ public class RecipeApiController {
     record GetRecipeFeedbacksResponse(@NotNull List<Feedback> feedbacks) {
     }
 
+    /**
+     * todo:... use getFeedback instead
+     * <p>
+     * todo: endpoint is used in the tanstack router demo. remove it there
+     *
+     * @param recipeId
+     * @param slowDown_GetFeedbacks
+     * @return
+     */
     @GetMapping("/recipes/{recipeId}/feedbacks")
     GetRecipeFeedbacksResponse getFeedbacks(@StringParameter @PathVariable long recipeId,
                                             @RequestParam("slowdown") Optional<Long> slowDown_GetFeedbacks) {
@@ -121,6 +130,22 @@ public class RecipeApiController {
 
         return new GetRecipeFeedbacksResponse(feedbacks);
     }
+
+    @GetMapping("/recipes/{recipeId}/feedback")
+    PageResponse<Feedback> getFeedback(@StringParameter @PathVariable long recipeId,
+                                       @RequestParam("page") int feedbackPage,
+                                       @RequestParam("slowdown") Optional<Long> slowDown_GetFeedbacks) {
+
+
+        sleepFor(slowDown_GetFeedbacks);
+
+        var pageRequest = PageRequest.of(feedbackPage, 2);
+
+        Page<Feedback> feedback = this.feedbackRepository.getFeedbackByRecipeIdOrderByCreatedAtDesc(recipeId, pageRequest);
+
+        return PageResponse.of(feedback);
+    }
+
 
     record PostFeedbackRequest(@Valid @NotNull NewFeedback feedbackData) {
     }

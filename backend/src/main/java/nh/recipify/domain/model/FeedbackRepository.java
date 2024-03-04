@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface FeedbackRepository extends Repository<Feedback, Long> {
 
+    @Deprecated
     List<Feedback> getFeedbackByRecipeIdOrderByCreatedAtDesc(Long recipeId);
 
     Page<Feedback> getFeedbackByRecipeIdOrderByCreatedAtDesc(Long recipeId, Pageable pageable);

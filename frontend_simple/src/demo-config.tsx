@@ -9,21 +9,12 @@ export const slowDown_search = 0;
  */
 export const slowDown_searchDetails = 0;
 
-/** number of recipes on /recipes */
-export const recipesPerPage = 6;
-
-/** slowdown reading of /recipes */
-export const slowDown_GetRecipeList = 0;
-
-/** Only for Ingredients in RecipeCard */
-export const slowDown_GetIngredients = 1200;
-
 /** Single recipe on the /$recipeId route
  *  and details on search page */
 export const slowDown_GetRecipe = 0;
 
-/** list of feedbacks on /$recipeId */
-export const slowDown_GetFeedbacks = 0;
+/** list of feedback on /$recipeId */
+export const slowDown_GetFeedback = 0;
 
 /** delay after submitting the add feedback form */
 export const slowDown_AddFeedback = 0;

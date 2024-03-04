@@ -1,75 +1,20 @@
 import {
   useMutation,
-  useQuery,
   useQueryClient,
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
   UseSuspenseQueryResult,
 } from "@tanstack/react-query";
-import {
-  GetRecipeFeedbacksResponse,
-  GetRecipeIngredientsResponse,
-  GetRecipeResponse,
-  PageResponseRecipeDto,
-} from "./api-types.ts";
+import { GetRecipeFeedbacksResponse, GetRecipeResponse } from "./api-types.ts";
 import { fetchFromApi, getEndpointConfig } from "./fetch-from-api.ts";
 import {
-  recipesPerPage,
   slowDown_AddFeedback,
-  slowDown_GetFeedbacks,
-  slowDown_GetIngredients,
+  slowDown_GetFeedback,
   slowDown_GetRecipe,
-  slowDown_GetRecipeList,
   slowDown_search,
   slowDown_searchDetails,
   slowDown_SubscribeNewsletter,
 } from "../demo-config.tsx";
-
-const getAllRecipesQueryOptions = (
-  page: number,
-  orderBy?: "time" | "rating",
-  ids?: string[],
-) => {
-  const idsString = ids?.join(",");
-
-  return {
-    queryKey: ["recipe-list", page, orderBy, idsString],
-    queryFn: () => {
-      return fetchFromApi(getEndpointConfig("get", "/api/recipes"), {
-        query: {
-          page,
-          size: recipesPerPage,
-          sort: orderBy,
-          ids: idsString,
-          slowdown: slowDown_GetRecipeList,
-        },
-      });
-    },
-  };
-};
-
-export function useGetAllRecipesQuery(
-  page: number,
-  orderBy?: "time" | "rating",
-  ids?: string[],
-): UseSuspenseQueryResult<PageResponseRecipeDto> {
-  return useSuspenseQuery<PageResponseRecipeDto>(
-    getAllRecipesQueryOptions(page, orderBy, ids),
-  );
-}
-
-export function useGetTotalPageCountQuery(
-  page: number,
-  orderBy?: "time" | "rating",
-  ids?: string[],
-) {
-  const result = useQuery(getAllRecipesQueryOptions(page, orderBy, ids));
-  if (result.isSuccess) {
-    return result.data.totalPages;
-  }
-
-  return -1;
-}
 
 export function useGetRecipeQuery(
   recipeId: string,
@@ -89,41 +34,22 @@ export function useGetRecipeQuery(
   });
 }
 
-export function useGetRecipeIngredientsQuery(
+export function useGetRecipeFeedbackQuery(
   recipeId: string,
-): UseSuspenseQueryResult<GetRecipeIngredientsResponse> {
-  return useSuspenseQuery<GetRecipeIngredientsResponse>({
-    queryKey: ["recipes", recipeId, "ingredients"],
+  feedbackPage: number,
+) {
+  return useSuspenseQuery({
+    queryKey: ["recipes", recipeId, "feedback", feedbackPage],
     queryFn: () => {
       return fetchFromApi(
-        getEndpointConfig("get", "/api/recipes/{recipeId}/ingredients"),
+        getEndpointConfig("get", "/api/recipes/{recipeId}/feedback"),
         {
           path: {
             recipeId,
           },
           query: {
-            slowdown: slowDown_GetIngredients,
-          },
-        },
-      );
-    },
-  });
-}
-
-export function useGetRecipeFeedbacksQuery(
-  recipeId: string,
-): UseSuspenseQueryResult<GetRecipeFeedbacksResponse> {
-  return useSuspenseQuery<GetRecipeFeedbacksResponse>({
-    queryKey: ["recipes", recipeId, "feedbacks"],
-    queryFn: () => {
-      return fetchFromApi(
-        getEndpointConfig("get", "/api/recipes/{recipeId}/feedbacks"),
-        {
-          path: {
-            recipeId,
-          },
-          query: {
-            slowdown: slowDown_GetFeedbacks,
+            slowdown: slowDown_GetFeedback,
+            page: feedbackPage,
           },
         },
       );

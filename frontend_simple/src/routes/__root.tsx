@@ -3,14 +3,22 @@ import { H1 } from "../components/Heading.tsx";
 import { Suspense } from "react";
 import { GlobalLoadingIndicator } from "../components/GlobalLoadingIndicator.tsx";
 import { Timer } from "../components/Timer.tsx";
+import z from "zod";
+import GlobalServingsWidget from "./recipes/-components/GlobalServingsWidget.tsx";
+
+const RoutePageParams = z.object({
+  feedback_page: z.number().optional().default(0),
+  search: z.string().optional(),
+});
 
 export const Route = createRootRoute({
   component: GlobalPageLayout,
+  validateSearch: (s) => RoutePageParams.parse(s),
 });
 
 export default function GlobalPageLayout() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col ">
       <header
         className={"flex h-24 items-center bg-cover bg-center"}
         style={{
@@ -28,6 +36,7 @@ export default function GlobalPageLayout() {
                 Recipify
               </Link>
             </H1>
+            <GlobalServingsWidget />
             <Timer />
           </div>
         </div>

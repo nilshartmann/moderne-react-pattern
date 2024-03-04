@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./LoadingIndicator.module.css";
+import logo from "./logo.png";
 
 type LoadingIndicatorProps = {
   children?: ReactNode;
@@ -9,7 +10,7 @@ type LoadingIndicatorProps = {
 
 export default function LoadingIndicator({
   children,
-  placeholder,
+  placeholder = <img src={logo} />,
   secondary,
 }: LoadingIndicatorProps) {
   const bounceClass = placeholder

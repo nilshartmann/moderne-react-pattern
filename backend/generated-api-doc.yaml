@@ -230,6 +230,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetRecipeIngredientsResponse'
+  /api/recipes/{recipeId}/feedback:
+    get:
+      tags:
+      - recipe-api-controller
+      operationId: getFeedback
+      parameters:
+      - name: recipeId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: slowdown
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResponseFeedback'
 components:
   schemas:
     NewFeedback:
@@ -330,9 +360,9 @@ components:
       properties:
         id:
           type: string
-        mealType:
-          type: string
         title:
+          type: string
+        mealType:
           type: string
     CategoryDto:
       required:
@@ -526,3 +556,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Feedback'
+    PageResponseFeedback:
+      required:
+      - content
+      - hasNext
+      - hasPrevious
+      - pageNumber
+      - totalPages
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Feedback'
+        pageNumber:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+        meta:
+          type: string

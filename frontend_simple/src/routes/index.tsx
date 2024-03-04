@@ -5,7 +5,6 @@ import {
   useSearchQuery,
 } from "../components/use-queries.ts";
 import LoadingIndicator from "../components/LoadingIndicator.tsx";
-import logo from "../components/logo.png";
 import { useDebounce } from "use-debounce";
 import { Button } from "../components/Button.tsx";
 import { RecipeSummaryDto } from "../components/api-types.ts";
@@ -97,7 +96,7 @@ function Search({ search }: SearchProps) {
   }
 
   return (
-    <Suspense fallback={<LoadingIndicator placeholder={<img src={logo} />} />}>
+    <Suspense fallback={<LoadingIndicator />}>
       <SearchQuery search={search} />
     </Suspense>
   );
@@ -157,9 +156,7 @@ function SearchResultCard({ recipe }: SearchResultCard) {
         </div>
       </div>
       {isOpen && (
-        <Suspense
-          fallback={<LoadingIndicator placeholder={<img src={logo} />} />}
-        >
+        <Suspense fallback={<LoadingIndicator />}>
           <RecipeDetails recipeId={recipe.id} />
         </Suspense>
       )}
@@ -205,7 +202,7 @@ function SearchQuery({ search }: SearchQueryProps) {
         <div className="flex justify-center">
           <Button>
             {isFetchingNextPage ? (
-              <LoadingIndicator secondary placeholder={<img src={logo} />} />
+              <LoadingIndicator secondary />
             ) : (
               <button onClick={() => fetchNextPage()}>Find more...</button>
             )}
