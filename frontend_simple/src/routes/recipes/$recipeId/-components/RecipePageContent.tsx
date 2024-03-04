@@ -7,12 +7,15 @@ import { CookingTime } from "./CookingTime.tsx";
 import { Ingredients } from "./Ingredients.tsx";
 import { Instructions } from "./Instructions.tsx";
 import { RecipeBanner } from "./RecipeBanner.tsx";
+import { useRecipifyWindowTitle } from "../../../../components/useRecipifyWindowTitle.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
 };
 
 export function RecipePageContent({ recipe }: RecipePageContentProps) {
+  useRecipifyWindowTitle(recipe.title);
+
   return (
     <div className={"mb-20"}>
       <RecipeBanner recipe={recipe} />

@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Fragment, Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import LoadingIndicator from "../components/LoadingIndicator.tsx";
 import { useDebounce } from "use-debounce";
 import { Input } from "../components/Input.tsx";
 import Label from "./recipes/-components/Label.tsx";
 import z from "zod";
 import { useRecipeSearchParam } from "./-components/useRecipeSearchParam.ts";
-import Search from "./-components/Search.tsx";
+import RecipeSearch from "./-components/RecipeSearch.tsx";
+import { useRecipifyWindowTitle } from "../components/useRecipifyWindowTitle.tsx";
 
 const SearchPageParams = z.object({
   search: z.string().optional(),
@@ -17,27 +18,11 @@ export const Route = createFileRoute("/")({
   validateSearch: (s) => SearchPageParams.parse(s),
 });
 
-function updateWindowTitle(searchTerm: string) {
-  const currentTitle = window.document.title;
-
-  if (searchTerm.length < 3) {
-    window.document.title = "Recipify";
-  } else {
-    window.document.title = `${searchTerm} - Recipify`;
-  }
-
-  return () => {
-    window.document.title = currentTitle;
-  };
-}
-
 export default function SearchPage() {
   const [search, setSearch] = useRecipeSearchParam();
   const [searchTerm] = useDebounce(search, 200);
 
-  useEffect(() => {
-    return updateWindowTitle(searchTerm);
-  }, [searchTerm]);
+  useRecipifyWindowTitle(searchTerm.length < 3 ? null : searchTerm);
 
   return (
     <>
@@ -63,7 +48,7 @@ export default function SearchPage() {
             <Label>Type three letters to start search</Label>
           ) : (
             <Suspense fallback={<LoadingIndicator />}>
-              <Search search={searchTerm} />
+              <RecipeSearch search={searchTerm} />
             </Suspense>
           )}
         </div>
