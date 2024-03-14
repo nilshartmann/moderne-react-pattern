@@ -10,14 +10,14 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./pages/__root"
-import { Route as RecipesImport } from "./pages/recipes"
-import { Route as PrivacyImport } from "./pages/privacy"
-import { Route as AboutImport } from "./pages/about"
-import { Route as IndexImport } from "./pages/index"
-import { Route as RecipesIndexImport } from "./pages/recipes/index"
-import { Route as RecipesRecipeIdIndexImport } from "./pages/recipes/$recipeId/index"
-import { Route as RecipesRecipeIdShoppinglistImport } from "./pages/recipes/$recipeId/shoppinglist"
+import { Route as rootRoute } from "./routes/__root"
+import { Route as RecipesImport } from "./routes/recipes"
+import { Route as PrivacyImport } from "./routes/privacy"
+import { Route as AboutImport } from "./routes/about"
+import { Route as IndexImport } from "./routes/index"
+import { Route as RecipesIndexImport } from "./routes/recipes/index"
+import { Route as RecipesRecipeIdIndexImport } from "./routes/recipes/$recipeId/index"
+import { Route as RecipesRecipeIdShoppinglistImport } from "./routes/recipes/$recipeId/shoppinglist"
 
 // Create/Update Routes
 

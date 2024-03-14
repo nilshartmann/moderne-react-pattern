@@ -176,7 +176,6 @@ function RecipeList() {
           >
             <MatchRoute to={"/"} params={{ recipeId: recipe.id }} pending>
               {(match) => {
-                console.log("Match Route", recipe.id, match);
                 return match ? (
                   <LoadingRecipeCard />
                 ) : (
