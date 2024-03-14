@@ -26,7 +26,7 @@ export default function SearchPage() {
 
   return (
     <>
-      <main className={"flex-grow "}>
+      <main className={"flex-grow"}>
         <div className="container mx-auto mt-8 flex max-w-96 pt-8">
           <Input
             type="search"

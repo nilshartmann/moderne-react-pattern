@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div
+      th:fragment="loadingIndicator(id)"
+      th:id="${id}"
+      class="Spinner font-space"
+    >
+      <div class="bounce bounce1"><img th:src="@{/logo.png}" /></div>
+      <div class="bounce bounce2"><img th:src="@{/logo.png}" /></div>
+      <div class="bounce bounce3"><img th:src="@{/logo.png}" /></div>
+    </div>
+  </body>
+</html>

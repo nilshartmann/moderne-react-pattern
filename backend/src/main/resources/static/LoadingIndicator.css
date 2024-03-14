@@ -3,7 +3,7 @@
   --color-text: #f89223;
   margin: auto 0;
   width: 100%;
-  font-size: 3rem;
+  font-size: 2rem;
   text-align: center;
   /*padding: 0 2rem 1rem 2rem;*/
 }
@@ -43,7 +43,7 @@
 }
 
 .Spinner > .bounce:not(:last-child) {
-  margin-right: 1.2em;
+  margin-right: 0.5em;
 }
 
 .Spinner > .bounce.fill {
