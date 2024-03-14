@@ -36,7 +36,7 @@ export function BookmarkButton({ recipeId }: BookmarkButtonProps) {
     select: (s) => s.bookmarkedRecipeIds?.includes(recipeId),
   });
 
-  console.log("BookmarkButton isBookmarked", recipeId, isBookmarked);
+  console.log("Rendering BookmarkButton for recipe", recipeId);
 
   return (
     <div className={"absolute right-8 top-8 "}>

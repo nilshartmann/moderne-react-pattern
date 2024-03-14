@@ -33,7 +33,7 @@ function resolveUrl(path: string, params: EndpointParameters | undefined) {
     }
   });
 
-  console.log("URL", `${resolvedUrl}?${searchParams.toString()}`);
+  // console.log("URL", `${resolvedUrl}?${searchParams.toString()}`);
 
   return `${resolvedUrl}?${searchParams.toString()}`;
 }
