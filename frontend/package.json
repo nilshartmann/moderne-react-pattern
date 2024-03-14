@@ -9,6 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "check": "pnpm lint && pnpm prettier:check && tsc --noEmit --skipLibCheck",
+    "check:ts": "tsc --noEmit --skipLibCheck",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
     "openapi": "curl http://localhost:8080/v3/api-docs>api-doc.json",

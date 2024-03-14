@@ -68,6 +68,17 @@ export function useGetTotalPageCountQuery(
   return -1;
 }
 
+export function fetchRecipe(recipeId: string) {
+  return fetchFromApi(getEndpointConfig("get", "/api/recipes/{recipeId}"), {
+    path: {
+      recipeId,
+    },
+    query: {
+      slowdown: slowDown_GetRecipe,
+    },
+  });
+}
+
 export function useGetRecipeQuery(
   recipeId: string,
 ): UseSuspenseQueryResult<GetRecipeResponse> {

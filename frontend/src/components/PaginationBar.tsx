@@ -1,7 +1,7 @@
 import { Fragment, ReactNode } from "react";
 import ButtonBar from "./ButtonBar.tsx";
 
-type PageLabel = {
+export type PageLabel = {
   label: string;
   state: "active" | "disabled" | "selectable";
   page: number;
@@ -36,8 +36,6 @@ export default function PaginationBar({
     startPage = currentPageNumber - Math.floor(maxButtons / 2);
     endPage = startPage + maxButtons - 1;
   }
-
-  console.log("PAGINATION BAR", disabled);
 
   buttons.push(
     <Fragment key={"first_page"}>
