@@ -11,7 +11,7 @@ This is a sample application for various frontend technologies.
 - Java (JDK21), Spring Boot 3.2
 - Postgres 16
 
-**Frontend 1 (Single-Page-App)**
+**Frontend (Single-Page-App)**
 
 - React 18
 - TypeScript
@@ -22,25 +22,19 @@ This is a sample application for various frontend technologies.
 
 I recorded a **video on TanStack Router**, that uses this demo example. You can find the [video on YouTube](https://youtu.be/KkrS_wfFq2I).
 
-**Frontend 2 (HTMX)**
-
-- HTMX
-- Alpine.js
-- Thymeleaf
-
 ## Running the backend
 
 The backend that provides the API for the JS frontends and the HTMX endpoints is implemented with Spring Boot and Java.
 
 In order to run it, you either have to use Java or use the prebuild Docker Image.
 
-The easiest is to use the `docker-compose-backend.yaml` file in the root of this project, that also starts the required Postgres database:
+The easiest is to use the `docker-compose-backend.yaml` file in the root of this project, that starts the backend and the postgres database. You do not need to have installed for it to run:
 
 ```
 docker-compose -f docker-compose-backend.yaml up -d
 ```
 
-If you're a Java ("fullstack") developer, you can launch the backend from your IDE by running the Spring Boot class `nh.recipify.TestBackendApplication`. This also automatically starts the postgres database using Testcontainers. (Note that you need JDK21 installed)
+If you're a Java ("fullstack") developer, you can instead launch the backend from your IDE by running the Spring Boot class `nh.recipify.TestBackendApplication`. This also automatically starts the postgres database using Testcontainers. (Note that you need JDK21 installed)
 
 In either way, the backend runs on http://localhost:8080.
 
@@ -65,10 +59,6 @@ pnpm dev
 ```
 
 The frontend runs on http://localhost:8090
-
-## Running the HTMX frontend
-
-The HTMX "frontend" is included in the backend. Please see README in `backend` folder for more information.
 
 ## A note on the content
 
