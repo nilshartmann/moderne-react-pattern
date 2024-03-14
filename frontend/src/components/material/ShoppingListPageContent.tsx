@@ -1,15 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useGetRecipeQuery } from "../../../components/use-queries.ts";
+import { Link } from "@tanstack/react-router";
+import { useGetRecipeQuery } from "../use-queries.ts";
 
-export const Route = createFileRoute("/recipes/$recipeId/shoppinglist")({
-  component: ShoppingListPage,
-});
-
-// const shoppingListRoute = getRouteApi();
-
-function ShoppingListPage() {
-  const { recipeId } = Route.useParams();
-
+type ShoppingListPageProps = { recipeId: string };
+export default function ShoppingListPage({ recipeId }: ShoppingListPageProps) {
   const {
     data: { recipe },
   } = useGetRecipeQuery(recipeId);

@@ -11,28 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from "./routes/__root"
-import { Route as RecipesImport } from "./routes/recipes"
-import { Route as PrivacyImport } from "./routes/privacy"
-import { Route as AboutImport } from "./routes/about"
+import { Route as StaticRouteImport } from "./routes/_static/route"
 import { Route as IndexImport } from "./routes/index"
 import { Route as RecipesIndexImport } from "./routes/recipes/index"
+import { Route as StaticAboutImport } from "./routes/_static/about"
 import { Route as RecipesRecipeIdIndexImport } from "./routes/recipes/$recipeId/index"
-import { Route as RecipesRecipeIdShoppinglistImport } from "./routes/recipes/$recipeId/shoppinglist"
 
 // Create/Update Routes
 
-const RecipesRoute = RecipesImport.update({
-  path: "/recipes",
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PrivacyRoute = PrivacyImport.update({
-  path: "/privacy",
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AboutRoute = AboutImport.update({
-  path: "/about",
+const StaticRouteRoute = StaticRouteImport.update({
+  id: "/_static",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -42,20 +30,19 @@ const IndexRoute = IndexImport.update({
 } as any)
 
 const RecipesIndexRoute = RecipesIndexImport.update({
-  path: "/",
-  getParentRoute: () => RecipesRoute,
+  path: "/recipes/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StaticAboutRoute = StaticAboutImport.update({
+  path: "/about",
+  getParentRoute: () => StaticRouteRoute,
 } as any)
 
 const RecipesRecipeIdIndexRoute = RecipesRecipeIdIndexImport.update({
-  path: "/$recipeId/",
-  getParentRoute: () => RecipesRoute,
+  path: "/recipes/$recipeId/",
+  getParentRoute: () => rootRoute,
 } as any)
-
-const RecipesRecipeIdShoppinglistRoute =
-  RecipesRecipeIdShoppinglistImport.update({
-    path: "/$recipeId/shoppinglist",
-    getParentRoute: () => RecipesRoute,
-  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -65,29 +52,21 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    "/about": {
-      preLoaderRoute: typeof AboutImport
+    "/_static": {
+      preLoaderRoute: typeof StaticRouteImport
       parentRoute: typeof rootRoute
     }
-    "/privacy": {
-      preLoaderRoute: typeof PrivacyImport
-      parentRoute: typeof rootRoute
-    }
-    "/recipes": {
-      preLoaderRoute: typeof RecipesImport
-      parentRoute: typeof rootRoute
+    "/_static/about": {
+      preLoaderRoute: typeof StaticAboutImport
+      parentRoute: typeof StaticRouteImport
     }
     "/recipes/": {
       preLoaderRoute: typeof RecipesIndexImport
-      parentRoute: typeof RecipesImport
-    }
-    "/recipes/$recipeId/shoppinglist": {
-      preLoaderRoute: typeof RecipesRecipeIdShoppinglistImport
-      parentRoute: typeof RecipesImport
+      parentRoute: typeof rootRoute
     }
     "/recipes/$recipeId/": {
       preLoaderRoute: typeof RecipesRecipeIdIndexImport
-      parentRoute: typeof RecipesImport
+      parentRoute: typeof rootRoute
     }
   }
 }
@@ -96,13 +75,9 @@ declare module "@tanstack/react-router" {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  AboutRoute,
-  PrivacyRoute,
-  RecipesRoute.addChildren([
-    RecipesIndexRoute,
-    RecipesRecipeIdShoppinglistRoute,
-    RecipesRecipeIdIndexRoute,
-  ]),
+  StaticRouteRoute.addChildren([StaticAboutRoute]),
+  RecipesIndexRoute,
+  RecipesRecipeIdIndexRoute,
 ])
 
 /* prettier-ignore-end */

@@ -1,5 +1,5 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { DefaultLayout } from "../components/layout/DefaultLayout.tsx";
+import { GlobalPageLayout } from "../components/layout/GlobalPageLayout.tsx";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 export const Route = createRootRoute({
@@ -8,9 +8,9 @@ export const Route = createRootRoute({
 
 export default function RootRoute() {
   return (
-    <DefaultLayout>
+    <GlobalPageLayout>
       <Outlet />
       <TanStackRouterDevtools position={"bottom-right"} />
-    </DefaultLayout>
+    </GlobalPageLayout>
   );
 }

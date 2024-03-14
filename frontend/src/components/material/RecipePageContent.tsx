@@ -1,5 +1,4 @@
 import { DetailedRecipeDto } from "../api-types.ts";
-import { Link } from "@tanstack/react-router";
 import { RatingStars } from "../RatingStars.tsx";
 import { Fragment, Suspense, useState } from "react";
 import { formatMinuteDuration } from "../FormatMinuteDuration.tsx";
@@ -138,15 +137,6 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
                 }
                 onClick={() => setServings(servings - 1)}
               />{" "}
-            </div>
-            <div className={"font-inter text-gray-500 hover:text-orange_2 "}>
-              <Link
-                to={"/recipes/$recipeId/shoppinglist"}
-                params={{ recipeId: String(recipe.id) }}
-              >
-                <i className="fa-solid  fa-basket-shopping text-orange_2"></i>{" "}
-                <span className={"underline"}> Shopping list</span>
-              </Link>
             </div>
           </div>
           <IngredientList

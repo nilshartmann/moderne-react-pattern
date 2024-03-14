@@ -1,0 +1,18 @@
+
+type PaginationButtonProps = {
+  btn: PageLabel;
+};
+export default function PaginationButton({ btn }: PaginationButtonProps) {
+  return (
+    <Link
+      to={"/recipes"}
+      disabled={btn.disabled}
+      search={(s) => ({
+        ...s,
+        page: btn.page,
+      })}
+    >
+      <PageButton state={btn} />
+    </Link>
+  );
+}

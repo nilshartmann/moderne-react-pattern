@@ -1,5 +1,3 @@
-import { RecipePageContent } from "../../../components/material/RecipePageContent.tsx";
-import { useGetRecipeQuery } from "../../../components/use-queries.ts";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/recipes/$recipeId/")({
@@ -7,8 +5,23 @@ export const Route = createFileRoute("/recipes/$recipeId/")({
 });
 
 function RecipePage() {
-  const { recipeId } = Route.useParams();
-  const { data } = useGetRecipeQuery(recipeId);
+  /*  TODO:
 
-  return <RecipePageContent recipe={data.recipe} />;
+    - Load data in 'loader' with 'recipeId' from 'params.recipeId'
+
+    - use Route.useLoaderData() 
+
+    - render: <RecipePageContent recipe={data.recipe} />
+    
+    */
+  const { recipeId } = Route.useParams();
+
+  return (
+    <div className={"space-y-8 p-8 text-4xl"}>
+      <h1>TODO! Implement me!</h1>
+      <p>
+        RecipeId from route: <code>{recipeId}</code>
+      </p>
+    </div>
+  );
 }

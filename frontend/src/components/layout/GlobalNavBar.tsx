@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-export default function NavBar() {
+export default function GlobalNavBar() {
   return (
     <nav className={"space-x-3"}>
       <Link
@@ -21,15 +21,12 @@ export default function NavBar() {
       >
         About
       </Link>
-      <Link
-        className={"hover:text-red hover:underline"}
-        to={"/privacy"}
-        activeProps={{
-          className: "text-red underline",
-        }}
-      >
-        Privacy
-      </Link>
+
+      {/*
+
+      TODO: add link to /privacy
+
+      */}
     </nav>
   );
 }
