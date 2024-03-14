@@ -1,11 +1,12 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { DefaultLayout } from "../components/layout/DefaultLayout.tsx";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 export const Route = createRootRoute({
-  component: GlobalPageLayout,
+  component: RootRoute,
 });
 
-export default function GlobalPageLayout() {
+export default function RootRoute() {
   const nav = (
     <>
       <Link
@@ -41,6 +42,7 @@ export default function GlobalPageLayout() {
   return (
     <DefaultLayout nav={nav}>
       <Outlet />
+      <TanStackRouterDevtools position={"bottom-right"} />
     </DefaultLayout>
   );
 }
