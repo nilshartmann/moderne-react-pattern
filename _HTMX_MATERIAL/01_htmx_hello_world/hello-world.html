@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <body>
+    <div hx-get="/hello-world" hx-trigger="click" hx-target="#result">
+      Hello!
+    </div>
+
+    <div id="result"></div>
+
+    <script
+      type="text/javascript"
+      th:src="@{/htmx/htmx-1.9.10.min.js}"
+    ></script>
+  </body>
+</html>
