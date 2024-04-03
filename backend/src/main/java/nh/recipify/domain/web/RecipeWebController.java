@@ -37,13 +37,23 @@ public class RecipeWebController {
         this.feedbackRepository = feedbackRepository;
     }
 
+    @GetMapping("/")
+    public String recipesIndex(Model model) {
+
+        model.addAttribute("recipse", new ArrayList<RecipeDto>());
+        model.addAttribute("search", "");
+        model.addAttribute("fresh", true);
+
+        return "search";
+    }
+
     @GetMapping(value = "/search")
     public String search(@RequestParam String search,
                          @RequestParam Optional<Integer> page,
                          @RequestParam("slowdown") Optional<Long> slowDown_search,
                          Model model) {
 
-        sleepFor(slowDown_search);
+        sleepFor("searching for '" + search + "'", slowDown_search);
 
         var recipes = recipeRepository.findAllByTitleContainsIgnoreCaseOrderByTitle(
             PageRequest.of(page.orElse(0), 2),
@@ -64,16 +74,24 @@ public class RecipeWebController {
                                     @RequestParam("slowdown") Optional<Long> slowDown_search,
                                     Model model) {
 
-        long s = 3000 - (search.length() * 100L);
+        // we don't care for slowDown value here,
+        //  actually only that it is set to a value higher > 0
+        //  with this "algorithm" we make searching for SHORTER terms
+        //  LONGER that for longer ones, so that
+        //  when request "a" and "ab" starting parallel,
+        //   "ab" for sure would be FASTER than "a"
+        var s = slowDown_search.map((x) -> x > 0 ? 3000 - (search.length() * 100L) : 0);
 
-        sleepFor(s);
+        sleepFor("HX-Request, Search for '" + search + "'", s);
 
         var recipes = recipeRepository.findAllByTitleContainsIgnoreCaseOrderByTitle(
             PageRequest.of(page.orElse(0), 2),
             search
         );
+        log.info("Search for '{}'", search);
         model.addAttribute("recipse", recipes.map(RecipeDto::forRecipe));
         model.addAttribute("search", search);
+        model.addAttribute("fresh", false);
         model.addAttribute("hasMore", recipes.hasNext());
         model.addAttribute("nextPage", recipes.getNumber() + 1);
 
@@ -84,7 +102,7 @@ public class RecipeWebController {
     public String searchRecipes(@RequestParam("slowdown") Optional<Long> slowDown_search,
                                 Model model) {
 
-        sleepFor(slowDown_search);
+        sleepFor("HX-Request reset", slowDown_search);
 
         model.addAttribute("recipse", new ArrayList<RecipeDto>());
         model.addAttribute("search", "");
@@ -94,9 +112,10 @@ public class RecipeWebController {
 
     }
 
-    @GetMapping(value = "/search/{recipeId}/expand", headers = "HX-Request")
+    @GetMapping(value = "/search/{recipeId}/summary", headers = "HX-Request")
     public String expandSearchResult(Model model,
-                                     @PathVariable long recipeId
+                                     @PathVariable long recipeId,
+                                     @RequestParam("include_details") Optional<Boolean> include_details
     ) {
 
         var recipe = recipeRepository.findById(recipeId)
@@ -106,22 +125,13 @@ public class RecipeWebController {
 
         model.addAttribute("recipe", recipeDetails);
         model.addAttribute("detailId", recipeDetails.id());
+        model.addAttribute("includeDetails", include_details.orElse(false));
 
-        return "search :: expandedRecipe";
-    }
-
-    @GetMapping("/")
-    public String recipesIndex(Model model) {
-
-        model.addAttribute("recipse", new ArrayList<RecipeDto>());
-        model.addAttribute("search", "");
-        model.addAttribute("fresh", true);
-
-        return "search";
+        return "fragments/search-component :: ExpandedRecipeSummary";
     }
 
     @GetMapping(value = "/recipes/{recipeId}", headers = "HX-Request")
-    public String recipeDetails(@PathVariable Long recipeId, Model model) {
+    public String recipePage(@PathVariable Long recipeId, Model model) {
         log.info("HX Request for Recipe-Id '{}'", recipeId);
 
         var recipe = recipeRepository.findById(recipeId)
@@ -130,7 +140,7 @@ public class RecipeWebController {
         model.addAttribute("recipeId", String.valueOf(recipeId));
         model.addAttribute("recipe", DetailedRecipeDto.of(recipe));
 
-        return "recipe_$recipeId :: recipe-detail";
+        return "recipe_$recipeId :: RecipePage";
 
     }
 
@@ -187,7 +197,7 @@ public class RecipeWebController {
         Model model,
         @RequestParam("slowdown") Optional<Long> slowdown) {
 
-        sleepFor(slowdown);
+        sleepFor("HX-Request recipe feedback for recipe-id " + recipeId, slowdown);
 
         var feedback = getFeedbackForRecipe(recipeId, page.orElse(0));
 

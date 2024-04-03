@@ -134,12 +134,14 @@ export function Timer() {
 
   const buttonEnabled = time.time > 0;
 
+  const className = "tx";
+
   return (
     <div
       onMouseEnter={() => handleExpand(true)}
       onMouseLeave={() => handleExpand(false)}
       className={twMerge(
-        "max-w-1/4 flex  items-center rounded bg-white pe-2 ps-2 font-barlow",
+        "max-w- flex  items-center rounded bg-white pe-2 ps-2 font-barlow",
         timer?.state === "finished" && "bg-green",
       )}
     >
@@ -154,7 +156,7 @@ export function Timer() {
 
           {timerUi === "edit" && (
             <>
-              <div className={"max-w-16"}>
+              <div className={"max-w-72"}>
                 <Input
                   name={"time"}
                   type={"number"}

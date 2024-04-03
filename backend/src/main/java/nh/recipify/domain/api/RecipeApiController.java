@@ -54,7 +54,7 @@ public class RecipeApiController {
             .orElse(null);
 
 
-        sleepFor(slowDown_recipeList);
+        sleepFor("API /recipes", slowDown_recipeList);
 
         var pageable = PageRequest.of(page.orElse(0),
             size.orElse(6),
@@ -79,7 +79,7 @@ public class RecipeApiController {
         @PathVariable long recipeId,
         @RequestParam("slowdown") Optional<Long> slowDown_getRecipe) {
 
-        sleepFor(slowDown_getRecipe);
+        sleepFor("API /recipes/" + recipeId, slowDown_getRecipe);
 
         var recipe = recipeRepository.findById(recipeId)
             .orElseThrow(() -> new EntityNotFoundException("Receipe not found."));
@@ -97,7 +97,7 @@ public class RecipeApiController {
     @GetMapping("/recipes/{recipeId}/ingredients")
     GetRecipeIngredientsResponse getIngredients(@StringParameter @PathVariable long recipeId,
                                                 @RequestParam("slowdown") Optional<Long> slowDown_GetIngredients) {
-        sleepFor(slowDown_GetIngredients);
+        sleepFor("Getting Ingredients for recipe-id " + recipeId, slowDown_GetIngredients);
 
         var recipe = recipeRepository.findById(recipeId)
             .orElseThrow(() -> new EntityNotFoundException("Receipe not found."));
@@ -124,7 +124,7 @@ public class RecipeApiController {
     @GetMapping("/recipes/{recipeId}/feedbacks")
     GetRecipeFeedbacksResponse getFeedbacks(@StringParameter @PathVariable long recipeId,
                                             @RequestParam("slowdown") Optional<Long> slowDown_GetFeedbacks) {
-        sleepFor(slowDown_GetFeedbacks);
+        sleepFor("Get Feedbacks for recipeId " + recipeId, slowDown_GetFeedbacks);
 
         var feedbacks = feedbackRepository.getFeedbackByRecipeIdOrderByCreatedAtDesc(recipeId);
 
@@ -137,7 +137,7 @@ public class RecipeApiController {
                                        @RequestParam("slowdown") Optional<Long> slowDown_GetFeedbacks) {
 
 
-        sleepFor(slowDown_GetFeedbacks);
+        sleepFor("Get Feedback for recipeId " + recipeId, slowDown_GetFeedbacks);
 
         var pageRequest = PageRequest.of(feedbackPage, 2);
 
@@ -158,7 +158,7 @@ public class RecipeApiController {
                                      @Valid @RequestBody PostFeedbackRequest addFeedbackRequest,
                                      @RequestParam("slowdown") Optional<Long> slowDown_AddFeedback) {
 
-        sleepFor(slowDown_AddFeedback);
+        sleepFor("Add Feedback for recipeId " + recipeId, slowDown_AddFeedback);
 
         var newFeedback = feedbackService.addFeedback(recipeId, addFeedbackRequest.feedbackData());
 
@@ -199,9 +199,9 @@ public class RecipeApiController {
             // this way we can demonstrate, that requests that
             // a submitted EARLIER are discarded when they arrive LATER
             // in the client
-            sleepFor(2400 - ((search.length() - 3) * 200L));
+            sleepFor("Search for '" + search + "'", 2400 - ((search.length() - 3) * 200L));
         } else {
-            sleepFor(s);
+            sleepFor("Search for '" + search + "'", s);
         }
 
 
@@ -225,7 +225,7 @@ public class RecipeApiController {
     GetSearchDetailResponse getSearchDetails(@PathVariable @StringParameter long recipeId,
                                              @RequestParam("slowdown") Optional<Long> slowDown_search) {
 
-        sleepFor(slowDown_search);
+        sleepFor("Recipe Details for recipeId " + recipeId, slowDown_search);
 
         var recipe = recipeRepository.findById(recipeId)
             .orElseThrow(() -> new EntityNotFoundException("Receipe not found."));

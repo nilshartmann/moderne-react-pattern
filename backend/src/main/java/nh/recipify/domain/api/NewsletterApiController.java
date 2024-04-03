@@ -26,7 +26,7 @@ public class NewsletterApiController {
     PostNewsletterRegistrationResponse subscribeToNewsletter(@Valid @RequestBody PostNewsletterRegistrationRequest subscribeRequest,
                                                              @RequestParam("slowdown") Optional<Long> slowDown_Newsletter) {
         log.info("Subscribe to newsletter '{}'", subscribeRequest.email);
-        sleepFor(slowDown_Newsletter.orElse(250L));
+        sleepFor("subscripe to newsletter", slowDown_Newsletter.orElse(250L));
 
         // ...simulation only, no real processing here...
 

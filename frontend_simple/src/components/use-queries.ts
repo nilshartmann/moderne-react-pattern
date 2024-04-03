@@ -5,7 +5,11 @@ import {
   useSuspenseQuery,
   UseSuspenseQueryResult,
 } from "@tanstack/react-query";
-import { GetRecipeFeedbacksResponse, GetRecipeResponse } from "./api-types.ts";
+import {
+  GetRecipeFeedbacksResponse,
+  GetRecipeResponse,
+  RecipeSummaryDto,
+} from "./api-types.ts";
 import { fetchFromApi, getEndpointConfig } from "./fetch-from-api.ts";
 import {
   slowDown_AddFeedback,
@@ -126,7 +130,7 @@ export function useSubscribeToNewsletterMutation() {
 }
 
 export function useSearchQuery(search: string) {
-  return useSuspenseInfiniteQuery({
+  const result = useSuspenseInfiniteQuery({
     queryKey: ["search", search],
     queryFn: async (page) => {
       console.log("searching for", search);
@@ -149,6 +153,13 @@ export function useSearchQuery(search: string) {
     },
     getPreviousPageParam: () => null,
   });
+
+  const hasHits = result.data.pages[0]?.totalPages > 0;
+  const allRecipes = result.data.pages.reduce((prev, cur) => {
+    return [...prev, ...cur.content];
+  }, [] as RecipeSummaryDto[]);
+
+  return { ...result, allRecipes, hasHits } as const;
 }
 
 export function useSearchDetailsQuery(recipeId: string) {

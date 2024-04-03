@@ -8,7 +8,7 @@
   </head>
   <body>
     <main>
-      <div th:fragment="recipe-detail">
+      <div th:fragment="RecipePage">
         <div
           th:style="'--recipe-bg-image: url(' + @{${'/images/recipes/food_' + recipeId + '.png'}} + ')'"
         >
@@ -38,22 +38,10 @@
                   </div>
                   <div>
                     <div class="mt-4 flex">
-                      <div class="mt-4 space-y-2">
-                        <p
-                          class="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
-                        >
-                          <i class="fa-regular fa-clock mr-2"></i>
-                          [[${@durationFormatter.formatMinutes(recipe.recipe.cookTime
-                          + recipe.recipe.preparationTime)}]]
-                        </p>
-                        <p
-                          th:each="c : ${recipe.recipe.categories}"
-                          class="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
-                        >
-                          <i th:class="${c.icon}"></i>
-                          <span class="ms-2">[[${c.title}]]</span>
-                        </p>
-                      </div>
+                      <div
+                        class="mt-4"
+                        th:replace="fragments/components::RecipeCategories (recipe=${recipe.recipe}, hideTime=true)"
+                      ></div>
                     </div>
                   </div>
                 </div>

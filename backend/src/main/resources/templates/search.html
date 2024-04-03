@@ -7,7 +7,6 @@
     <title>Recipify HTMX Demo</title>
   </head>
   <body>
-    <!--    bg-goldgray  -->
     <main th:fragment="main">
       <div class="container mx-auto mt-8 flex max-w-96 pt-8">
         <input
@@ -51,8 +50,9 @@
         >
           Type three letters to start search
         </div>
-
-        <div th:replace="~{fragments/search-component :: recipeSearch}" />
+        <th:block
+          th:replace="${!fresh} ? ~{fragments/search-component :: recipeSearch} : _"
+        />
       </div>
       <div
         class="container mx-auto mt-2 flex w-1/4 justify-center space-y-8 rounded-lg pb-8"

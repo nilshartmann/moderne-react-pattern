@@ -5,9 +5,9 @@ export function useRecipifyWindowTitle(prefix?: string | null) {
     const currentTitle = window.document.title;
 
     if (!prefix) {
-      window.document.title = "Recipify";
+      window.document.title = "Recipify SPA Demo";
     } else {
-      window.document.title = `${prefix} - Recipify`;
+      window.document.title = `${prefix} - Recipify SPA Demo`;
     }
     return () => {
       window.document.title = currentTitle;

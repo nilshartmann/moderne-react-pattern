@@ -30,11 +30,14 @@
       >
         <div class="container mx-auto">
           <div class="flex h-full items-center justify-between">
-            <h1
-              class="inline-block bg-white p-2 pb-3 font-space text-4xl font-bold text-red"
-            >
-              <a th:href="@{/}">Recipify</a>
-            </h1>
+            <div class="flex items-center font-space font-bold text-red">
+              <h1 class="inline-block bg-white p-2 pb-3 text-4xl">
+                <a th:href="@{/}">Recipify</a>
+              </h1>
+              <div class="ms-2 shrink-0 bg-white p-1 text-xl">
+                <span class="text-green">HTMX</span> Edition
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -61,7 +64,7 @@
     ></script>
 
     <script>
-      //      htmx.logAll();
+      htmx.logAll();
     </script>
   </body>
 </html>

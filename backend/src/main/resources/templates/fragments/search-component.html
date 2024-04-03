@@ -1,82 +1,82 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <body>
-    <div th:fragment="recipeSearch">
+    <th:block th:fragment="recipeSearch">
       <div th:if="${recipse.isEmpty()}">
         <p>Keine Treffer!</p>
       </div>
 
+      <th:block th:each="recipe : ${recipse}">
+        <th:block
+          th:replace="~{:: RecipeSummaryCard (recipe=${recipe}, summary=${null})}"
+        ></th:block>
+      </th:block>
+    </th:block>
+
+    <th:block th:fragment="RecipeSummaryCard (recipe, summary)">
       <div
-        th:each="recipe : ${recipse}"
+        th:id="'recipe_' + ${recipe.id}"
         class="transform rounded border border-gray-200 bg-white p-4 shadow-lg transition-all duration-500 ease-in-out hover:drop-shadow-2xl"
       >
-        <div class="flex flex-col justify-between">
-          <div class="space-y-2">
+        <div class="flex justify-between space-x-2">
+          <div class="flex w-2/3 flex-col justify-between">
+            <div class="space-y-2">
+              <p
+                class="font-space text-sm font-medium uppercase tracking-[2px] text-red"
+              >
+                [[${recipe.mealType}]]
+              </p>
+              <h2 class="font-space text-2xl font-bold">
+                <a
+                  th:href="@{${'/recipes/' + recipe.id}}"
+                  th:hx-get="@{${'/recipes/' + recipe.id}}"
+                  th:hx-push-url="@{${'/recipes/' + recipe.id}}"
+                  hx-target="main"
+                  class="cursor-pointer hover:text-orange_2 hover:underline"
+                  th:text="${recipe.title}"
+                >
+                  Recipse
+                </a>
+              </h2>
+            </div>
+            <div>
+              <i
+                th:hx-get="@{${'/search/' + recipe.id + '/summary'}(include_details=${summary==null})}"
+                th:hx-target="'#recipe_' + ${recipe.id}"
+                hx-swap="outerHTML"
+                class="fa-solid cursor-pointer text-orange"
+                th:classappend="${summary != null}  ? 'fa-angles-up' : 'fa-angles-down'"
+              ></i>
+            </div>
+          </div>
+          <div class="w-1/3">
             <div class="overflow-hidden">
               <img
                 class="mb-2 h-24 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"
-                th:src="@{${'/images/recipes/food_' + recipe.id + '.png'}}"
+                th:src="@{'/images/recipes/food_' + ${recipe.id} + '.png'}"
               />
-            </div>
-            <div class="flex justify-between text-red">
-              <p
-                class="font-space text-sm font-medium uppercase tracking-[2px]"
-                th:text="${recipe.mealType}"
-              ></p>
-            </div>
-
-            <h1 class="font-space font-bold">
-              <a
-                th:href="@{${'/recipes/' + recipe.id}}"
-                th:hx-get="@{${'/recipes/' + recipe.id}}"
-                th:hx-push-url="@{${'/recipes/' + recipe.id}}"
-                hx-target="main"
-                class="cursor-pointer hover:text-orange_2 hover:underline"
-                th:text="${recipe.title}"
-              >
-                Recipse
-              </a>
-            </h1>
-            <div class="text mt-2 font-inter text-gray-500">
-              <span th:text="${recipe.headline}"> Headline </span>
-              <a
-                th:href="@{${'/recipes/' + recipe.id}}"
-                th:hx-get="@{${'/search/' + recipe.id + '/expand'}}"
-                th:hx-target="${'#expanded_' + recipe.id}"
-                class="inline-block cursor-pointer text-orange_2 hover:underline"
-              >
-                More...
-              </a>
-            </div>
-            <div th:id="${'expanded_' + recipe.id}">
-              <div
-                th:fragment="expandedRecipe"
-                th:if="${detailId == recipe.id}"
-              >
-                <div class="mt-4 flex">
-                  <div class="mt-4 space-y-2">
-                    <p
-                      class="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
-                    >
-                      <i class="fa-regular fa-clock mr-2"></i>
-                      [[${@durationFormatter.formatMinutes(recipe.cookTime +
-                      recipe.preparationTime)}]]
-                    </p>
-
-                    <p
-                      th:each="c : ${recipe.categories}"
-                      class="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
-                    >
-                      <i th:class="${c.icon}"></i>
-                      <span class="ms-2" th:text="${c.title}"></span>
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
+        <th:block th:if="${summary != null}">
+          <th:block th:replace="${summary}"></th:block
+        ></th:block>
       </div>
+    </th:block>
+
+    <th:block th:fragment="ExpandedRecipeSummary">
+      <th:block
+        th:replace="${includeDetails} ? ~{::RecipeSummaryCard(recipe=${recipe}, summary=~{::RecipeSummaryDetails})} :
+                              ~{::RecipeSummaryCard(recipe=${recipe}, summary=null)}"
+      ></th:block>
+    </th:block>
+
+    <div th:fragment="RecipeSummaryDetails" class="mt-4 space-y-4">
+      <p>[[${recipe.headline}]]</p>
+      <th:block
+        th:replace="fragments/components :: RecipeCategories(recipe=${recipe}, hideTime=false)"
+      />
+      <!--      <RecipeCategories recipe={data.recipe} />-->
     </div>
   </body>
 </html>

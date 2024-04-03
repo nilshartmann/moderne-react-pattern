@@ -10,5 +10,25 @@
       <div class="bounce bounce2"><img th:src="@{/logo.png}" /></div>
       <div class="bounce bounce3"><img th:src="@{/logo.png}" /></div>
     </div>
+
+    <th:block th:fragment="RecipeCategories (recipe, hideTime)">
+      <div class="space-y-2">
+        <p
+          th:if="${hideTime != true}"
+          class="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
+        >
+          <i class="fa-regular fa-clock mr-2"></i>
+          [[${@durationFormatter.formatMinutes(recipe.cookTime +
+          recipe.preparationTime)}]]
+        </p>
+        <p
+          th:each="c : ${recipe.categories}"
+          class="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
+        >
+          <i th:class="${c.icon}"></i>
+          <span class="ms-2">[[${c.title}]]</span>
+        </p>
+      </div>
+    </th:block>
   </body>
 </html>

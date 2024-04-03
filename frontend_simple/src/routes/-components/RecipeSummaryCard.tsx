@@ -58,17 +58,17 @@ export default function RecipeSummaryCard({ recipe }: RecipeSummaryCardProps) {
       </div>
       {isOpen && (
         <Suspense fallback={<LoadingIndicator />}>
-          <RecipeDetails recipeId={recipe.id} />
+          <RecipeSummaryDetails recipeId={recipe.id} />
         </Suspense>
       )}
     </div>
   );
 }
 
-type RecipeDetailsProps = {
+type RecipeSummaryDetailsProps = {
   recipeId: string;
 };
-function RecipeDetails({ recipeId }: RecipeDetailsProps) {
+function RecipeSummaryDetails({ recipeId }: RecipeSummaryDetailsProps) {
   const { data } = useGetRecipeQuery(recipeId);
 
   return (
