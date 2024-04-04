@@ -38,6 +38,10 @@ If you're a Java ("fullstack") developer, you can instead launch the backend fro
 
 In either way, the backend runs on http://localhost:8080.
 
+## Using the HTMX frontend
+
+Please see `backend/readme.md` for more informations.
+
 ## Running the SPA frontend
 
 The frontend is a Single-Page-Application built with Vite and uses [pnpm](https://pnpm.io/) as package manager.
