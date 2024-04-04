@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <body>
     <th:block th:fragment="recipeSearch">
-      <!-- todo: title mit 'search' im Text -->
+      <title>[[${search}]] - Recipify HTMX Demo</title>
 
       <div th:if="${recipse.isEmpty()}">
         <p>Keine Treffer!</p>
@@ -29,14 +29,11 @@
                 [[${recipe.mealType}]]
               </p>
               <h2 class="font-space text-2xl font-bold">
-                <!-- todo:
-
-                hx-get und hx-push-url
-                target muss 'main' sein
-                  (ist das eigentlich ein Problem?)
-                -->
                 <a
                   th:href="@{${'/recipes/' + recipe.id}}"
+                  th:hx-get="@{${'/recipes/' + recipe.id}}"
+                  th:hx-push-url="@{${'/recipes/' + recipe.id}}"
+                  hx-target="main"
                   class="cursor-pointer hover:text-orange_2 hover:underline"
                   th:text="${recipe.title}"
                 >

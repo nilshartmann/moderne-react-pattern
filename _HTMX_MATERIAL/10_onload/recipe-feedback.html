@@ -4,6 +4,12 @@
     <th:block th:fragment="Feedback">
       <div class="border-1 mt-8 w-full rounded-2xl bg-goldgray p-8 md:mt-0">
         <h2 class="mb-4 font-space text-3xl font-bold">Feedback</h2>
+        <!-- todo #10
+        hx-trigger load
+        get: /recipes/$recipeId/feedback
+        hx-swap innerHTML
+
+        -->
         <div
           id="feedbackList"
           hx-trigger="load"

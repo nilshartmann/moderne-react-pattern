@@ -14,14 +14,6 @@
           - hx-on:input  handleInputChange aufrufen
         -->
 
-        <!-- todo 30:
-         - hx-get /search
-         - hx-trigger="input[target.value.length > 2] changed delay:200ms"
-                          ^-- was bedeutet das?
-         - hx-target #searchResult
-         - hx-indicator #searchIndicator
-           ^-- mit Loading-Indicator vergleichen, der in SPA werkelt
-         -->
         <input
             type="search"
             name="search"
@@ -29,17 +21,24 @@
             aria-label="Enter at least three chars to start searching for recipes"
             class="h-8 w-full max-w-full rounded border border-gray-400 bg-white p-6 text-gray-500 hover:shadow-lg"
             th:value="${search}"
+            th:hx-get="@{/search(slowdown=2400)}"
+            hx-trigger="input[target.value.length > 2] changed delay:200ms"
+            hx-target="#searchResult"
             hx-swap="outerHTML"
+            hx-indicator="#searchIndicator"
         />
         <!-- todo 32:
          - hx-get auf /search/reset
             -> was macht das?
-          - swap outerHTML
          - hx-target main
          - hx-push-purl auf /
         -->
         <button
             class="ms-2 cursor-pointer text-gray-500 underline hover:text-gray-900"
+            th:hx-get="@{/search/reset}"
+            hx-swap="outerHTML"
+            hx-target="main"
+            th:hx-push-url="@{/}"
         >
           Clear
         </button>

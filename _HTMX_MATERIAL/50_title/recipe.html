@@ -4,8 +4,7 @@
   th:replace="~{fragments/layout :: DefaultLayout(~{::title}, ~{::main})}"
 >
   <head>
-    <!-- todo: title mit recipe.recipe.title im Text -->
-    <title>Recipify HTMX Demo</title>
+    <title>[[${recipe.recipe.title}]] - Recipify HTMX Demo</title>
   </head>
   <body>
     <main>

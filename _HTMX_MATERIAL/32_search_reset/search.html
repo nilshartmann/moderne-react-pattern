@@ -1,0 +1,97 @@
+<!doctype html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: DefaultLayout(~{::title}, ~{::main})}"
+>
+  <head>
+    <title>Recipify HTMX Demo</title>
+  </head>
+  <body>
+    <main th:fragment="main">
+      <div class="container mx-auto mt-8 flex max-w-96 pt-8">
+        <!-- todo 35:
+           - handleInputChange implementieren (unten)
+          - hx-on:input  handleInputChange aufrufen
+        -->
+
+        <input
+          type="search"
+          name="search"
+          id="searchField"
+          aria-label="Enter at least three chars to start searching for recipes"
+          class="h-8 w-full max-w-full rounded border border-gray-400 bg-white p-6 text-gray-500 hover:shadow-lg"
+          th:value="${search}"
+          th:hx-get="@{/search(slowdown=2400)}"
+          hx-trigger="input[target.value.length > 2] changed delay:200ms"
+          hx-target="#searchResult"
+          hx-swap="outerHTML"
+          hx-indicator="#searchIndicator"
+        />
+        <button
+          class="ms-2 cursor-pointer text-gray-500 underline hover:text-gray-900"
+          th:hx-get="@{/search/reset}"
+          hx-swap="outerHTML"
+          hx-target="main"
+          th:hx-push-url="@{/}"
+        >
+          Clear
+        </button>
+      </div>
+
+      <div class="mt-2 flex justify-center text-gray-500" id="inputHint">
+        Type three letters to start search
+      </div>
+
+      <div
+        th:replace="~{fragments/components :: loadingIndicator('searchIndicator')}"
+      />
+
+      <div
+        th:fragment="searchResult"
+        id="searchResult"
+        class="container mx-auto mt-2 w-1/4 space-y-8 rounded-lg pb-8 pt-8"
+      >
+        <th:block
+          th:replace="${!fresh} ? ~{fragments/search-component :: recipeSearch} : _"
+        />
+      </div>
+      <!--
+      todo:
+        - th:fragment=pagination
+        - id
+        - hx-swap--ob
+       - RecipeWebController.searchRecipes: pagination fragment zurück liefern
+      -->
+      <div
+        class="container mx-auto mt-2 flex w-1/4 justify-center space-y-8 rounded-lg pb-8"
+      >
+        <a
+          th:href="@{/search(page=${nextPage},search=${search})}"
+          th:if="${hasMore == true}"
+          th:hx-get="@{/search(page=${nextPage})}"
+          hx-include="#searchField"
+          hx-target="#searchResult"
+          hx-select="#searchResult > *"
+          hx-swap="beforeend"
+          hx-indicator="#searchIndicator"
+          class="mb-2 mt-2 inline-flex transform items-center justify-center rounded bg-orange_2 p-2 px-4 py-2 font-barlow font-normal text-white transition-all duration-500 ease-in-out hover:cursor-pointer hover:bg-orange_2-500 hover:underline hover:shadow-lg"
+        >
+          Find more...
+        </a>
+      </div>
+
+      <script>
+        function handleInputChange(e) {
+          const hint = document.getElementById("inputHint");
+
+          // todo: wenn laenge < 3, dann class 'opacity.0' entfernen
+          // sonst hinzufügen:
+           //   elem.classList.add / .remove
+
+          //  (initial hat das Label keine "Unsichtbarkeit", deswegen ist es
+          //   von anfang an sichtbar)
+      }
+      </script>
+    </main>
+  </body>
+</html>
