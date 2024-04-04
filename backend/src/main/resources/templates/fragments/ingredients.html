@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <th:block th:fragment="Ingredients">
+      <div x-data="{servings: 4}">
+        <div class="mb-8 mt-8 flex items-center justify-between">
+          <h2 class="font-space text-3xl font-bold">Ingredients</h2>
+          <div
+              class="rounded-lg border border-dotted border-gray-500 p-4 text-lg"
+          >
+            <i
+                @click="servings++"
+                class="fa-solid fa-circle-plus text-orange_2 hover:cursor-pointer hover:text-orange_2-500"
+            ></i>
+            <span class="text-gray-500">
+              <span x-text="servings"></span> servings
+            </span>
+            <i
+                @click="if (servings > 1) servings--"
+                class="fa-solid fa-circle-minus"
+                :class="servings===1 ? 'cursor-default text-gray-300 ' : 'text-orange_2 cursor-pointer hover:text-orange_2-500'"
+            ></i>
+          </div>
+        </div>
+        <div
+            th:each="i: ${recipe.ingredients}"
+            class="mb-4 me-4 ms-4 border-b border-dotted border-gray-300 pb-4"
+        >
+          <i class="fa-regular fa-circle-check me-2 text-orange_2"></i>
+          <span class="font-inter text-gray-500" th:inline="text">
+            <span th:x-text="'(' + ${i.amount} + ' / 4) * servings'"></span>
+            [[${i.unit}]] [[${i.name}]]
+          </span>
+        </div>
+      </div>
+    </th:block>
+  </body>
+</html>
