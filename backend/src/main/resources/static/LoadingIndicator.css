@@ -23,6 +23,14 @@
   margin-bottom: 1rem;
 }
 
+.Spinner {
+  opacity: 0;
+}
+
+.Spinner.htmx-request {
+  opacity: 1;
+}
+
 .Spinner > .bounce {
   width: 1.2em;
   height: 1.2em;

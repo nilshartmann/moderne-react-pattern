@@ -3,7 +3,7 @@
  * than searching for shorter terms
  * to show discarding of older requests
  */
-export const slowDown_search = 0;
+export const slowDown_search = 1200;
 
 /**
  */

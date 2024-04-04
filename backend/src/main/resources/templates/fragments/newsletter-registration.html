@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <th:block th:fragment="NewsletterRegistration">
+      <form
+        class="max-w-1/4 flex items-center space-x-4 pe-2 ps-2 font-barlow"
+        th:hx-post="@{'/newsletter'(slowdown=2400)}"
+        hx-disabled-elt="input[type='email']"
+        hx-swap="outerHTML"
+      >
+        <div>Don't miss new recipes. Subscribe to newsletter</div>
+        <div class="max-w-64">
+          <input
+            name="newsletterEmail"
+            type="email"
+            class="h-8 w-full max-w-full rounded border border-gray-400 bg-white p-2 text-gray-500 disabled:bg-gray-200"
+            th:value="${newsletterEmail}"
+            placeholder="E-Mail"
+          />
+        </div>
+        <div>
+          <span
+            th:replace="~{fragments/components :: Button (content=~{:: #subscribeButton}, checked=${newsletterResult == 'success'}, disabled=false)}"
+          >
+            <button id="subscribeButton" type="submit">Subscribed</button>
+          </span>
+        </div>
+      </form>
+    </th:block>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <th:block th:fragment="Feedback">
+      <div class="border-1 mt-8 w-full rounded-2xl bg-goldgray p-8 md:mt-0">
+        <h2 class="mb-4 font-space text-3xl font-bold">Feedback</h2>
+        <div
+          id="feedbackList"
+          hx-trigger="load"
+          th:hx-get="@{'/recipes/' + ${recipeId} + '/feedback'(slowdown=1200)}"
+          hx-indicator="#feedbackListIndicator"
+          hx-swap="innerHTML"
+        >
+          <!-- Initial Feedback List: intentionally empty -->
+        </div>
+        <div
+          id="feedbackListIndicator"
+          class="Spinner"
+          th:insert="~{::FeedbackLoadingIndicator}"
+        />
+      </div>
+    </th:block>
+
+    <div th:fragment="FeedbackList">
+      <div
+        th:each="f : ${feedback}"
+        class="mb-8 rounded-2xl border border-dotted border-gray-300 bg-white pb-8 pe-4 ps-4 pt-4 font-inter text-gray-500"
+      >
+        <div class="flex items-end justify-between">
+          <div class="font-medium">[[${f.commenter} ]]</div>
+          <div class="text-sm">
+            [[${@durationFormatter.formatDate(f.createdAt)}]]
+          </div>
+        </div>
+        <div class="mt-4">[[${f.comment}]]</div>
+      </div>
+      <div class="flex w-full justify-center space-x-12">
+        <a
+          th:if="${feedback.hasPrev}"
+          th:href="@{'/recipes/' + ${recipeId}(feedback_page=${feedback.prevPage})}"
+          th:hx-get="@{'/recipes/' + ${recipeId} + '/feedback'(page=${feedback.prevPage})}"
+          hx-target="#feedbackList"
+          hx-indicator="#feedbackListIndicator"
+          hx-swap="innerHTML"
+          class="mb-2 mt-2 transform items-center justify-center rounded bg-orange_2 p-2 px-4 py-2 font-barlow font-normal text-white transition-all duration-500 ease-in-out hover:cursor-pointer hover:bg-orange_2-500 hover:underline hover:shadow-lg"
+        >
+          &lt;
+        </a>
+        <a
+          th:if="${feedback.hasNext}"
+          th:href="@{'/recipes/' + ${recipeId} + ''(feedback_page=${feedback.nextPage})}"
+          th:hx-get="@{'/recipes/' + ${recipeId} + '/feedback'(page=${feedback.nextPage},slowdown=2400)}"
+          hx-target="#feedbackList"
+          hx-indicator="#feedbackListIndicator"
+          hx-swap="innerHTML"
+          class="mb-2 mt-2 transform items-center justify-center rounded bg-orange_2 p-2 px-4 py-2 font-barlow font-normal text-white transition-all duration-500 ease-in-out hover:cursor-pointer hover:bg-orange_2-500 hover:underline hover:shadow-lg"
+        >
+          &gt;
+        </a>
+      </div>
+    </div>
+
+    <th:block th:fragment="FeedbackLoadingIndicator">
+      <div class="mb-4 block text-2xl text-red">Loading Feedback</div>
+      <div class="bounce bounce1">
+        <img th:src="@{/logo.png}" />
+      </div>
+      <div class="bounce bounce2">
+        <img th:src="@{/logo.png}" />
+      </div>
+      <div class="bounce bounce3">
+        <img th:src="@{/logo.png}" />
+      </div>
+    </th:block>
+  </body>
+</html>

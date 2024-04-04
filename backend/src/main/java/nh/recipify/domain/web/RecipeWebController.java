@@ -13,9 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -109,7 +107,6 @@ public class RecipeWebController {
         model.addAttribute("fresh", true);
 
         return "search :: main";
-
     }
 
     @GetMapping(value = "/search/{recipeId}/summary", headers = "HX-Request")
@@ -140,7 +137,7 @@ public class RecipeWebController {
         model.addAttribute("recipeId", String.valueOf(recipeId));
         model.addAttribute("recipe", DetailedRecipeDto.of(recipe));
 
-        return "recipe_$recipeId :: RecipePage";
+        return "recipe :: RecipePage";
 
     }
 
@@ -162,8 +159,7 @@ public class RecipeWebController {
         });
 
 
-        return "recipe_$recipeId";
-
+        return "recipe";
     }
 
     record FeedbackResponseDto(
@@ -204,7 +200,7 @@ public class RecipeWebController {
         model.addAttribute("recipeId", String.valueOf(recipeId));
         model.addAttribute("feedback", feedback);
 
-        return "recipe_$recipeId :: feedback";
+        return "fragments/recipe-feedback :: FeedbackList";
     }
 
     private FeedbackResponseDto getFeedbackForRecipe(Long recipeId, int feedbackPage) {
@@ -212,6 +208,23 @@ public class RecipeWebController {
 
         Page<Feedback> feedback = this.feedbackRepository.getFeedbackByRecipeIdOrderByCreatedAtDesc(recipeId, pageRequest);
         return FeedbackResponseDto.of(feedback);
+    }
+
+    record NewsletterRegistrationRequest(
+        String newsletterEmail
+    ) {
+    }
+
+    @PostMapping(value = "/newsletter", headers = "HX-Request")
+    String subscribeToNewsletter(@ModelAttribute NewsletterRegistrationRequest request, @RequestParam("slowdown") Optional<Long> slowdown, Model model) {
+        log.info("Subscribe to newsletter '{}'", request);
+
+        sleepFor("Subscribe to newsletter", slowdown);
+
+        model.addAttribute("newsletterEmail", request.newsletterEmail);
+        model.addAttribute("newsletterResult", "success");
+
+        return "fragments/newsletter-registration :: NewsletterRegistration";
     }
 
 }

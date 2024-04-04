@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { GlobalLoadingIndicator } from "../components/GlobalLoadingIndicator.tsx";
 import { Timer } from "../components/Timer.tsx";
 import z from "zod";
-import GlobalServingsWidget from "./recipes/-components/GlobalServingsWidget.tsx";
+import { NewsletterRegistration } from "../components/NewsletterRegistration.tsx";
 
 const RoutePageParams = z.object({
   feedback_page: z.number().optional().default(0),
@@ -19,6 +19,12 @@ export const Route = createRootRoute({
 export default function GlobalPageLayout() {
   return (
     <div className="flex min-h-screen flex-col ">
+      <div className={"container mx-auto h-16"}>
+        <div className={"flex h-full items-center justify-end"}>
+          <NewsletterRegistration />
+        </div>
+      </div>
+
       <header
         className={"flex h-24 items-center bg-cover bg-center"}
         style={{
@@ -37,7 +43,7 @@ export default function GlobalPageLayout() {
                 <span className="text-green">SPA</span> Edition
               </div>
             </div>
-            <GlobalServingsWidget />
+            {/*<GlobalServingsWidget />*/}
             <Timer />
           </div>
         </div>
