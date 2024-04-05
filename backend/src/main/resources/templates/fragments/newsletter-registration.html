@@ -2,16 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <body>
     <th:block th:fragment="NewsletterRegistration">
-      <!-- todo
-       - hx-post auf /newsletter
-       - hx-swap: outerHTML
-       - Untersuchen: Netzwerkverkehr, was wird geschickt
-       - slowdown und hx-disabled-elt
-       -                  ^-- das setzt "nur" disabled state.
-       -                  ^-- was würden wir für Wartemeldung machen?
-       -->
       <form
         class="max-w-1/4 flex items-center space-x-4 pe-2 ps-2 font-barlow"
+        th:hx-post="@{'/newsletter'(slowdown=2400)}"
+        hx-disabled-elt="input[type='email']"
+        hx-swap="outerHTML"
       >
         <div>Don't miss new recipes. Subscribe to newsletter</div>
         <div class="max-w-64">

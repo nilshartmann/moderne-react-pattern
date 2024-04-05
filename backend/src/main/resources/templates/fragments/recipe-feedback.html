@@ -8,19 +8,16 @@
           id="feedbackList"
           hx-trigger="load"
           th:hx-get="@{'/recipes/' + ${recipeId} + '/feedback'(slowdown=1200)}"
+          hx-indicator="#feedbackListIndicator"
           hx-swap="innerHTML"
         >
           <!-- Initial Feedback List: intentionally empty -->
         </div>
-
-        <!-- todo #12: Loading Indicator
-         - neues div feedbackListIndicator
-              - verwendet  ~{::FeedbackLoadingIndicator}
-              - class="Spinner"
-         - oben als hx-indicator eintragen
-         - wichtig: das Element wird mit einer zusätzlichen CSS-Klasse versehen,
-            es verschwindet aber nicht (nur optisch)
-        -->
+        <div
+          id="feedbackListIndicator"
+          class="Spinner"
+          th:insert="~{::FeedbackLoadingIndicator}"
+        />
       </div>
     </th:block>
 
@@ -38,13 +35,6 @@
         <div class="mt-4">[[${f.comment}]]</div>
       </div>
       <div class="flex w-full justify-center space-x-12">
-        <!-- todo #17:
-          - in die a-Links wird eine URL geschrieben, in der die geöffnete Feedback-Seite enthalten ist
-          - das Feature ist aber nicht implementiert
-          - warum nicht: wir können mit HTMX nicht auf die URL zugreifen
-          - wir müssten das im Server behandeln. Wie?
-          -  ⚠️ wir brauchen mehrere Endpunkte im Server (für ganze Seite und für inkrementelle Änderungen)
-        -->
         <a
           th:if="${feedback.hasPrev}"
           th:href="@{'/recipes/' + ${recipeId}(feedback_page=${feedback.prevPage})}"
