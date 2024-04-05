@@ -34,7 +34,7 @@ The easiest is to use the `docker-compose-backend.yaml` file in the root of this
 docker-compose -f docker-compose-backend.yaml up -d
 ```
 
-If you're a Java ("fullstack") developer, you can instead launch the backend from your IDE by running the Spring Boot class `nh.recipify.TestBackendApplication`. This also automatically starts the postgres database using Testcontainers. (Note that you need JDK21 installed)
+If you're a Java ("fullstack") developer, you can instead launch the backend from your IDE by running the Spring Boot class `nh.recipify.TestBackendApplication`. This also automatically starts the postgres database using Testcontainers. (Note that you need to have JDK21 installed)
 
 In either way, the backend runs on http://localhost:8080.
 
@@ -57,7 +57,7 @@ corepacks enable
 Then install and start the Vite devserver for the frontend:
 
 ```
-cd frontend
+cd frontend_simple
 pnpm install
 pnpm dev
 ```
@@ -66,7 +66,7 @@ The frontend runs on http://localhost:8090
 
 ## A note on the content
 
-The content is almost entirely generated with JetBrains AI, ChatGPT and DALL-E. You should not treat the recipes for real (unless you blindly trust AI) :-)
+The content is almost entirely generated with JetBrains AI Assistent, ChatGPT and DALL-E. You should not treat the recipes for real (unless you blindly trust AI) :-)
 
 ## Questions, comments, feedback
 
