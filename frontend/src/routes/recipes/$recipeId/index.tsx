@@ -1,27 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { RecipePageContent } from "../../../components/material/RecipePageContent.tsx";
+import { fetchRecipe } from "../../../components/use-queries.ts";
+import { createFileRoute, getRouteApi } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/recipes/$recipeId/")({
   component: RecipePage,
+  loader: async (params) => {
+    return fetchRecipe(params.params.recipeId);
+  },
 });
 
 function RecipePage() {
-  /*  TODO:
+  const r = getRouteApi("/recipes/$recipeId/");
+  const data = r.useLoaderData();
 
-    - Load data in 'loader' with 'recipeId' from 'params.recipeId'
-
-    - use Route.useLoaderData() 
-
-    - render: <RecipePageContent recipe={data.recipe} />
-    
-    */
-  const { recipeId } = Route.useParams();
-
-  return (
-    <div className={"space-y-8 p-8 text-4xl"}>
-      <h1>TODO! Implement me!</h1>
-      <p>
-        RecipeId from route: <code>{recipeId}</code>
-      </p>
-    </div>
-  );
+  return <RecipePageContent recipe={data.recipe} />;
 }

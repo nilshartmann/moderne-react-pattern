@@ -1,7 +1,5 @@
-import { getRouteApi, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { twMerge } from "tailwind-merge";
-
-const recipeListRoute = getRouteApi("/recipes/");
 
 type BookmarkButtonProps = {
   recipeId: string;
@@ -14,31 +12,22 @@ export function BookmarkButton({ recipeId }: BookmarkButtonProps) {
 
   /*
   TODO:
+  - Add BookmarkButton to RecipeCard
 
+  - use 'useSelect' from RecipeListRoute (getRouteApi)
   - select bookmarkedRecipeIds(recipeId) from search Params ("isBookmarked)
-  - in handleClick, use navigate and add search-Parameters
+  - in handleToggleBookmark, use navigate and add search-Parameters
     - use  updateBookmarks
     -  updateBookmarks(s.bookmarkedRecipeIds, recipeId, !isBookmarked)
-    - what happens if we change 'navigate.from'?
+
 
    */
 
-  const isBookmarked = recipeListRoute.useSearch({
-    select: (s) => s.bookmarkedRecipeIds?.includes(recipeId) || false,
-  });
+  const isBookmarked = false;
 
   const handleToggleBookmark = () => {
-    navigate({
-      from: "/recipes/",
-      search: (s) => ({
-        ...s,
-        bookmarkedRecipeIds: updateBookmarks(
-          s.bookmarkedRecipeIds,
-          recipeId,
-          !isBookmarked,
-        ),
-      }),
-    });
+    // navigate with new Search Params: updateBookmarks(s.bookmarkedRecipeIds, recipeId, !isBookmarked)
+    // - what happens if we change 'navigate.from'?
   };
 
   return (

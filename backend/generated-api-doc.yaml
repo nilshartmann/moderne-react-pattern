@@ -358,9 +358,9 @@ components:
       - title
       type: object
       properties:
-        id:
-          type: string
         title:
+          type: string
+        id:
           type: string
         mealType:
           type: string

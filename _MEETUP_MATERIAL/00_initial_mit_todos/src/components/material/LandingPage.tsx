@@ -1,6 +1,5 @@
 import { H1 } from "../Heading.tsx";
 import { Button } from "../Button.tsx";
-import { Link } from "@tanstack/react-router";
 
 export default function LandingPage() {
   return (
@@ -42,7 +41,7 @@ export default function LandingPage() {
             {/* TODO:
           -  add Link to /recipes
           */}
-            <Link to={"/recipes"}>Let me in - I'm hungry! 😋</Link>
+            Let me in - I'm hungry! 😋
           </Button>
         </div>
         <div className={"mt-10 flex justify-center space-x-8"}>
@@ -50,14 +49,12 @@ export default function LandingPage() {
             {/*
             todo: add Link to /about
             */}
-            <Link to={"/about"}>About us</Link>
+            About us
           </Button>
           {/* TODO:
           -  add privacy route
           */}
-          <Button>
-            <Link to={"/privacy"}>Privacy</Link>
-          </Button>
+          <Button>Privacy</Button>
         </div>
       </div>
     </main>

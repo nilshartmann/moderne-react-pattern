@@ -9,7 +9,6 @@ import PaginationBar from "../PaginationBar.tsx";
 import { LoadingRecipeCard } from "./LoadingRecipeCard.tsx";
 import { RecipeCard } from "./RecipeCard.tsx";
 import PaginationButton from "./PaginationButton.tsx";
-import RecipeListNavBar from "./RecipeListNavBar.tsx";
 
 const recipeListRoute = getRouteApi("/recipes/");
 
@@ -38,7 +37,7 @@ export default function RecipeListPage() {
   return (
     <div className={"bg-goldgray"}>
       <div className={"container mx-auto pb-16 pt-16"}>
-        <RecipeListNavBar />
+        {/*<RecipeListNavBar />*/}
 
         <Suspense fallback={<GlobalLoadingIndicator />}>
           <RecipeList />

@@ -21,15 +21,6 @@ export default function GlobalNavBar() {
       >
         About
       </Link>
-      <Link
-        className={"hover:text-red hover:underline"}
-        to={"/privacy"}
-        activeProps={{
-          className: "text-red underline",
-        }}
-      >
-        Privacy
-      </Link>
 
       {/*
 

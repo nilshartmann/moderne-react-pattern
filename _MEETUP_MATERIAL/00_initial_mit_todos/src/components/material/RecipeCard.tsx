@@ -1,6 +1,5 @@
 import { RecipeDto } from "../api-types.ts";
 import { H1 } from "../Heading.tsx";
-import { Link } from "@tanstack/react-router";
 import { RatingStars } from "../RatingStars.tsx";
 import { formatMinuteDuration } from "../FormatMinuteDuration.tsx";
 import { memo, Suspense, useState } from "react";
@@ -8,7 +7,6 @@ import IngredientList from "./IngredientsList.tsx";
 import { useGetRecipeIngredientsQuery } from "../use-queries.ts";
 import { twMerge } from "tailwind-merge";
 import LoadingIndicator from "../LoadingIndicator.tsx";
-import { BookmarkButton } from "./BookmarkButton.tsx";
 
 type RecipeCardProps = {
   recipe: RecipeDto;
@@ -27,18 +25,15 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
   return (
     <div className={"flex flex-col justify-between"}>
       <div>
-        <Link to={"/recipes/$recipeId"} params={{ recipeId: recipe.id }}>
-          <div className={"overflow-hidden"}>
-            <img
-              className="mb-2 h-48 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"
-              src={`/images/recipes/food_${recipe.id}.png`}
-              alt="image1"
-            />
-            {/* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */}
-            <BookmarkButton recipeId={recipe.id} />
-            {/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */}
-          </div>
-        </Link>
+        {/*
+
+        TODO:
+
+        - Add Link to /recipes/$recipeId around RecipeImage ?
+        - what happens if we don't specify 'params'?
+
+        */}
+        <RecipeImage recipeId={recipe.id} />
         <div className={"mt-8 flex justify-between text-red"}>
           <p
             className={
@@ -76,18 +71,12 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
           {/*
           TODO:
 
-           - add Link ro /recipes/$recipeId
+           - add Link to /recipes/$recipeId around title
            - add preload=intent
 
           */}
-          <Link
-            preload={"intent"}
-            to={"/recipes/$recipeId"}
-            params={{ recipeId: recipe.id }}
-            className={"hover:text-orange_2 hover:underline"}
-          >
-            {recipe.title}
-          </Link>
+
+          {recipe.title}
         </H1>
         <div className={"text mt-2 font-inter text-gray-500"}>
           {showIngredients ? (
@@ -138,3 +127,21 @@ function Ingredients({ recipeId, servings }: IngredientsProps) {
 }
 
 export { RecipeCard };
+
+type RecipeImageProps = {
+  recipeId: string;
+};
+function RecipeImage({ recipeId }: RecipeImageProps) {
+  return (
+    <div className={"overflow-hidden"}>
+      <img
+        className="mb-2 h-48 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"
+        src={`/images/recipes/food_${recipeId}.png`}
+        alt="image1"
+      />
+      {/* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */}
+      {/*<BookmarkButton recipeId={recipeId} />*/}
+      {/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */}
+    </div>
+  );
+}
