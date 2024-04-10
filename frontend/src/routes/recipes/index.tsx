@@ -14,7 +14,6 @@ type TRecipePageListParams = z.infer<typeof RecipePageListParams>;
 //  - add search params (copy from 70_RecipePageListParams.txt)
 //  - add validateSearch
 export const Route = createFileRoute("/recipes/")({
-  pendingComponent: () => <h1>Pending...</h1>,
   component: RecipeListPageContent,
   validateSearch: (search): TRecipePageListParams =>
     RecipePageListParams.parse(search),
