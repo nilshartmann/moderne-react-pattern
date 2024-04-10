@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:clean": "rm -rf .next && next dev -p 8091",
+    "dev:clean": "rm -rf .next && next dev -p 8100",
     "dev": "next dev -p 8091",
     "build": "next build",
     "start": "next start",

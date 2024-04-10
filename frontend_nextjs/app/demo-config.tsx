@@ -2,7 +2,7 @@
 export const recipesPerPage = 6;
 
 /** slowdown reading of /recipes */
-export const slowDown_GetRecipeList = 0;
+export const slowDown_GetRecipeList = 2400;
 
 /** Only for Ingredients in RecipeCard */
 export const slowDown_GetIngredients = 1200;

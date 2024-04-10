@@ -358,11 +358,11 @@ components:
       - title
       type: object
       properties:
-        title:
-          type: string
         id:
           type: string
         mealType:
+          type: string
+        title:
           type: string
     CategoryDto:
       required:

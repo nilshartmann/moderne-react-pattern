@@ -1,3 +1,4 @@
+"use client";
 import { Input } from "./Input.tsx";
 import { Button } from "./Button.tsx";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -6,7 +7,7 @@ import { twMerge } from "tailwind-merge";
 
 type TimerState = {
   state: "running" | "finished";
-  timerId: number;
+  timerId: NodeJS.Timeout | null;
   timeRemaining: number;
 };
 
@@ -102,7 +103,9 @@ export function Timer() {
     if (!timer) {
       return;
     }
-    clearInterval(timer.timerId);
+    if (timer.timerId) {
+      clearInterval(timer.timerId);
+    }
     setTimer(null);
     setHasFocus(false);
   };
@@ -113,7 +116,7 @@ export function Timer() {
     }
     if (timer.timeRemaining <= 0 && timer.timerId) {
       clearInterval(timer.timerId);
-      setTimer({ state: "finished", timerId: 0, timeRemaining: 0 });
+      setTimer({ state: "finished", timerId: null, timeRemaining: 0 });
     }
   }, [timer]);
 

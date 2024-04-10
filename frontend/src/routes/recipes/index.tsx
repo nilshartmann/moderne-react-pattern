@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import RecipeListPage from "../../components/material/RecipeListPage.tsx";
+import RecipeListPageContent from "../../components/material/RecipeListPageContent.tsx";
 import { z } from "zod";
 
 const RecipePageListParams = z.object({
@@ -14,7 +14,8 @@ type TRecipePageListParams = z.infer<typeof RecipePageListParams>;
 //  - add search params (copy from 70_RecipePageListParams.txt)
 //  - add validateSearch
 export const Route = createFileRoute("/recipes/")({
-  component: RecipeListPage,
+  pendingComponent: () => <h1>Pending...</h1>,
+  component: RecipeListPageContent,
   validateSearch: (search): TRecipePageListParams =>
     RecipePageListParams.parse(search),
 });

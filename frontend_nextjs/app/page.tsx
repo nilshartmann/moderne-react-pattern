@@ -1,3 +1,5 @@
+import LandingPage from "@/app/components/material/LandingPage.tsx";
+
 export default function Home() {
-  return <h1>juhu!</h1>;
+  return <LandingPage />;
 }

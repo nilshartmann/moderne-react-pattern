@@ -8,18 +8,35 @@ export type PageLabel = {
   disabled: boolean;
 };
 
-type PaginationBarProps = {
-  totalPages: number;
+type FallbackPaginationBarProps = {
+  totalPagesPromise?: never;
+  currentPage?: never;
+  children: (label: PageLabel) => ReactNode;
+};
+
+type ResolvedPaginationBarProps = {
+  totalPagesPromise: Promise<number>;
   currentPage: number;
   children: (label: PageLabel) => ReactNode;
-  disabled?: boolean;
 };
-export default function PaginationBar({
-  totalPages,
-  currentPage,
-  disabled,
+
+type PaginationBarProps =
+  | FallbackPaginationBarProps
+  | ResolvedPaginationBarProps;
+
+export default async function PaginationBar({
+  totalPagesPromise,
+  currentPage = 0,
   children,
 }: PaginationBarProps) {
+  let totalPages = -1;
+  let disabled: boolean = true;
+
+  if (totalPagesPromise) {
+    totalPages = await totalPagesPromise;
+    disabled = false;
+  }
+
   const currentPageNumber = currentPage + 1;
   const maxButtons = 6;
   let startPage: number;
