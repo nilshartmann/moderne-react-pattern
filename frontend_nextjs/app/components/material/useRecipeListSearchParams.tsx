@@ -20,8 +20,6 @@ export function useRecipeListSearchParams<T>(
 
   const validatedParams = RecipePageListParams.parse(paramsObject);
 
-  console.log("validatedParams", validatedParams);
-
   function createSearchParams(
     path: string | null | undefined,
     selectCallback: (

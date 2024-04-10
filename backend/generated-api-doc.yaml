@@ -360,9 +360,9 @@ components:
       properties:
         id:
           type: string
-        mealType:
-          type: string
         title:
+          type: string
+        mealType:
           type: string
     CategoryDto:
       required:

@@ -23,19 +23,12 @@ export function BookmarkButton({ recipeId }: BookmarkButtonProps) {
 
   const [isBookmarked, buildUrl] = useRecipeListSearchParams((s) => {
     const r = s.bookmarkedRecipeIds?.includes(recipeId) || false;
-    console.log("RecipeIds", recipeId, s.bookmarkedRecipeIds, r);
     return r;
   });
 
   const handleToggleBookmark = () => {
     router.push(
       buildUrl("/recipes", (s) => {
-        console.log(
-          "handleToggleBookmark ",
-          recipeId,
-          isBookmarked,
-          s.bookmarkedRecipeIds,
-        );
         return {
           ...s,
           bookmarkedRecipeIds: updateBookmarks(
