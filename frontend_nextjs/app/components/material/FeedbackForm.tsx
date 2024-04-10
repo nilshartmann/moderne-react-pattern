@@ -41,7 +41,6 @@ export function FeedbackForm({ recipeId }: AddFeedbackFormProps) {
       payload: formState,
     });
 
-    console.log("RESULT", r);
     setFormState({
       commenter: "",
       stars: 0,
