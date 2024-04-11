@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { twMerge } from "tailwind-merge";
 import LoadingIndicator from "../LoadingIndicator.tsx";
 import Link from "next/link";
-import { BookmarkButton } from "@/app/components/material/BookmarkButton.tsx";
+import { BookmarkButton } from "@/app/components/recipelistpage/BookmarkButton.tsx";
 
 type RecipeCardProps = {
   recipe: RecipeDto;

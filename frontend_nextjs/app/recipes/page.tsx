@@ -1,17 +1,17 @@
 // In TanStackRouter we would use z which would
 
-import {
-  getValidatedRecipeListSearchParams,
-  TRecipePageListParams,
-} from "@/app/components/material/RecipeListSearchParams.ts";
-import RecipeCard from "@/app/components/material/RecipeCard.tsx";
 import Link from "next/link";
-import RecipeListNavBar from "@/app/components/material/RecipeListNavBar.tsx";
 import PaginationBar from "@/app/components/PaginationBar.tsx";
 import { PageButton } from "@/app/components/Button.tsx";
 import { buildUrl } from "@/app/components/material/build-url.ts";
 import { PageResponseRecipeDto } from "@/app/components/api-types.ts";
 import { fetchRecipes } from "@/app/components/queries.ts";
+import {
+  getValidatedRecipeListSearchParams,
+  TRecipePageListParams,
+} from "@/app/components/recipelistpage/RecipeListSearchParams.ts";
+import RecipeListNavBar from "@/app/components/recipelistpage/RecipeListNavBar.tsx";
+import RecipeCard from "@/app/components/recipelistpage/RecipeCard.tsx";
 
 type RecipeListPageProps = {
   searchParams: TRecipePageListParams;

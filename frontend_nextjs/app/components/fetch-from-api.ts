@@ -46,6 +46,7 @@ export async function fetchFromApi<EP extends Endpoints>(
   params: EP["parameters"] extends ZodNever
     ? undefined
     : z.infer<EP["parameters"]>,
+  tags?: string[],
 ): Promise<z.infer<EP["response"]>> {
   // make sure given params match expectations from backend
 
@@ -60,12 +61,15 @@ export async function fetchFromApi<EP extends Endpoints>(
       : undefined
     : undefined;
 
+  const nextTags = tags ? { next: { tags } } : {};
+
   return fetch(url, {
     method: endpoint.method.value,
     headers: {
       "content-type": "application/json",
     },
     body: payload,
+    ...nextTags,
   })
     .then((response) => response.json())
     .then((unknownResponse) => {

@@ -1,10 +1,10 @@
 "use client";
 import { Button, CheckLabel } from "@/app/components/Button.tsx";
-import { useRecipeListSearchParams } from "@/app/components/material/useRecipeListSearchParams.tsx";
 import Link from "next/link";
 import { MouseEventHandler, ReactNode, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import LoadingIndicator from "@/app/components/LoadingIndicator.tsx";
+import { useRecipeListSearchParams } from "@/app/components/recipelistpage/useRecipeListSearchParams.tsx";
 
 export function FilterButton() {
   const [showOnlyBookmarked, buildHref] = useRecipeListSearchParams(
@@ -43,8 +43,6 @@ export function OrderButton({ orderBy, children }: OrderButtonProps) {
 
   const [pending, startTransition] = useTransition();
   const router = useRouter();
-
-  console.log("orderBy :: pending -> ", pending);
 
   const checked = orderBy === currentOrderBy;
   const href = buildHref("/recipes", (s) => ({

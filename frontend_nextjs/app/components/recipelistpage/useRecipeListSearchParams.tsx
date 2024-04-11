@@ -1,9 +1,9 @@
 import { useSearchParams } from "next/navigation";
+import { buildUrl } from "@/app/components/material/build-url.ts";
 import {
   RecipePageListParams,
   TRecipePageListParams,
-} from "@/app/components/material/RecipeListSearchParams.ts";
-import { buildUrl } from "@/app/components/material/build-url.ts";
+} from "@/app/components/recipelistpage/RecipeListSearchParams.ts";
 
 export function useRecipeListSearchParams<T>(
   select: (params: TRecipePageListParams) => T,

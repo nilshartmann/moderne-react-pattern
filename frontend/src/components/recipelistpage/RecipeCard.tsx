@@ -2,13 +2,13 @@ import { RecipeDto } from "../api-types.ts";
 import { H1 } from "../Heading.tsx";
 import { Link } from "@tanstack/react-router";
 import { RatingStars } from "../RatingStars.tsx";
-import { formatMinuteDuration } from "../FormatMinuteDuration.tsx";
 import { memo, Suspense, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import LoadingIndicator from "../LoadingIndicator.tsx";
 import { BookmarkButton } from "./BookmarkButton.tsx";
 import { useGetRecipeIngredientsQuery } from "../use-queries.ts";
 import { Ingredients } from "../recipepage/Ingredients.tsx";
+import { RecipeCategories } from "../RecipeCategories.tsx";
 
 type RecipeCardProps = {
   recipe: RecipeDto;
@@ -91,23 +91,7 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
       </div>
       {showIngredients || (
         <div className={"mt-4 flex"}>
-          <div className={"mt-4 space-y-2"}>
-            <p className="me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green">
-              <i className="fa-regular fa-clock mr-2"></i>
-              {formatMinuteDuration(recipe.cookTime + recipe.preparationTime)}
-            </p>
-            {recipe.categories.map((c) => (
-              <p
-                key={c.description + "_" + c.title}
-                className={
-                  "me-2 inline-block rounded border border-green bg-white p-2 text-[15px] text-green"
-                }
-              >
-                <i className={c.icon} />
-                <span className={"ms-2"}>{c.title}</span>
-              </p>
-            ))}
-          </div>
+          <RecipeCategories recipe={recipe} />
         </div>
       )}
     </div>

@@ -3,7 +3,7 @@ import { NavButtonBar } from "../NavButtonBar.tsx";
 import {
   FilterButton,
   OrderButton,
-} from "@/app/components/material/RecipeListButtons.tsx";
+} from "@/app/components/recipelistpage/RecipeListButtons.tsx";
 
 export default function RecipeListNavBar() {
   return (

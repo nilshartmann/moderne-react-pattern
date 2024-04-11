@@ -1,7 +1,7 @@
 "use client";
 import { twMerge } from "tailwind-merge";
 import { useRouter } from "next/navigation";
-import { useRecipeListSearchParams } from "@/app/components/material/useRecipeListSearchParams.tsx";
+import { useRecipeListSearchParams } from "@/app/components/recipelistpage/useRecipeListSearchParams.tsx";
 
 type BookmarkButtonProps = {
   recipeId: string;

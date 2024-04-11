@@ -1,6 +1,6 @@
 "use server";
 import { Ingredient } from "@/app/components/api-types.ts";
-import IngredientList from "@/app/components/material/IngredientsList.tsx";
+import IngredientList from "@/app/components/recipepage/IngredientsList.tsx";
 
 let counter = 0;
 export async function increment(amount: number) {
@@ -17,5 +17,7 @@ export async function calculateIngredients(
   servings: number,
   ingredients: Ingredient[],
 ) {
-  return <IngredientList ingredients={ingredients} servings={servings} />;
+  return <IngredientList ingredients={ingredients}
+                         servings={servings} />;
 }
+

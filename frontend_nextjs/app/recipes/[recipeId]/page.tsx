@@ -1,5 +1,5 @@
-import { RecipePageContent } from "@/app/components/material/RecipePageContent.tsx";
 import { fetchRecipe } from "@/app/components/queries.ts";
+import RecipePageContent from "@/app/components/recipepage/RecipePageContent.tsx";
 
 type RecipePageProps = {
   params: {

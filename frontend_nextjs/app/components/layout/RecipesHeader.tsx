@@ -18,15 +18,16 @@ export default function RecipesHeader({ children }: RecipesHeaderProps) {
       >
         <div className={"container mx-auto"}>
           <div className={"flex h-full items-center justify-between"}>
-            <H1
-              className={
-                "inline-block bg-white p-2 pb-3 font-space text-4xl font-bold text-red"
-              }
-            >
-              <Link href={"/"} className={"hover:underline"}>
-                Recipify
-              </Link>
-            </H1>
+            <div className={"flex items-center font-space font-bold text-red "}>
+              <H1 className={"inline-block bg-white p-2 pb-3 text-4xl"}>
+                <Link href={"/"} className={"hover:underline"}>
+                  Recipify
+                </Link>
+              </H1>
+              <div className={"ms-2 shrink-0 bg-white p-1 text-xl"}>
+                <span className="text-green">Next.js</span> Edition
+              </div>
+            </div>
             {children}
           </div>
         </div>
