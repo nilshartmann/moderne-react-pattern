@@ -1,9 +1,11 @@
 "use client";
-import { Input, Textarea } from "../Input";
-import { Button } from "../Button.tsx";
+import {Input, Textarea} from "../Input";
+import {Button} from "../Button.tsx";
 import ButtonBar from "../ButtonBar.tsx";
-import { useState } from "react";
-import { twMerge } from "tailwind-merge";
+import {useState} from "react";
+import {twMerge} from "tailwind-merge";
+import {useFormState} from "react-dom";
+import {feedbackFormAction} from "@/app/components/material/feedback-actions.ts";
 import RatingInput from "@/app/components/recipepage/RatingInput.tsx";
 
 type AddFeedbackFormProps = {
@@ -19,17 +21,22 @@ export function FeedbackForm({ recipeId }: AddFeedbackFormProps) {
    *      action: feedbackFormAction
    *  - form-Tag mit `formAction` als `action`
    *  - input-Type `hidden` mit `recipeId` als name hinzufügen
-   *  - formDisabled aus isPending ableiten
    * - ggf. Fehler-Behandlung
    */
+  const [currentState, formAction, isPending] = useFormState(
+    feedbackFormAction,
+    {},
+  );
 
   const [stars, setStars] = useState(-1);
   const [commentLength, setCommentLength] = useState(0);
 
-  const formDisabled = false;
+  const formDisabled = isPending;
 
   return (
-    <>
+    <form action={formAction} key={currentState.key || "form1"}>
+      {/* <!-- Welcome back, ol' hidden friend --> */}
+      <input type={"hidden"} name="recipeId" value={recipeId} />
       <h2 className={"mb-4 font-space text-3xl font-bold"}>Your opinion?</h2>
       <div
         className={
@@ -87,8 +94,21 @@ export function FeedbackForm({ recipeId }: AddFeedbackFormProps) {
             </Button>
           </ButtonBar>
         </div>
-
+        {currentState.result === "success" && (
+          <div>
+            <div className={"mt-4 font-medium text-green"}>
+              Thanks for your submission!
+            </div>
+          </div>
+        )}
+        {currentState.result === "error" && (
+          <div>
+            <div className={"mt-4 font-medium text-red"}>
+              {currentState.message}
+            </div>
+          </div>
+        )}
       </div>
-    </>
+    </form>
   );
 }

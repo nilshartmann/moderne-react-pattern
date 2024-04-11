@@ -1,18 +1,25 @@
 import { RecipeBanner } from "./RecipeBanner.tsx";
 import { CookingTime } from "./CookingTime.tsx";
 import { Instructions } from "./Instructions.tsx";
-import { Suspense } from "react";
-import LoadingIndicator from "../LoadingIndicator.tsx";
+import { FeedbackForm } from "./FeedbackForm.tsx";
 import { DetailedRecipeDto } from "../api-types.ts";
 import FeedbackListLoader from "./FeedbackListLoader.tsx";
 import { Sidebar } from "@/app/components/Sidebar.tsx";
 import { H2 } from "@/app/components/Heading.tsx";
+import IngredientsSection from "@/app/components/recipepage/IngredientsSection.tsx";
+import { fetchFeedback, fetchRecipe } from "@/app/components/queries.ts";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
+  recipeId: string;
 };
 
-export default function RecipePageContent({ recipe }: RecipePageContentProps) {
+export default async function RecipePageContent({
+  recipeId,
+}: RecipePageContentProps) {
+  const feedbackPromise = fetchFeedback(recipeId); // NO AWAIT HERE
+  const { recipe } = await fetchRecipe(recipeId);
+
   return (
     <div className={"mb-20"}>
       <RecipeBanner recipe={recipe} />
@@ -22,20 +29,14 @@ export default function RecipePageContent({ recipe }: RecipePageContentProps) {
             cookTime={recipe.cookTime}
             preparationTime={recipe.preparationTime}
           />
-          {/*<IngredientsSection ingredients={recipe.ingredients} />*/}
-          <Instructions recipe={recipe} />
+          <IngredientsSection ingredients={recipe.ingredients} />
+          {/*<Instructions recipe={recipe} />*/}
         </div>
         <div className={"md:w-1/3"}>
           <Sidebar>
             <H2>Feedback</H2>
-            <Suspense
-              fallback={
-                <LoadingIndicator>Loading feedback...</LoadingIndicator>
-              }
-            >
-              <FeedbackListLoader recipeId={recipe.id} />
-            </Suspense>
-            {/*<FeedbackForm recipeId={recipe.id} />*/}
+            <FeedbackListLoader feedbackPromise={feedbackPromise} />
+            <FeedbackForm recipeId={recipe.id} />
           </Sidebar>
         </div>
       </div>
