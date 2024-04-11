@@ -5,23 +5,18 @@ import { getRouteApi, Link } from "@tanstack/react-router";
 const recipeListRoute = getRouteApi("/recipes/");
 
 export function FilterButton() {
-  /*
-  TODO:
-   - useSearch benutzen, um mit select  showOnlyBookmarked || false abzufragen
-   */
-  const showOnlyBookmarked = false;
+  const showOnlyBookmarked = recipeListRoute.useSearch({
+    select: (s) => s.showOnlyBookmarked || false,
+  });
 
   return (
     <Button checked={showOnlyBookmarked}>
       <Link
         to={"/recipes"}
-        /*
-				TODO:
-				 - showOnlyBookmarked hinzufügen
-				 */
         search={(s) => ({
           ...s,
           page: 0,
+          showOnlyBookmarked: !showOnlyBookmarked,
         })}
       >
         <CheckLabel

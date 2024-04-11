@@ -1,6 +1,5 @@
 import { RecipeDto } from "../api-types.ts";
 import { H1 } from "../Heading.tsx";
-import { Link } from "@tanstack/react-router";
 import { RatingStars } from "../RatingStars.tsx";
 import { memo, Suspense, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -26,18 +25,21 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
   return (
     <div className={"flex flex-col justify-between"}>
       <div>
-        <Link to={"/recipes/$recipeId"} params={{ recipeId: recipe.id }}>
-          <div className={"overflow-hidden"}>
-            <img
-              className="mb-2 h-48 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"
-              src={`/images/recipes/food_${recipe.id}.png`}
-              alt="image1"
-            />
-            {/* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */}
-            <BookmarkButton recipeId={recipe.id} />
-            {/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */}
-          </div>
-        </Link>
+        {/*
+        todo:
+
+         - add Link to "/recipes/$recipeId"
+        */}
+        <div className={"overflow-hidden"}>
+          <img
+            className="mb-2 h-48 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"
+            src={`/images/recipes/food_${recipe.id}.png`}
+            alt="image1"
+          />
+          {/* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */}
+          <BookmarkButton recipeId={recipe.id} />
+          {/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */}
+        </div>
         <div className={"mt-8 flex justify-between text-red"}>
           <p
             className={
@@ -63,16 +65,10 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
 
            - add Link ro /recipes/$recipeId
            - add preload=intent
+           -             className={"hover:text-orange_2 hover:underline"}
 
           */}
-          <Link
-            preload={"intent"}
-            to={"/recipes/$recipeId"}
-            params={{ recipeId: recipe.id }}
-            className={"hover:text-orange_2 hover:underline"}
-          >
-            {recipe.title}
-          </Link>
+          {recipe.title}
         </H1>
         <div className={"text mt-2 font-inter text-gray-500"}>
           {showIngredients ? (

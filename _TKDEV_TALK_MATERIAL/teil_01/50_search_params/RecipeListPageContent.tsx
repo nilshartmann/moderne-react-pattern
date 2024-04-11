@@ -1,27 +1,23 @@
-import { getRouteApi, MatchRoute } from "@tanstack/react-router";
-import {
-  useGetAllRecipesQuery,
-  useGetTotalPageCountQuery,
-} from "../use-queries.ts";
+import {getRouteApi, MatchRoute} from "@tanstack/react-router";
+import {useGetAllRecipesQuery, useGetTotalPageCountQuery,} from "../use-queries.ts";
 import PaginationBar from "../PaginationBar.tsx";
-import { LoadingRecipeCard } from "./LoadingRecipeCard.tsx";
-import { RecipeCard } from "./RecipeCard.tsx";
+import {LoadingRecipeCard} from "./LoadingRecipeCard.tsx";
+import {RecipeCard} from "./RecipeCard.tsx";
 import RecipeListNavBar from "./RecipeListNavBar.tsx";
 import PaginationButton from "./PaginationButton.tsx";
 
 const recipeListRoute = getRouteApi("/recipes/");
+
+const empty: string[] = [];
 
 export default function RecipeListPageContent() {
   const { page, orderBy, showOnlyIds } = recipeListRoute.useSearch({
     select: (s) => ({
       page: s.page || 0,
       orderBy: s.orderBy,
-      /*
-      TODO:
-
-      s.showOnlyBookmarked ? s.bookmarkedRecipeIds || empty : undefined,
-       */
-      showOnlyIds: undefined,
+      showOnlyIds: s.showOnlyBookmarked
+        ? s.bookmarkedRecipeIds || empty
+        : undefined,
     }),
   });
 
@@ -39,7 +35,7 @@ export default function RecipeListPageContent() {
       <div className={"container mx-auto pb-16 pt-16"}>
         <RecipeListNavBar />
 
-        <RecipeList page={page} orderBy={orderBy} showOnlyIds={showOnlyIds} />
+        <RecipeList />
 
         <div className={"mt-8 flex justify-center"}>
           <PaginationBar
@@ -55,12 +51,16 @@ export default function RecipeListPageContent() {
   );
 }
 
-type RecipeListProps = {
-  page: number;
-  orderBy?: "rating" | "time";
-  showOnlyIds?: string[];
-};
-function RecipeList({ page, orderBy, showOnlyIds }: RecipeListProps) {
+function RecipeList() {
+  const { page, orderBy, showOnlyIds } = recipeListRoute.useSearch({
+    select: (s) => ({
+      page: s.page || 0,
+      orderBy: s.orderBy,
+      showOnlyIds: s.showOnlyBookmarked
+        ? s.bookmarkedRecipeIds || empty
+        : undefined,
+    }),
+  });
   const result = useGetAllRecipesQuery(page, orderBy, showOnlyIds);
   return (
     <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">

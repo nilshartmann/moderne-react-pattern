@@ -1,12 +1,13 @@
-import { Ingredient } from "@/app/components/api-types.ts";
+"use client";
+import {useState} from "react";
+import {Ingredient} from "@/app/components/api-types.ts";
 import IngredientList from "@/app/components/recipepage/IngredientsList.tsx";
 
 type IngredientsProps = {
   ingredients: Ingredient[];
 };
 export default function IngredientsSection({ ingredients }: IngredientsProps) {
-  const servings = 4;
-  const setServings = (amount: number) => {};
+  const [servings, setServings] = useState(4);
 
   return (
     <>
@@ -24,9 +25,9 @@ type IngredientsHeaderProps = {
   onChangeAmount: (amount: number) => void;
 };
 function IngredientsHeader({
-  servings,
-  onChangeAmount,
-}: IngredientsHeaderProps) {
+                             servings,
+                             onChangeAmount,
+                           }: IngredientsHeaderProps) {
   return (
     <>
       <div className={"mb-8 mt-8 flex items-center justify-between"}>

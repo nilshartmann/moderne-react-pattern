@@ -1,18 +1,22 @@
-import { RecipeBanner } from "./RecipeBanner.tsx";
-import { CookingTime } from "./CookingTime.tsx";
-import { Instructions } from "./Instructions.tsx";
-import { Suspense } from "react";
+import {useRecipifyWindowTitle} from "../useRecipifyWindowTitle.tsx";
+import {RecipeBanner} from "./RecipeBanner.tsx";
+import {CookingTime} from "./CookingTime.tsx";
+import {Ingredients} from "./Ingredients.tsx";
+import {Instructions} from "./Instructions.tsx";
+import {Suspense} from "react";
 import LoadingIndicator from "../LoadingIndicator.tsx";
-import { DetailedRecipeDto } from "../api-types.ts";
+import {H2} from "../Heading.tsx";
+import {Sidebar} from "../Sidebar.tsx";
+import {DetailedRecipeDto} from "../api-types.ts";
 import FeedbackListLoader from "./FeedbackListLoader.tsx";
-import { Sidebar } from "@/app/components/Sidebar.tsx";
-import { H2 } from "@/app/components/Heading.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
 };
 
 export default function RecipePageContent({ recipe }: RecipePageContentProps) {
+  useRecipifyWindowTitle(recipe.title);
+
   return (
     <div className={"mb-20"}>
       <RecipeBanner recipe={recipe} />
@@ -22,7 +26,7 @@ export default function RecipePageContent({ recipe }: RecipePageContentProps) {
             cookTime={recipe.cookTime}
             preparationTime={recipe.preparationTime}
           />
-          {/*<IngredientsSection ingredients={recipe.ingredients} />*/}
+          <Ingredients ingredients={recipe.ingredients} />
           <Instructions recipe={recipe} />
         </div>
         <div className={"md:w-1/3"}>

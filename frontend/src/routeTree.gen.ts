@@ -17,7 +17,6 @@ import { Route as IndexImport } from "./routes/index"
 import { Route as RecipesIndexImport } from "./routes/recipes/index"
 import { Route as StaticPrivacyImport } from "./routes/_static/privacy"
 import { Route as StaticAboutImport } from "./routes/_static/about"
-import { Route as RecipesRecipeIdIndexImport } from "./routes/recipes/$recipeId/index"
 
 // Create/Update Routes
 
@@ -51,11 +50,6 @@ const StaticAboutRoute = StaticAboutImport.update({
   getParentRoute: () => StaticRouteRoute,
 } as any)
 
-const RecipesRecipeIdIndexRoute = RecipesRecipeIdIndexImport.update({
-  path: "/$recipeId/",
-  getParentRoute: () => RecipesRouteRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module "@tanstack/react-router" {
@@ -84,10 +78,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof RecipesIndexImport
       parentRoute: typeof RecipesRouteImport
     }
-    "/recipes/$recipeId/": {
-      preLoaderRoute: typeof RecipesRecipeIdIndexImport
-      parentRoute: typeof RecipesRouteImport
-    }
   }
 }
 
@@ -96,7 +86,7 @@ declare module "@tanstack/react-router" {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   StaticRouteRoute.addChildren([StaticAboutRoute, StaticPrivacyRoute]),
-  RecipesRouteRoute.addChildren([RecipesIndexRoute, RecipesRecipeIdIndexRoute]),
+  RecipesRouteRoute.addChildren([RecipesIndexRoute]),
 ])
 
 /* prettier-ignore-end */
