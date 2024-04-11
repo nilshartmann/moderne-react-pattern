@@ -1,5 +1,5 @@
-import { useGetRecipeFeedbacksQuery } from "../use-queries.ts";
 import FeedbackList from "./FeedbackList.tsx";
+import { useGetRecipeFeedbackQuery } from "../use-queries.ts";
 
 type FeedbackListProps = {
   recipeId: string;
@@ -7,7 +7,7 @@ type FeedbackListProps = {
 export default function FeedbackListLoader({ recipeId }: FeedbackListProps) {
   const {
     data: { feedbacks = [] },
-  } = useGetRecipeFeedbacksQuery(recipeId);
+  } = useGetRecipeFeedbackQuery(recipeId);
 
   return <FeedbackList feedbacks={feedbacks} />;
 }

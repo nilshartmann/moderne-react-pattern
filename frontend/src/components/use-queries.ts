@@ -118,7 +118,7 @@ export function useGetRecipeIngredientsQuery(
   });
 }
 
-export function useGetRecipeFeedbacksQuery(
+export function useGetRecipeFeedbackQuery(
   recipeId: string,
 ): UseSuspenseQueryResult<GetRecipeFeedbacksResponse> {
   return useSuspenseQuery<GetRecipeFeedbacksResponse>({

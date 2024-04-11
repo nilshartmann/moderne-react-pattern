@@ -4,11 +4,11 @@ import { Link } from "@tanstack/react-router";
 import { RatingStars } from "../RatingStars.tsx";
 import { formatMinuteDuration } from "../FormatMinuteDuration.tsx";
 import { memo, Suspense, useState } from "react";
-import IngredientList from "./IngredientsList.tsx";
-import { useGetRecipeIngredientsQuery } from "../use-queries.ts";
 import { twMerge } from "tailwind-merge";
 import LoadingIndicator from "../LoadingIndicator.tsx";
 import { BookmarkButton } from "./BookmarkButton.tsx";
+import { useGetRecipeIngredientsQuery } from "../use-queries.ts";
+import { Ingredients } from "../recipepage/Ingredients.tsx";
 
 type RecipeCardProps = {
   recipe: RecipeDto;
@@ -23,7 +23,6 @@ type RecipeCardProps = {
 const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
   console.log("Render RecipeCard", recipe.id);
   const [showIngredients, setShowIngredients] = useState(false);
-  const [servings, setServings] = useState(4);
   return (
     <div className={"flex flex-col justify-between"}>
       <div>
@@ -45,21 +44,7 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
               "font-space text-sm font-medium uppercase tracking-[2px] "
             }
           >
-            {showIngredients ? (
-              <span>
-                Ingredients - {servings} Servings
-                <i
-                  className="fa-solid fa-circle-plus ms-2 cursor-pointer"
-                  onClick={() => setServings((s) => s - 1)}
-                ></i>
-                <i
-                  className="fa-solid fa-circle-minus ms-2  cursor-pointer"
-                  onClick={() => setServings((s) => s + 1)}
-                ></i>
-              </span>
-            ) : (
-              recipe.mealType
-            )}
+            {showIngredients || recipe.mealType}
           </p>
           <i
             onClick={() => setShowIngredients(!showIngredients)}
@@ -92,7 +77,7 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
         <div className={"text mt-2 font-inter text-gray-500"}>
           {showIngredients ? (
             <Suspense fallback={<LoadingIndicator />}>
-              <Ingredients recipeId={recipe.id} servings={servings} />
+              <IngredientsLoader recipeId={recipe.id} />
             </Suspense>
           ) : (
             recipe.headline
@@ -129,12 +114,14 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
   );
 });
 
-type IngredientsProps = { recipeId: string; servings?: number };
+export { RecipeCard };
 
-function Ingredients({ recipeId, servings }: IngredientsProps) {
+type IngredientsLoaderProps = {
+  recipeId: string;
+};
+
+function IngredientsLoader({ recipeId }: IngredientsLoaderProps) {
   const { data } = useGetRecipeIngredientsQuery(recipeId);
 
-  return <IngredientList servings={servings} ingredients={data.ingredients} />;
+  return <Ingredients ingredients={data.ingredients} style={"compact"} />;
 }
-
-export { RecipeCard };

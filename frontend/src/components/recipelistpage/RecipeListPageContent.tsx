@@ -6,8 +6,8 @@ import {
 import PaginationBar from "../PaginationBar.tsx";
 import { LoadingRecipeCard } from "./LoadingRecipeCard.tsx";
 import { RecipeCard } from "./RecipeCard.tsx";
-import PaginationButton from "./PaginationButton.tsx";
 import RecipeListNavBar from "./RecipeListNavBar.tsx";
+import PaginationButton from "./PaginationButton.tsx";
 
 const recipeListRoute = getRouteApi("/recipes/");
 

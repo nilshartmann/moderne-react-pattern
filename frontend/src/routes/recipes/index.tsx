@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import RecipeListPageContent from "../../components/material/RecipeListPageContent.tsx";
 import { z } from "zod";
+import RecipeListPageContent from "../../components/recipelistpage/RecipeListPageContent.tsx";
 
 const RecipePageListParams = z.object({
   page: z.number().min(0).optional(),

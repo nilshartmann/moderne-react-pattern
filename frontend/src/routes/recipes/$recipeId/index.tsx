@@ -1,6 +1,6 @@
-import { RecipePageContent } from "../../../components/material/RecipePageContent.tsx";
 import { fetchRecipe } from "../../../components/use-queries.ts";
 import { createFileRoute, getRouteApi } from "@tanstack/react-router";
+import RecipePageContent from "../../../components/recipepage/RecipePageContent.tsx";
 
 export const Route = createFileRoute("/recipes/$recipeId/")({
   component: RecipePage,
