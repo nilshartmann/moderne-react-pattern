@@ -11,6 +11,13 @@ This is a sample application for various frontend technologies.
 - Java (JDK21), Spring Boot 3.2
 - Postgres 16
 
+**Frontend (Next.js)**
+
+- Next.js 14.1
+- Zod
+- TypeScript
+- more a "backend for frontend" (than a frontend) here as it uses that java "backend" as "backend" :-/
+
 **Frontend (Single-Page-App)**
 
 - React 18
@@ -57,12 +64,34 @@ corepacks enable
 Then install and start the Vite devserver for the frontend:
 
 ```
-cd frontend_simple
+cd frontend
 pnpm install
 pnpm dev
 ```
 
 The frontend runs on http://localhost:8090
+
+## Running the Next.js app
+
+If you have not installed pnpm already, you can enable it with [Node.js corepacks](https://nodejs.org/docs/latest-v20.x/api/corepack.html) by running on your terminal:
+
+```
+corepacks enable
+```
+
+(Probably installing the packages with npm or yarn would work too, but I have not tested it.)
+
+Then install and start the Next.js devserver for the frontend:
+
+```
+cd frontend_nextjs
+pnpm install
+pnpm dev
+```
+
+The frontend runs on http://localhost:8100
+
+
 
 ## A note on the content
 
