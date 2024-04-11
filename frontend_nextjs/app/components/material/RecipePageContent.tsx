@@ -4,8 +4,8 @@ import { formatMinuteDuration } from "../FormatMinuteDuration.tsx";
 import FeedbackListLoader from "./FeedbackListLoader.tsx";
 import LoadingIndicator from "../LoadingIndicator.tsx";
 import "./RecipePage.css";
-import { Fragment, Suspense } from "react";
-import Ingredients from "@/app/components/material/IngredientsSection.tsx";
+import React, { Fragment, Suspense } from "react";
+import IngredientsSectionWithServerAction from "@/app/components/material/IngredientsSectionWithServerAction.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
@@ -115,7 +115,9 @@ export function RecipePageContent({ recipe }: RecipePageContentProps) {
             </div>
           </div>
 
-          <Ingredients ingredients={recipe.ingredients} />
+          <IngredientsSectionWithServerAction
+            ingredients={recipe.ingredients}
+          />
 
           <h2 className={"mb-8 mt-8 font-space text-3xl font-bold"}>
             Instructions
