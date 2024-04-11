@@ -42,5 +42,5 @@ jobs:
           platforms: linux/amd64,linux/arm64/v8
           push: true
           tags: |
-            ghcr.io/${{ github.actor }}/jughh-spa-oder-htmx-backend:latest
-            ghcr.io/${{ github.actor }}/jughh-spa-oder-htmx-backend:${{ steps.sha.outputs.short }}
+            ghcr.io/${{ github.actor }}/tkdevtalk-moderne-react-pattern:latest
+            ghcr.io/${{ github.actor }}/tkdevtalk-moderne-react-pattern:${{ steps.sha.outputs.short }}
