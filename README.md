@@ -29,6 +29,10 @@ This is a sample application for various frontend technologies.
 
 I recorded a **video on TanStack Router**, that uses this demo example. You can find the [video on YouTube](https://youtu.be/KkrS_wfFq2I).
 
+**Frontend (HTMX)**
+
+There is an HTMX-version of the frontend in this repository: https://github.com/nilshartmann/jughh-spa-oder-htmx-backend
+
 ## Running the backend
 
 The backend that provides the API for the JS frontends and the HTMX endpoints is implemented with Spring Boot and Java.
@@ -91,7 +95,9 @@ pnpm dev
 
 The frontend runs on http://localhost:8100
 
+## A note on the component and folder structure
 
+The component and folder structure  in the frontend projects is not "best practice". It is somehow more complicated that it would be in a real application. Instead of real world applicatoin structure I decided to structure folders, files and components to that is almost possible to compare the individual files from the different architectures. Also I made some compromises to have a basis for my live coding and workshop excercies.
 
 ## A note on the content
 
