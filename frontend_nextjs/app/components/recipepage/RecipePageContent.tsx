@@ -7,6 +7,7 @@ import { DetailedRecipeDto } from "../api-types.ts";
 import FeedbackListLoader from "./FeedbackListLoader.tsx";
 import { Sidebar } from "@/app/components/Sidebar.tsx";
 import { H2 } from "@/app/components/Heading.tsx";
+import IngredientsSection from "@/app/components/recipepage/IngredientsSection.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
@@ -22,7 +23,7 @@ export default function RecipePageContent({ recipe }: RecipePageContentProps) {
             cookTime={recipe.cookTime}
             preparationTime={recipe.preparationTime}
           />
-          {/*<IngredientsSection ingredients={recipe.ingredients} />*/}
+          <IngredientsSection ingredients={recipe.ingredients} />
           <Instructions recipe={recipe} />
         </div>
         <div className={"md:w-1/3"}>

@@ -117,9 +117,6 @@ type IngredientsProps = { recipeId: string; servings?: number };
 
 function Ingredients({ recipeId, servings }: IngredientsProps) {
   return <h1>todo</h1>;
-  // const { data } = useGetRecipeIngredientsQuery(recipeId);
-  //
-  // return <IngredientList servings={servings} ingredients={data.ingredients} />;
 }
 
 export { RecipeCard };

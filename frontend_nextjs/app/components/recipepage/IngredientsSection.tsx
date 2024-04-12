@@ -1,12 +1,15 @@
+"use client";
 import { Ingredient } from "@/app/components/api-types.ts";
 import IngredientList from "@/app/components/recipepage/IngredientsList.tsx";
+import { useState } from "react";
 
 type IngredientsProps = {
   ingredients: Ingredient[];
 };
 export default function IngredientsSection({ ingredients }: IngredientsProps) {
-  const servings = 4;
-  const setServings = (amount: number) => {};
+  // const servings = 4;
+  // const setServings = (amount: number) => {};
+  const [servings, setServings] = useState(4);
 
   return (
     <>
