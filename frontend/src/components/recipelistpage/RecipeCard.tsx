@@ -8,6 +8,7 @@ import { BookmarkButton } from "./BookmarkButton.tsx";
 import { useGetRecipeIngredientsQuery } from "../use-queries.ts";
 import { Ingredients } from "../recipepage/Ingredients.tsx";
 import { RecipeCategories } from "../RecipeCategories.tsx";
+import { Link } from "@tanstack/react-router";
 
 type RecipeCardProps = {
   recipe: RecipeDto;
@@ -31,11 +32,18 @@ const RecipeCard = memo(function RecipeCard({ recipe }: RecipeCardProps) {
          - add Link to "/recipes/$recipeId"
         */}
         <div className={"overflow-hidden"}>
-          <img
-            className="mb-2 h-48 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"
-            src={`/images/recipes/food_${recipe.id}.png`}
-            alt="image1"
-          />
+          <Link
+            to={"/recipes/$receipId"}
+            params={{
+              receipId: recipe.id,
+            }}
+          >
+            <img
+              className="mb-2 h-48 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"
+              src={`/images/recipes/food_${recipe.id}.png`}
+              alt="image1"
+            />
+          </Link>
           {/* vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */}
           <BookmarkButton recipeId={recipe.id} />
           {/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */}

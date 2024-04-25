@@ -17,7 +17,7 @@ export default function RecipePageWithQuery({
       fetchFromApi(getEndpointConfig("get", "/api/recipes/{recipeId}"), {
         path: { recipeId },
         query: {
-          slowdown: 2400,
+          slowdown: 0,
         },
       }),
   });

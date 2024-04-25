@@ -11,7 +11,7 @@ export const slowDown_GetIngredients = 0;
 export const slowDown_GetRecipe = 0;
 
 /** list of feedbacks on /$recipeId */
-export const slowDown_GetFeedbacks = 0;
+export const slowDown_GetFeedbacks = 2400;
 
 /** delay after submitting the add feedback form */
 export const slowDown_AddFeedback = 0;

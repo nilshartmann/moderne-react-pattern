@@ -6,6 +6,9 @@ import { Instructions } from "./Instructions.tsx";
 import { H2 } from "../Heading.tsx";
 import { Sidebar } from "../Sidebar.tsx";
 import { DetailedRecipeDto } from "../api-types.ts";
+import FeedbackListLoader from "./FeedbackListLoader.tsx";
+import { Suspense } from "react";
+import LoadingIndicator from "../LoadingIndicator.tsx";
 
 type RecipePageContentProps = {
   recipe: DetailedRecipeDto;
@@ -29,7 +32,9 @@ export default function RecipePageContent({ recipe }: RecipePageContentProps) {
         <div className={"md:w-1/3"}>
           <Sidebar>
             <H2>Feedback</H2>
-            {/*<FeedbackListLoader recipeId={recipe.id} />*/}
+            <Suspense fallback={<LoadingIndicator />}>
+              <FeedbackListLoader recipeId={recipe.id} />
+            </Suspense>
           </Sidebar>
         </div>
       </div>
